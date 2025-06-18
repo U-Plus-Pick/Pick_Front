@@ -1,5 +1,5 @@
 import React from 'react'
-import css from '../styles/scss/HeroSectionCard.module.scss'
+import css from '../../styles/scss/HeroSectionCard.module.scss'
 import { FiArrowUpRight } from 'react-icons/fi'
 
 const CardItem = ({ img, title, desc, className, imgClassName }) => {

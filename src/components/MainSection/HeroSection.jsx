@@ -1,9 +1,9 @@
 import React from 'react'
-import css from '../styles/scss/HeroSection.module.scss'
+import css from '../../styles/scss/HeroSection.module.scss'
 import CardItem from './HeroSectionCard'
-import HeroImage1 from '../assets/HeroIamge1.png'
-import HeroImage2 from '../assets/HeroIamge2.png'
-import HeroImage3 from '../assets/HeroIamge3.png'
+import HeroImage1 from '../../assets/HeroIamge1.png'
+import HeroImage2 from '../../assets/HeroIamge2.png'
+import HeroImage3 from '../../assets/HeroIamge3.png'
 
 const HeroSection = () => {
   return (
