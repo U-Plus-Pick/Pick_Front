@@ -1,38 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import upi from '../assets/PaidFail.png'
 
-function PayFailedPage() {
+import './PaySuccessPage.scss'
+
+export default function PayFailedPage() {
   const navigate = useNavigate()
-  const closeModal = () => {
-    navigate('/')
+  const [showModal, setShowModal] = useState(true)
+
+  const handleCloseModal = targetPath => {
+    setShowModal(false)
+    navigate(targetPath)
   }
+
   return (
-    <div style={modalStyle}>
-      <div style={modalContentStyle}>
-        <h2>결제 실패 </h2>
-        <button onClick={closeModal}>확인</button>
-      </div>
-    </div>
+    <>
+      {showModal && (
+        <div className="pay-modal">
+          <div className="pay-modal-wrapper fail">
+            <h1 className="pay-modal-title">결제가 실패했습니다.</h1>
+            <img className="image" alt="결제 유피" src={upi} />
+            <p>결제에 실패했습니다. 다시 시도해 주세요.</p>
+            <div className="group-btn">
+              <button onClick={() => handleCloseModal('/mypage')}>마이페이지로 이동</button>
+              <button onClick={() => handleCloseModal('/')}>홈으로 이동</button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
-
-const modalStyle = {
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  width: '100%',
-  height: '100%',
-  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}
-
-const modalContentStyle = {
-  backgroundColor: '#fff',
-  padding: '20px',
-  borderRadius: '8px',
-  textAlign: 'center',
-}
-
-export default PayFailedPage
