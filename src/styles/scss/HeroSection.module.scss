@@ -1,0 +1,84 @@
+.hero {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(180deg, #f6bbc3 31%, #ffffff 100%);
+  display: flex;
+  justify-content: center;
+
+  .content {
+    max-width: 75rem; // 1200px
+    width: 100%;
+    padding-top : 6rem;
+    text-align: center;
+
+    h2 {
+      font-size: 3.2rem;
+      font-weight: bold;
+      line-height: 1.5;
+      margin-bottom: 4.25rem;
+
+      span {
+        color: #E6007E;
+      }
+    }
+
+    .buttonGroup {
+      display: flex;
+      justify-content: center;
+      gap: 7rem;
+      margin-bottom: 3rem;
+
+      button {
+        width: 16rem;
+        height : 3.5rem;
+        border-radius: 999px;
+        border: none;
+        font-size: 1.125rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .loginBtn {
+        background-color: #E6007E;
+        color: #fff;
+      }
+
+      .planBtn {
+        background-color: #fff;
+        color: #E6007E;
+        border: 1px solid #E6007E;
+      }
+    }
+
+    .cardList {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 4.625rem;
+    }
+  }
+}
+
+.card2Img {
+  width: 14.563rem !important;
+  height : auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 2.9rem !important; 
+}
+
+.highlight1 {
+  color: #E6007E;
+  font-weight: bold;
+}
+
+.highlight2 {
+  color: #6F42C1;
+  font-weight: bold;
+}
+
+.card3 p {
+  margin-top: 1rem !important;
+}
