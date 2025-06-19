@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { io } from 'socket.io-client'
-import './Chatbot.scss'
+import '../styles/scss/Chatbot.scss'
 
 const Chatbot = ({ initialMessage = null, userId = null }) => {
   const [messages, setMessages] = useState([
