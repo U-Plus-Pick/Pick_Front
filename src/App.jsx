@@ -6,11 +6,12 @@ import HeroUPI from './components/MainSection/HeroUPI'
 import HeroBundle from './components/MainSection/HeroBundle'
 import HeroMap from './components/MainSection/HeroMembershipMap'
 import HeroRelation from './components/MainSection/HeroRelation'
+import HeroLastPage from './components/MainSection/HeroLastPage'
 
 function App() {
   return (
-    <div style={{ height: '400vh' }}>
-      <HeroRelation />
+    <div>
+      <HeroLastPage />
     </div>
   )
 }
