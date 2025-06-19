@@ -118,27 +118,39 @@ $shadow-color: rgba(0, 0, 0, 0.1);
               background: rgba(0, 0, 0, 0.05);
             }
           }
-        }
-
-        .sidebar-item {
-          margin-bottom: 24px;
 
           .back-icon {
-            font-size: 16px;
-            cursor: pointer;
-            color: #6c757d;
+            background: rgba(255, 255, 255, 0.9);
+            color: #666;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
             width: 32px;
             height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 8px;
-            transition: all 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
 
             &:hover {
-              background: rgba(0, 0, 0, 0.05);
+              background: rgba(255, 255, 255, 1);
+              color: $primary-pink;
+              transform: scale(1.1);
+              box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            }
+
+            .toggle-arrow {
+              font-size: 14px;
+              line-height: 1;
+              font-weight: bold;
             }
           }
+        }
+
+        .sidebar-item {
+          margin-bottom: 24px;
         }
 
         .sidebar-section {
@@ -165,9 +177,71 @@ $shadow-color: rgba(0, 0, 0, 0.1);
             text-align: left;
             width: 100%;
             display: block;
+            margin-bottom: 20px;
 
             &:hover {
               background: rgba(0, 0, 0, 0.05);
+            }
+          }
+
+          .chat-rooms-list {
+            .chat-rooms-title {
+              font-size: 14px;
+              font-weight: 600;
+              color: #6c757d;
+              margin-bottom: 12px;
+              padding-left: 4px;
+            }
+
+            .chat-room-item {
+              background: none;
+              border: none;
+              padding: 12px;
+              border-radius: 8px;
+              cursor: pointer;
+              transition: all 0.2s ease;
+              text-align: left;
+              width: 100%;
+              display: block;
+              margin-bottom: 8px;
+
+              &:hover {
+                background: rgba(230, 0, 126, 0.1);
+              }
+
+              .chat-room-title {
+                font-size: 14px;
+                font-weight: 500;
+                color: #212529;
+                margin-bottom: 4px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+
+              .chat-room-date {
+                font-size: 12px;
+                color: #6c757d;
+              }
+            }
+          }
+
+          .chat-rooms-loading,
+          .no-chat-rooms,
+          .login-required {
+            padding: 16px 12px;
+            text-align: center;
+
+            .loading-text,
+            .no-chat-text,
+            .login-text {
+              font-size: 13px;
+              color: #6c757d;
+              font-style: italic;
+            }
+
+            .loading-text {
+              animation: pulse 1.5s infinite;
             }
           }
         }
@@ -178,41 +252,45 @@ $shadow-color: rgba(0, 0, 0, 0.1);
         display: flex;
         flex-direction: column;
         background: $white;
+        position: relative;
+        // transition: padding-left 0.3s ease;
+
+        // 사이드바가 숨어있을 때 왼쪽 여백 추가
+        &.sidebar-hidden {
+          padding-left: 50px;
+        }
 
         .sidebar-toggle-btn {
-          position: fixed;
-          left: 20px;
+          position: absolute;
+          left: 12px;
           top: 50%;
           transform: translateY(-50%);
-          z-index: 1000;
-          background: $primary-pink;
-          color: $white;
-          border: none;
-          border-radius: 8px;
-          padding: 12px 16px;
+          z-index: 100;
+          background: rgba(255, 255, 255, 0.9);
+          color: #666;
+          border: 1px solid rgba(0, 0, 0, 0.1);
+          border-radius: 50%;
+          width: 32px;
+          height: 32px;
           display: flex;
           align-items: center;
-          gap: 8px;
+          justify-content: center;
           cursor: pointer;
-          box-shadow: 0 4px 12px rgba(230, 0, 126, 0.3);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           transition: all 0.3s ease;
-          font-family: 'Noto Sans KR', sans-serif;
-          font-size: 14px;
-          font-weight: 500;
+          backdrop-filter: blur(10px);
 
           &:hover {
-            background: $secondary-pink;
-            transform: translateY(-50%) scale(1.05);
-            box-shadow: 0 6px 16px rgba(230, 0, 126, 0.4);
+            background: rgba(255, 255, 255, 1);
+            color: $primary-pink;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
           }
 
-          .toggle-icon {
-            font-size: 16px;
+          .toggle-arrow {
+            font-size: 14px;
             line-height: 1;
-          }
-
-          .toggle-text {
-            white-space: nowrap;
+            font-weight: bold;
           }
         }
 
@@ -225,11 +303,12 @@ $shadow-color: rgba(0, 0, 0, 0.1);
           background: $white;
 
           .chat-avatar {
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             overflow: hidden;
             border: 2px solid $light-pink;
+            background-color: $light-pink;
 
             img {
               width: 100%;
@@ -270,9 +349,15 @@ $shadow-color: rgba(0, 0, 0, 0.1);
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
                 border: 1px solid rgba(0, 0, 0, 0.04);
 
-                &.typing {
+                &.streaming {
                   background: linear-gradient(135deg, $light-purple 0%, #e9ecef 100%);
-                  font-style: italic;
+
+                  &::after {
+                    content: '|';
+                    animation: blink 1s infinite;
+                    color: $primary-pink;
+                    font-weight: bold;
+                  }
                 }
               }
 
@@ -445,5 +530,17 @@ $shadow-color: rgba(0, 0, 0, 0.1);
         }
       }
     }
+  }
+}
+
+// 스트리밍 커서 애니메이션
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
   }
 }
