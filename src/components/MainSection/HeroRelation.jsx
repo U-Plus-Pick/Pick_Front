@@ -1,6 +1,8 @@
-import React from 'react'
-import useScrollStep from '../../hooks/ScollStep'
+import React, { useEffect, useRef } from 'react'
 import css from '../../styles/scss/HeroRelation.module.scss'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
 import HeroRelation1 from '../../assets/HeroRelation1.png'
 import HeroRelation2 from '../../assets/HeroRelation2.png'
 import HeroRelation3 from '../../assets/HeroRelation3.png'
@@ -8,6 +10,8 @@ import HeroRelationLeft from '../../assets/HeroRelationLeft.png'
 import HeroRelationRight from '../../assets/HeroRelationRight.png'
 import HeroLine from '../../assets/HeroLine.png'
 import HeroLineCurve from '../../assets/HeroCurveLine.png'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const texts = [
   {
@@ -36,52 +40,78 @@ const texts = [
 ]
 
 const HeroRelation = () => {
-  const step = useScrollStep(4)
+  const sectionRef = useRef(null)
+  const cardRefs = useRef([])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.to(cardRefs.current, {
+        rotateY: 180,
+        duration: 0.3,
+        ease: 'power2.inOut',
+        stagger: 0.3,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=6000', // scroll 구간 길이
+          scrub: 0.1,
+          pin: true,
+          anticipatePin: 2,
+          snap: 1 / (cardRefs.current.length - 1),
+          // pinSpacing: false,
+        },
+      })
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <section className={css.heroRelation}>
-      <h2 className={css.title}>
-        <span className={css.lg}>LG U+</span>의 혜택
-        <br />
-        <span className={css.pick}>U+Pick</span>으로 더 가깝게
-      </h2>
+    <section ref={sectionRef} className={css.heroSectionWrapper}>
+      <div className={css.heroRelation}>
+        <h2 className={css.title}>
+          <span className={css.lg}>LG U+</span>의 혜택
+          <br />
+          <span className={css.pick}>U+Pick</span>으로 더 가깝게
+        </h2>
 
-      <div className={css.content}>
-        <img src={HeroRelationLeft} alt="left penguin" className={css.HeroRelationLeft} />
+        <div className={css.content}>
+          <img src={HeroRelationLeft} alt="left penguin" className={css.HeroRelationLeft} />
 
-        <div className={css.cardWrapper}>
-          <img src={HeroLine} alt="line1" className={css.lineOne} />
-          <img src={HeroLine} alt="line2" className={css.lineTwo} />
-          <img src={HeroLineCurve} alt="lineCurve" className={css.lineCurve} />
+          <div className={css.cardWrapper}>
+            <img src={HeroLine} alt="line1" className={css.lineOne} />
+            <img src={HeroLine} alt="line2" className={css.lineTwo} />
+            <img src={HeroLineCurve} alt="lineCurve" className={css.lineCurve} />
 
-          {[HeroRelation1, HeroRelation2, HeroRelation3].map((img, i) => (
-            <div key={i} className={`${css.card} ${step >= i + 1 ? css.flipped : ''}`}>
-              <div className={css.cardInner}>
-                <div className={css.cardFront}>
-                  <img src={img} alt={`card${i + 1}`} className={css[`HeroRelation${i + 1}`]} />
-                </div>
-                <div className={css.cardBack}>
-                  <img src={img} alt={`bg${i + 1}`} className={css.cardBackImageBehind} />
-                  <div className={css.cardText}>
-                    {texts[i].lines.map((line, index) =>
-                      line === '' ? (
-                        <br key={index} />
-                      ) : (
-                        <p
-                          key={index}
-                          className={css.line}
-                          dangerouslySetInnerHTML={{ __html: line }}
-                        />
-                      )
-                    )}
+            {[HeroRelation1, HeroRelation2, HeroRelation3].map((img, i) => (
+              <div key={i} className={css.card}>
+                <div className={css.cardInner} ref={el => (cardRefs.current[i] = el)}>
+                  <div className={css.cardFront}>
+                    <img src={img} alt={`card${i + 1}`} className={css[`HeroRelation${i + 1}`]} />
+                  </div>
+                  <div className={css.cardBack}>
+                    <img src={img} alt={`bg${i + 1}`} className={css.cardBackImageBehind} />
+                    <div className={css.cardText}>
+                      {texts[i].lines.map((line, idx) =>
+                        line === '' ? (
+                          <br key={idx} />
+                        ) : (
+                          <p
+                            key={idx}
+                            className={css.line}
+                            dangerouslySetInnerHTML={{ __html: line }}
+                          />
+                        )
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        <img src={HeroRelationRight} alt="right penguin" className={css.HeroRelationRight} />
+          <img src={HeroRelationRight} alt="right penguin" className={css.HeroRelationRight} />
+        </div>
       </div>
     </section>
   )

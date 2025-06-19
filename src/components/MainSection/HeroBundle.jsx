@@ -14,7 +14,7 @@ const HeroBundle = () => {
         <div className={css.right}>
           <img src={HeroBundle2} alt="결합 유형 선택 안내" className={css.cardImage} />
           <div className={css.desc}>
-            <p>
+            <div>
               <div className={css.HeroBundleTitle}>
                 <span className={css.highlight1}>혼자</span>여도 괜찮습니다.
               </div>
@@ -27,7 +27,7 @@ const HeroBundle = () => {
               <span className={css.highlight1}>U+Pick</span>에서 함께 할인받을
               <br />
               <span className={css.highlight2}>새로운 연결</span>을 만들어드립니다.
-            </p>
+            </div>
           </div>
         </div>
       </div>

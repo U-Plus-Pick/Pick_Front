@@ -68,7 +68,7 @@ const HeroChatBot = () => {
               <span>결합 혜택</span>
             </div>
 
-            <p className={css.rightDesc}>
+            <div className={css.rightDesc}>
               <div className={css.rightDescTitle}>
                 <span className={css.highlight1}>유피</span>와 대화하며
                 <br />
@@ -80,7 +80,7 @@ const HeroChatBot = () => {
               혜택 조회부터, 혜택 플랫폼 위치까지
               <br />
               이젠 <span className={css.brand}>U+Pick</span>이 챙겨드립니다.
-            </p>
+            </div>
           </div>
         </div>
       </div>
