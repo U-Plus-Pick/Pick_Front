@@ -1,6 +1,5 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import HomePage from './pages/HomePage'
 import ChatbotPage from './pages/ChatbotPage'
 import PaySuccess from './pages/PaySuccessPage'
 import MyPage from './pages/MyPage'
@@ -15,7 +14,6 @@ function App() {
       <Routes>
         {/* Header 있음 */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
           <Route path="/chatbot" element={<ChatbotPage />} />
           <Route path="/mypage" element={<MyPage />} />
         </Route>
