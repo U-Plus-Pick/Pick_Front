@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import upi from '../assets/PaidSuccess.png'
 
-import './PaySuccessPage.scss'
+import '../styles/scss/PaySuccessPage.scss'
 
 export default function PaySuccess() {
   const [params] = useSearchParams()

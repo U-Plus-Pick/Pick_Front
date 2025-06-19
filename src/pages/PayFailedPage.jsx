@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import upi from '../assets/PaidFail.png'
 
-import './PaySuccessPage.scss'
+import '../styles/scss/PaySuccessPage.scss'
 
 export default function PayFailedPage() {
   const navigate = useNavigate()
