@@ -9,6 +9,12 @@
     position: relative;
     overflow-x: hidden;
   }
+
+  *{
+    user-select: none;
+    outline : none;
+    caret-color : transparent;
+  }
   
   .imageGroup {
     display: flex;
