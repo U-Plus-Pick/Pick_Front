@@ -303,6 +303,26 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
     setSidebarVisible(!sidebarVisible)
   }
 
+  // isStreaming 메시지가 10초 이상 유지되면 자동으로 false로 만드는 안전장치
+  useEffect(() => {
+    const streamingMsg = messages.find(msg => msg.isStreaming)
+    if (streamingMsg) {
+      const timer = setTimeout(() => {
+        setMessages(prev =>
+          prev.map(msg => (msg.isStreaming ? { ...msg, isStreaming: false } : msg))
+        )
+      }, 5000) // 5초
+      return () => clearTimeout(timer)
+    }
+  }, [messages])
+
+  // 시간 포맷 함수
+  const formatTime = date => {
+    if (!date) return ''
+    const d = typeof date === 'string' ? new Date(date) : date
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+  }
+
   return (
     <div className="chatbot-container">
       <div className="chatbot-window">
@@ -347,7 +367,12 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
                             key={chatRoom.id}
                             className="chat-room-item"
                             onClick={() => {
-                              setMessages(chatRoom.messages)
+                              // 모든 메시지의 isStreaming을 false로 초기화
+                              const sanitizedMessages = chatRoom.messages.map(msg => ({
+                                ...msg,
+                                isStreaming: false,
+                              }))
+                              setMessages(sanitizedMessages)
                               setCurrentChatId(chatRoom.id)
                             }}
                           >
@@ -394,7 +419,7 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
                   <div className={`message-content ${message.isStreaming ? 'streaming' : ''}`}>
                     {message.text || (message.isStreaming ? '' : '메시지를 불러오는 중...')}
                   </div>
-                  {message.sender === 'bot' && <div className="message-time">방금</div>}
+                  <div className="message-time">{formatTime(message.timestamp)}</div>
                 </div>
               ))}
               {isLoading && !messages.some(msg => msg.isStreaming) && (

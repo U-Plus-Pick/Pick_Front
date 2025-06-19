@@ -6,11 +6,10 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
-
   const handleMenuClick = menu => {
     setActiveMenu(menu)
     if (menu === 'plan') {
-      navigate('/chatbot?type=plan')
+      navigate('/chatbot')
     } else if (menu === 'matching') {
       navigate('/')
     } else if (menu === 'map') {
@@ -26,15 +25,12 @@ const Header = () => {
     setIsLoggedIn(false)
     setActiveMenu('')
   }
-
   const handleSignup = () => {
     console.log('회원가입 클릭')
   }
+
   const handleMyPage = () => {
     console.log('마이페이지 클릭')
-  }
-  const toggleLoginStatus = () => {
-    setIsLoggedIn(!isLoggedIn)
   }
 
   const handleLogoClick = () => {
@@ -59,7 +55,7 @@ const Header = () => {
             <li className="nav-item">
               <a
                 href="#"
-                className={`nav-link ${activeMenu === 'plan' ? 'active' : ''}`}
+                className={`nav-link`}
                 onClick={e => {
                   e.preventDefault()
                   handleMenuClick('plan')
