@@ -3,7 +3,7 @@ import css from '../../styles/scss/HeroSlogun.module.scss'
 
 const HeroSlogun = () => {
   return (
-    <section className={css.heroIntro}>
+    <section className={css.heroSlogun}>
       <div className={css.textLeft}>
         당신의 <span>U+</span>
       </div>

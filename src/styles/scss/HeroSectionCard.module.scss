@@ -12,6 +12,13 @@
   box-sizing: border-box;
   overflow: hidden;
   text-align: left;
+  transition: 0.3s ease-out;
+
+  *:not(.iconWrapper){
+    user-select: none;
+    outline : none;
+    caret-color : transparent;
+  }
 
   img {
     width: 11rem;

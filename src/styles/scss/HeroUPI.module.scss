@@ -14,6 +14,12 @@
         rgba(243, 211, 255, 0.8) 86%,
         #ffffff 100%
       );
+
+      *{
+        user-select: none;
+        outline : none;
+        caret-color : transparent;
+      }
   }
   
   .leftText,

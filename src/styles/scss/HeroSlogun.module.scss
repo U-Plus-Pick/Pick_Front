@@ -1,9 +1,17 @@
-.heroIntro {
+.heroSlogun {
     position: relative;
     width: 100%;
     height: 100vh;
     background-color: #ffffff;
     overflow: hidden;
+    margin-top : 2rem;
+
+    *{
+      user-select: none;
+      outline : none;
+      caret-color : transparent;
+    }
+
   }
   
   .textLeft,
