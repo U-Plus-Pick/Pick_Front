@@ -12,18 +12,18 @@ export default function PaySuccess() {
   const paymentKey = params.get('paymentKey')
   const orderId = params.get('orderId')
   const amount = params.get('amount')
-  const userEmail = 'ureca04@gmail.com' // 로그인 시, 실제 이메일로 변경
+  const userEmail = 'ureca04@gmail.com' // 로그인 연결 시, 실제 이메일로 변경
 
   const today = new Date()
-  const month = String(today.getMonth() + 1) // 요금 청구된 달
+  const month = String(today.getMonth() + 1)
 
   const [showModal, setShowModal] = useState(true)
 
   useEffect(() => {
     const confirmPayment = async () => {
       try {
+        // api명세서 나오면 맞춰서 수정 필요
         const response = await axios.post('http://localhost:3000/api/payments/confirm', {
-          // 서버 URL 변경 필요
           paymentKey,
           orderId,
           amount,
