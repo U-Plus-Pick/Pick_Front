@@ -5,11 +5,12 @@ import HeroSlogun from './components/MainSection/HeroSlogun'
 import HeroUPI from './components/MainSection/HeroUPI'
 import HeroBundle from './components/MainSection/HeroBundle'
 import HeroMap from './components/MainSection/HeroMembershipMap'
+import HeroRelation from './components/MainSection/HeroRelation'
 
 function App() {
   return (
     <div>
-      <HeroMap />
+      <HeroRelation />
     </div>
   )
 }
