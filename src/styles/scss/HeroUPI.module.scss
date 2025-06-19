@@ -1,0 +1,42 @@
+.heroAssistant {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 8rem 4rem;
+    gap: 5rem;
+    background: linear-gradient(to top, #fef0fb 0%, #ffffff 40%);
+  }
+  
+  .leftText,
+  .rightText {
+    font-size: 2.2rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  
+  .leftText {
+    text-align: right;
+  
+    span {
+      color: #e6007e;
+    }
+  }
+  
+  .rightText {
+    text-align: left;
+  
+    .uplus {
+      color: #5e2eff;
+      font-weight: bold;
+    }
+  
+    .name {
+      color: #5e2eff;
+    }
+  }
+  
+  .upi {
+    width: 25rem;
+    height: auto;
+  }
+  
