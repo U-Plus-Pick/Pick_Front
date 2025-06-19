@@ -1,4 +1,5 @@
 import React from 'react'
+import useScrollStep from '../../hooks/ScollStep'
 import css from '../../styles/scss/HeroRelation.module.scss'
 import HeroRelation1 from '../../assets/HeroRelation1.png'
 import HeroRelation2 from '../../assets/HeroRelation2.png'
@@ -8,7 +9,35 @@ import HeroRelationRight from '../../assets/HeroRelationRight.png'
 import HeroLine from '../../assets/HeroLine.png'
 import HeroLineCurve from '../../assets/HeroCurveLine.png'
 
+const texts = [
+  {
+    lines: [
+      '바쁜 일상 속',
+      '<span class="pink">복잡한 통신 생활</span>',
+      '',
+      '더 이상',
+      '<span class="purple">놓치지 마세요.</span>',
+    ],
+  },
+  {
+    lines: [
+      'LG U+는',
+      '언제나 <span class="pink">고객님</span>과',
+      '더 가깝게 <span class="purple">연결</span>됩니다.',
+    ],
+  },
+  {
+    lines: [
+      '<span class="pink">U+Pick</span> 과 함께',
+      '요금제부터 멤버십까지',
+      '더 <span class="purple">쉽고</span>, 더 <span class="purple">간편하게</span>',
+    ],
+  },
+]
+
 const HeroRelation = () => {
+  const step = useScrollStep(4)
+
   return (
     <section className={css.heroRelation}>
       <h2 className={css.title}>
@@ -22,18 +51,34 @@ const HeroRelation = () => {
 
         <div className={css.cardWrapper}>
           <img src={HeroLine} alt="line1" className={css.lineOne} />
-          <img src={HeroLine} alt="line1" className={css.lineTwo} />
-          <img src={HeroLineCurve} alt="line2" className={css.lineCurve} />
+          <img src={HeroLine} alt="line2" className={css.lineTwo} />
+          <img src={HeroLineCurve} alt="lineCurve" className={css.lineCurve} />
 
-          <div className={css.card}>
-            <img src={HeroRelation1} alt="card1" className={css.HeroRelation1} />
-          </div>
-          <div className={css.card}>
-            <img src={HeroRelation2} alt="card2" className={css.HeroRelation2} />
-          </div>
-          <div className={css.card}>
-            <img src={HeroRelation3} alt="card3" className={css.HeroRelation3} />
-          </div>
+          {[HeroRelation1, HeroRelation2, HeroRelation3].map((img, i) => (
+            <div key={i} className={`${css.card} ${step >= i + 1 ? css.flipped : ''}`}>
+              <div className={css.cardInner}>
+                <div className={css.cardFront}>
+                  <img src={img} alt={`card${i + 1}`} className={css[`HeroRelation${i + 1}`]} />
+                </div>
+                <div className={css.cardBack}>
+                  <img src={img} alt={`bg${i + 1}`} className={css.cardBackImageBehind} />
+                  <div className={css.cardText}>
+                    {texts[i].lines.map((line, index) =>
+                      line === '' ? (
+                        <br key={index} />
+                      ) : (
+                        <p
+                          key={index}
+                          className={css.line}
+                          dangerouslySetInnerHTML={{ __html: line }}
+                        />
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         <img src={HeroRelationRight} alt="right penguin" className={css.HeroRelationRight} />

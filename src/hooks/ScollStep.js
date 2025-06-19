@@ -5,13 +5,17 @@ const useScrollStep = (stepCount = 4) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY
+      const scrollY = window.scrollY || window.pageYOffset
       const windowHeight = window.innerHeight
+
       const newStep = Math.floor(scrollY / windowHeight)
-      setStep(Math.min(newStep, stepCount - 1))
+      const clampedStep = Math.max(0, Math.min(newStep, stepCount - 1))
+
+      setStep(clampedStep)
     }
 
     window.addEventListener('scroll', handleScroll)
+    handleScroll() // 초기 실행
     return () => window.removeEventListener('scroll', handleScroll)
   }, [stepCount])
 

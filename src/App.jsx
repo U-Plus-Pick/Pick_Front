@@ -9,7 +9,7 @@ import HeroRelation from './components/MainSection/HeroRelation'
 
 function App() {
   return (
-    <div>
+    <div style={{ height: '400vh' }}>
       <HeroRelation />
     </div>
   )
