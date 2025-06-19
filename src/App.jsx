@@ -1,12 +1,10 @@
 import React from 'react'
-import HeroSection from './components/MainSection/HeroSection'
-import HeroSlogun from './components/MainSection/HeroSlogun'
-import HeroUPI from './components/MainSection/HeroUPI'
+import HeroChatBot from './components/MainSection/HeroChatBot'
 
 function App() {
   return (
     <div>
-      <HeroUPI />
+      <HeroChatBot />
     </div>
   )
 }
