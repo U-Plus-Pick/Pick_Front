@@ -1,7 +1,7 @@
 import React from 'react'
 import css from '../../styles/scss/HeroSlogun.module.scss'
 
-const HeroIntro = () => {
+const HeroSlogun = () => {
   return (
     <section className={css.heroIntro}>
       <div className={css.textLeft}>
@@ -22,4 +22,4 @@ const HeroIntro = () => {
   )
 }
 
-export default HeroIntro
+export default HeroSlogun
