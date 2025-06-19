@@ -1,0 +1,109 @@
+$primary-pink: #e6007e;
+$secondary-pink: #ee5ca0;
+$white: #ffffff;
+$gray: #666666;
+
+.chatbot-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fefefe 0%, #f8f9fa 100%);
+  font-family: 'Noto Sans KR', sans-serif;
+  .chatbot-page-header {
+    padding: 20px;
+
+    .back-button {
+      background: none;
+      border: 1px solid #ddd;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: $gray;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: $primary-pink;
+        color: $primary-pink;
+      }
+    }
+  }
+  .chatbot-page-content {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    gap: 0px;
+    padding: 10% 20px 20px;
+    max-width: 1300px;
+    margin: 0 auto;
+
+    .chatbot-character {
+      position: relative;
+      flex-shrink: 0;
+
+      .upi-character {
+        width: 200px;
+        height: auto;
+        object-fit: contain;
+        margin-right: -10px;
+        z-index: 1;
+        position: relative;
+      }
+    }
+    .chatbot-container {
+      flex: 1;
+      max-width: 1000px;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      z-index: 2;
+
+      .chatbot-window {
+        box-shadow:
+          -5px 0 15px rgba(0, 0, 0, 0.1),
+          0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .chatbot-page {
+    .chatbot-page-content {
+      .chatbot-character {
+        .upi-character {
+          width: 150px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .chatbot-page {
+    .chatbot-page-content {
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+
+      .chatbot-character {
+        order: 2;
+
+        .upi-character {
+          width: 120px;
+          margin-right: 0;
+        }
+      }
+
+      .chatbot-container {
+        order: 1;
+
+        .chatbot-window {
+          border-left: none;
+          border-top: 3px solid $primary-pink;
+          box-shadow:
+            0 -5px 15px rgba(0, 0, 0, 0.1),
+            0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}
