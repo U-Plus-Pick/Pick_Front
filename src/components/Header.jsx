@@ -1,12 +1,21 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './Header.scss'
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const navigate = useNavigate()
 
   const handleMenuClick = menu => {
     setActiveMenu(menu)
+    if (menu === 'plan') {
+      navigate('/chatbot?type=plan')
+    } else if (menu === 'matching') {
+      navigate('/')
+    } else if (menu === 'map') {
+      navigate('/')
+    }
   }
 
   const handleLogin = () => {
@@ -24,9 +33,13 @@ const Header = () => {
   const handleMyPage = () => {
     console.log('마이페이지 클릭')
   }
-
   const toggleLoginStatus = () => {
     setIsLoggedIn(!isLoggedIn)
+  }
+
+  const handleLogoClick = () => {
+    navigate('/')
+    setActiveMenu('')
   }
 
   return (
@@ -37,8 +50,8 @@ const Header = () => {
             src="/logo.png"
             alt="U+Pick"
             className="logo-image"
-            onClick={toggleLoginStatus}
-            title="클릭하여 로그인 상태 토글 (테스트용)"
+            onClick={handleLogoClick}
+            title="홈으로 이동"
           />
         </div>
         <nav className="header-nav">
