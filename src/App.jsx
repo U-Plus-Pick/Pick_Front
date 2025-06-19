@@ -1,13 +1,16 @@
-import React from 'react'
-import HeroSection from './components/MainSection/HeroSection'
-import HeroSlogun from './components/MainSection/HeroSlogun'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import PaymentBtn from './components/PaymentBtn'
+import { SuccessPage, FailPage } from './pages/PaySuccess'
 
 function App() {
   return (
-    <div>
-      <HeroSection />
-      <HeroSlogun />
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<PaymentBtn />} />
+        <Route path="/success" element={<SuccessPage />} />
+        <Route path="/fail" element={<FailPage />} />
+      </Routes>
+    </Router>
   )
 }
 
