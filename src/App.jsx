@@ -5,6 +5,7 @@ import PaySuccess from './pages/PaySuccessPage'
 import MyPage from './pages/MyPage'
 import PayFailedPage from './pages/PayFailedPage'
 import MainLayout from './layouts/MainLayout'
+import MainPage from './pages/MainPage'
 
 import './styles/scss/main.scss'
 
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         {/* Header 있음 */}
         <Route element={<MainLayout />}>
+          <Route path="/" element={<MainPage />} />
           <Route path="/chatbot" element={<ChatbotPage />} />
           <Route path="/mypage" element={<MyPage />} />
         </Route>
