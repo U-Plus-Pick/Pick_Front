@@ -279,58 +279,13 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
     </div>
   )
   const renderNoPartyContent = () => (
-    <div className="mypage-content">
+    <div className="mypage-content no-party">
       {/* 좌측 영역 */}
       <div className="left-section">
-        {/* 총 결제 금액 박스 */}
-        <div className="payment-summary-box">
-          <div className="box-header">
-            <h3 className="section-title">총 결제 금액</h3>
-            <span className="status-text">0원/월</span>
-          </div>
-          {/* 매칭 상태 행 */}
-          <div className="matching-grid">
-            <div className="member-card empty">
-              <span className="member-name">매칭 대기</span>
-            </div>
-            <div className="member-card empty">
-              <span className="member-name">매칭 대기</span>
-            </div>
-            <div className="member-card empty">
-              <span className="member-name">매칭 대기</span>
-            </div>
-            <div className="member-card empty">
-              <span className="member-name">매칭 대기</span>
-            </div>
-            <div className="member-card empty">
-              <span className="member-name">매칭 대기</span>
-            </div>
-          </div>
-          {/* 요금 정보 */}
-          <div className="fee-info">
-            <div className="fee-row">
-              <span className="fee-label">파티원 총 요금</span>
-              <span className="fee-amount">0원</span>
-            </div>
-            <div className="fee-row">
-              <span className="fee-label">투게더로 인한 할인 금액</span>
-              <span className="fee-amount">0원</span>
-            </div>
-          </div>
-          {/* U+Pick 이용료 */}
-          <div className="upick-fee">
-            <div className="fee-header">
-              <span className="service-name">U+Pick 이용료</span>
-              <div className="price-info">
-                <span className="current-price">0원</span>
-              </div>
-            </div>
-            <div className="discount-info">서비스 이용 후 요금이 부과됩니다</div>
-          </div>
-          {/* 정산받는 금액 */}
-          <div className="settlement-row">
-            <span className="settlement-label">정산받을 금액</span>
-            <span className="settlement-amount">0원</span>
+        <div className="empty-state">
+          <div className="empty-message">이용하시는 서비스가 없어요</div>
+          <div className="upi-character">
+            <img src="/none-upi.png" alt="유피 캐릭터" />
           </div>
         </div>
       </div>
