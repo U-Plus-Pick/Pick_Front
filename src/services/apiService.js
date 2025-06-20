@@ -106,6 +106,23 @@ export const userService = {
   },
 }
 
+// 파티 관련 API
+export const partyService = {
+  // 파티 정보 조회
+  getPartyInfo: async () => {
+    try {
+      const response = await apiRequest('/api/party/infor', {
+        method: 'GET',
+      })
+
+      return await response.json()
+    } catch (error) {
+      console.error('파티 정보 조회 오류:', error)
+      throw error
+    }
+  },
+}
+
 // 파일 업로드 관련 API
 export const fileService = {
   // 납부확인서 업로드
@@ -133,6 +150,7 @@ export const fileService = {
 export const apiService = {
   ...planService,
   ...userService,
+  ...partyService,
   ...fileService,
 }
 

@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useCallback } from 'react'
 import '../styles/scss/MypageCard.scss'
-import { planService, userService, fileService } from '../services/apiService'
+import { planService, userService, fileService, partyService } from '../services/apiService'
 
 const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   // userStatus: 'leader' | 'member' | 'none'
@@ -14,6 +14,16 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   const [monthlyFee, setMonthlyFee] = useState(0) // 현재 요금제의 월 요금
   const [apiUserName, setApiUserName] = useState('유*피') // API에서 받아온 사용자 이름
   const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태
+  const [partyMembers, setPartyMembers] = useState([]) // 파티원 정보 (본인 제외)
+  const [totalPartyFee, setTotalPartyFee] = useState(0) // 파티원 총 요금
+  const [totalBillAmount, setTotalBillAmount] = useState(0) // 총 결제 금액 (나 + 파티원)
+  const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액
+
+  // 할인 및 이용료 상수
+  const TOGETHER_DISCOUNT = 100000 // 투게더로 인한 할인 금액
+  const UPICK_FEE_LEADER = 1000 // 리더 U+Pick 이용료 (할인 적용)
+  const UPICK_FEE_MEMBER = 2000 // 멤버 U+Pick 이용료
+
   const fileInputRef = useRef(null)
 
   // 요금제 목록 가져오기
@@ -58,12 +68,73 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       console.error('사용자 정보 조회 오류:', error)
     }
   }
+  // 파티 정보 가져오기
+  const fetchPartyInfo = useCallback(async () => {
+    try {
+      const partyData = await partyService.getPartyInfo()
+      const userData = await userService.getUserInfo()
 
-  // 컴포넌트 마운트 시 요금제 목록과 사용자 정보 로드
+      const currentUserEmail = userData.user_email || ''
+
+      // 모든 파티원 정보 (리더 + 크루)
+      const allMembers = []
+
+      // 리더 정보 추가
+      if (partyData.leader_infor) {
+        allMembers.push({
+          email: partyData.leader_infor.leader_email,
+          name: partyData.leader_infor.leader_name,
+          plan_name: partyData.leader_infor.plan_name,
+          monthly_fee: partyData.leader_infor.plan_fee,
+          role: 'leader',
+        })
+      }
+
+      // 크루 정보 추가
+      if (partyData.crew_infor && Array.isArray(partyData.crew_infor)) {
+        partyData.crew_infor.forEach(member => {
+          allMembers.push({
+            email: member.member_email,
+            name: member.member_name,
+            plan_name: member.plan_name,
+            monthly_fee: member.plan_monthly_fee,
+            role: 'member',
+          })
+        })
+      }
+
+      // 본인을 제외한 파티원들만 필터링
+      const otherMembers = allMembers.filter(member => member.email !== currentUserEmail)
+      setPartyMembers(otherMembers)
+
+      // 파티원 총 요금 계산 (본인 제외)
+      const totalFee = otherMembers.reduce((total, member) => total + (member.monthly_fee || 0), 0)
+      setTotalPartyFee(totalFee)
+
+      // 총 결제 금액 계산 (본인 + 파티원)
+      const totalAmount = totalFee + monthlyFee
+      setTotalBillAmount(totalAmount)
+
+      console.log('파티 정보 로드 완료:', {
+        allMembers,
+        otherMembers,
+        currentUserEmail,
+        totalPartyFee: totalFee,
+        monthlyFee,
+        totalBillAmount: totalAmount,
+      })
+    } catch (error) {
+      console.error('파티 정보 조회 오류:', error)
+    }
+  }, [monthlyFee])
+
+  // 컴포넌트 마운트 시 요금제 목록과 사용자 정보, 파티 정보 로드
   useEffect(() => {
     fetchPlanOptions()
     fetchUserInfo()
-  }, [])
+    fetchPartyInfo()
+  }, [fetchPartyInfo])
+
   // 요금제가 변경될 때마다 월 요금 계산
   useEffect(() => {
     if (planDetailsData.length > 0 && selectedPlan) {
@@ -75,6 +146,20 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       }
     }
   }, [planDetailsData, selectedPlan])
+
+  // 월요금이 변경될 때마다 총 결제 금액 재계산
+  useEffect(() => {
+    const totalAmount = totalPartyFee + monthlyFee
+    setTotalBillAmount(totalAmount)
+  }, [monthlyFee, totalPartyFee])
+
+  // 정산받는 금액 계산 (총 결제 금액 - 투게더 할인 + U+Pick 이용료)
+  useEffect(() => {
+    const upickFee = userStatus === 'leader' ? UPICK_FEE_LEADER : UPICK_FEE_MEMBER
+    const calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
+    setSettlementAmount(calculatedSettlement)
+  }, [totalBillAmount, userStatus, TOGETHER_DISCOUNT, UPICK_FEE_LEADER, UPICK_FEE_MEMBER])
+
   // 선택한 요금제의 월 요금 가져오기
   const getMonthlyFeeForPlan = planName => {
     if (planDetailsData.length > 0 && planName) {
@@ -164,7 +249,6 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
         return renderLeaderContent()
     }
   }
-
   const renderLeaderContent = () => (
     <div className="mypage-content">
       {/* 좌측 영역 */}
@@ -173,7 +257,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
         <div className="payment-summary-box">
           <div className="box-header">
             <h3 className="section-title">총 결제 금액</h3>
-            <span className="status-text">523,320원/월</span>
+            <span className="status-text">{formatCurrency(totalBillAmount)}원/월</span>
           </div>
           {/* 매칭 상태 행 */}
           <div className="matching-grid">
@@ -181,24 +265,17 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
               <div className="crown-icon">👑</div>
               <span className="member-name">{apiUserName}</span>
             </div>
-            <div className="member-card filled">
-              <span className="member-name">최*수</span>
-            </div>
-            <div className="member-card filled">
-              <span className="member-name">한*준</span>
-            </div>
-            <div className="member-card filled">
-              <span className="member-name">박*규</span>
-            </div>
-            <div className="member-card filled">
-              <span className="member-name">곽*미</span>
-            </div>
+            {partyMembers.map((member, index) => (
+              <div className="member-card filled" key={index}>
+                <span className="member-name">{member.name}</span>
+              </div>
+            ))}
           </div>
           {/* 요금 정보 */}
           <div className="fee-info">
             <div className="fee-row">
               <span className="fee-label">파티원 총 요금</span>
-              <span className="fee-amount">424,500원</span>
+              <span className="fee-amount">{formatCurrency(totalPartyFee)}원</span>
             </div>
             <div className="fee-row">
               <span className="fee-label">투게더로 인한 할인 금액</span>
@@ -219,7 +296,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
           {/* 정산받는 금액 */}
           <div className="settlement-row">
             <span className="settlement-label">정산받는 금액</span>{' '}
-            <span className="settlement-amount">323,000원</span>
+            <span className="settlement-amount">{formatCurrency(settlementAmount)}원</span>
           </div>
         </div>
       </div>{' '}
@@ -260,32 +337,25 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
         <div className="payment-summary-box">
           <div className="box-header">
             <h3 className="section-title">총 결제 금액</h3>
-            <span className="status-text">523,320원/월</span>
+            <span className="status-text">{formatCurrency(totalBillAmount)}원/월</span>
           </div>
           {/* 매칭 상태 행 */}
           <div className="matching-grid">
-            <div className="member-card filled">
-              <div className="crown-icon">👑</div>
-              <span className="member-name">급*디</span>
-            </div>
+            {partyMembers.map((member, index) => (
+              <div className="member-card filled" key={index}>
+                {member.role === 'leader' && <div className="crown-icon">👑</div>}
+                <span className="member-name">{member.name}</span>
+              </div>
+            ))}
             <div className="member-card filled current-user">
-              <span className="member-name">최*수</span>
-            </div>
-            <div className="member-card filled">
-              <span className="member-name">한*준</span>
-            </div>
-            <div className="member-card filled">
-              <span className="member-name">박*규</span>
-            </div>
-            <div className="member-card filled">
-              <span className="member-name">금*디</span>
+              <span className="member-name">{apiUserName}</span>
             </div>
           </div>
           {/* 요금 정보 */}
           <div className="fee-info">
             <div className="fee-row">
               <span className="fee-label">파티원 총 요금</span>
-              <span className="fee-amount">424,500원</span>
+              <span className="fee-amount">{formatCurrency(totalPartyFee)}원</span>
             </div>
             <div className="fee-row">
               <span className="fee-label">투게더로 인한 할인 금액</span>
@@ -304,7 +374,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
           {/* 정산받는 금액 */}
           <div className="settlement-row">
             <span className="settlement-label">정산받을 금액</span>
-            <span className="settlement-amount">108,590원</span>
+            <span className="settlement-amount">{formatCurrency(settlementAmount)}원</span>
           </div>
         </div>
       </div>
