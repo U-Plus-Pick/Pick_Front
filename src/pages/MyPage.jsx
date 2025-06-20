@@ -11,7 +11,7 @@ const MyPage = () => {
   return (
     <div className="mypage-page">
       <MypageCard userStatus={userStatus} userName={userName} />
-      <PaymentBtn />
+      {/* <PaymentBtn /> */}
     </div>
   )
 }
