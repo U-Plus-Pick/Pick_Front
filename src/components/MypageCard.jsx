@@ -61,8 +61,8 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
         setApiUserName(userData.user_name)
       }
       // 사용자 상태 설정 (API에서 제공하는 경우)
-      if (userData.user_status || userData.role) {
-        setUserStatus(userData.user_status || userData.role)
+      if (userData.apply_division) {
+        setUserStatus(userData.apply_division)
       }
     } catch (error) {
       console.error('사용자 정보 조회 오류:', error)
@@ -249,6 +249,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
         return renderLeaderContent()
     }
   }
+
   const renderLeaderContent = () => (
     <div className="mypage-content">
       {/* 좌측 영역 */}
@@ -373,8 +374,8 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
           </div>
           {/* 정산받는 금액 */}
           <div className="settlement-row">
-            <span className="settlement-label">정산받을 금액</span>
-            <span className="settlement-amount">{formatCurrency(settlementAmount)}원</span>
+            <span className="settlement-label">정산하실 금액</span>
+            <span className="settlement-amount">{formatCurrency(monthlyFee + 2000)}원</span>
           </div>
         </div>
       </div>
