@@ -1,5 +1,5 @@
 import Chatbot from '../components/Chatbot'
-import './ChatbotPage.scss'
+import '../styles/scss/ChatbotPage.scss'
 
 const ChatbotPage = () => {
   return (

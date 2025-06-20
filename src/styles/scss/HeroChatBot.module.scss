@@ -1,0 +1,253 @@
+.consult {
+  width: 100vw;
+  height : 100vh;
+  background-color: #ffffff;
+  padding: 3.8rem 0;
+
+  *{
+    user-select: none;
+    outline : none;
+    caret-color : transparent;
+  }
+
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .title {
+    font-size: 3.2rem;
+    font-weight: 800;
+    text-align: left;
+    margin-bottom: 3rem;
+    line-height: 1.4;
+    color: #111;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+    gap: 4rem;
+  }
+
+  .leftCard .rightCard{
+    width : 34.375rem;
+  }
+
+  .leftCard {
+    flex: 1;
+    height : 36.375rem;
+    background-color: #E6E6E6;
+    border-radius: 2rem;
+    display: flex;
+    flex-direction: column;
+    padding-left : 2rem;
+    padding-right : 2rem;
+    position : relative;
+  }
+
+  .leftCard h3 {
+    font-size: 2.186rem;
+    font-weight: 700;
+  }
+
+  .chatBox {
+    padding : 2.2rem;
+    background-color: #fff;
+    border-radius: 2rem;
+    box-shadow:  0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.25);
+
+    .tag {
+      margin-left: auto;
+      font-size: 0.8rem;
+      width : 11rem;
+      height : 3rem;
+      padding: 0.4rem 0.8rem;
+      background-color: #FDD5F1;
+      border-radius: 999px;
+      text-align: right;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .messageBlock {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-top : 1.8rem;
+
+      .circleWrap {
+        width: 4.8rem;
+        height: 4.8rem;
+        border-radius: 50%;
+        background: #ECC2FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      
+
+        img {
+          width: 3.5rem;
+          height: auto;
+        }
+      }
+
+      .msg {
+        background-color: #F1F1F1;
+        border-radius: 1.25rem;
+        padding: 1rem;
+        font-size: 0.8rem;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .desc {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    position : relative;
+
+    p {
+      padding-left : 11rem;
+      font-size: 1.6rem;
+      line-height: 1.2;
+      font-weight : 470;
+
+      .highlight1 {
+        color: #e6007e;
+        font-weight: 700;
+      }
+
+    }
+
+    .leftImage{
+      height : 16rem;
+      width : auto;
+      position: absolute;
+      top : -5rem;
+
+      
+    }
+  }
+
+  .rightCard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  
+    .bgBox {
+      background-color: #FF66BA;
+      border-radius: 0rem 0rem 3.125rem 3.125rem; // 왼쪽 하단만 크게 깎기
+      padding: 3rem 1.75rem;
+      display: flex;
+      gap: 2.3rem;
+      position: relative;
+    }
+
+
+    
+    .chatBubble {
+      width : auto;
+      height : 6rem;
+      flex : 1;
+      background-color: #fff;
+      border-radius: 1.5rem;
+      padding-top: 1.3rem;
+      padding-left : 1.6rem;
+      font-size: 1.2rem;
+      line-height: 1.3;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: -12px;
+        top: 1.5rem;
+        width: 2rem;
+        height: 2rem;
+        background: #ffffff;
+        transform: rotate(45deg);
+        // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: -1;
+      }
+    }
+
+  
+    .circleWrap {
+      width: 6.5rem;
+      height: 6.5rem;
+      border-radius: 50%;
+      background: #fff;
+      overflow : hidden;
+  
+      img {
+        width : 7rem;
+        height : 7rem;
+        object-fit: cover;
+        transform : translate(-3px, 17px);
+      }
+    }
+  
+    .categoryBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+      background: #fff;
+      padding: 1.2rem 3rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+      width: fit-content;
+      margin: -6rem -0.5rem auto auto; // 위로 살짝 겹치게
+      position: relative;
+      z-index: 1;
+  
+      span {
+        background: linear-gradient(-39deg, #ffffff 0%, rgba(111, 66, 193, 0.7) 41%);
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+        }
+      }
+  
+    .rightDesc {
+      font-size: 1.3rem;
+      line-height: 1.3;
+      padding: 1rem 0;
+      margin-top : 4.3rem;
+
+      .rightDescTitle{
+        font-size : 2.1rem;
+        font-weight : 550;
+      }
+  
+      .highlight1 {
+        color: #e6007e;
+        font-weight: 700;
+      }
+  
+      .highlight2 {
+        color: #6f42c1;
+        font-weight: 700;
+      }
+  
+      .brand {
+        color: #e6007e;
+        font-weight: 700;
+      }
+    }
+  }
+}

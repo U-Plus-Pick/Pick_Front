@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import './Header.scss'
+import '../styles/scss/Header.scss'
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useState('')
