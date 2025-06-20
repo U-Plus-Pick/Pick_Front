@@ -73,9 +73,10 @@ $middle-pink: #f6b8c3;
 
 // 좌측 - 총 결제 금액 박스
 .payment-summary-box {
-  background: $light-gray;
-  border: 1px solid $border-gray;
+  background: $white;
   border-radius: 16px;
+  border: 1px solid $border-gray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 28px 24px;
   height: 100%;
   display: flex;
@@ -279,9 +280,10 @@ $middle-pink: #f6b8c3;
 
 // 우측 카드들
 .bill-card {
-  background: $light-gray;
-  border: 1px solid $border-gray;
+  background: $white;
   border-radius: 16px;
+  border: 1px solid $border-gray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 28px;
   display: flex;
   flex-direction: column;
@@ -372,9 +374,10 @@ $middle-pink: #f6b8c3;
 }
 
 .plan-card {
-  background: $light-gray;
-  border: 1px solid $border-gray;
+  background: $white;
   border-radius: 16px;
+  border: 1px solid $border-gray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 16px 24px;
   display: flex;
   align-items: center;
@@ -407,9 +410,10 @@ $middle-pink: #f6b8c3;
 }
 
 .manage-card {
-  background: $light-gray;
-  border: 1px solid $border-gray;
+  background: $white;
   border-radius: 16px;
+  border: 1px solid $border-gray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 16px 24px;
   display: flex;
   align-items: center;
@@ -717,6 +721,56 @@ $middle-pink: #f6b8c3;
         color: $gray-text;
       }
     }
+  }
+}
+
+// 빈 상태 스타일 (none 상태)
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 400px;
+  text-align: center;
+  padding: 40px 20px;
+
+  .empty-message {
+    font-size: 20px;
+    font-weight: 600;
+    color: $gray-text;
+    margin-bottom: 40px;
+    line-height: 1.4;
+  }
+  .upi-character {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 200px;
+      height: 200px;
+      object-fit: contain;
+    }
+  }
+}
+
+// none 상태일 때 left-section 전체 스타일
+.mypage-content .left-section .empty-state {
+  background: $white;
+  border-radius: 16px;
+  border: 1px solid $border-gray;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+// none 상태일 때 우측 카드들도 흰색 배경으로 맞춤
+.mypage-content.no-party .right-section {
+  .bill-card,
+  .plan-card,
+  .manage-card {
+    background: $white !important;
+    border: 1px solid $border-gray;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   }
 }
 
