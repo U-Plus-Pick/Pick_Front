@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react'
-import './Mypage.scss'
+import '../styles/scss/MypageCard.scss'
 
-const Mypage = ({ userStatus = 'leader', userName = '유*피' }) => {
+const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
   // userStatus: 'leader' | 'member' | 'none'
   const [isUploading, setIsUploading] = useState(false)
   const [showPlanModal, setShowPlanModal] = useState(false)
@@ -438,4 +438,4 @@ const Mypage = ({ userStatus = 'leader', userName = '유*피' }) => {
   )
 }
 
-export default Mypage
+export default MypageCard
