@@ -1,6 +1,20 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import '../styles/scss/MypageCard.scss'
 import { planService, userService, fileService, partyService } from '../services/apiService'
+import PaymentSummaryBox from './PaymentSummaryBox'
+import BillCard from './BillCard'
+import PlanCard from './PlanCard'
+import ManageCard from './ManageCard'
+import PlanModal from './PlanModal'
+import ConfirmModal from './ConfirmModal'
+import {
+  getPreviousMonthDateRange,
+  formatCurrency,
+  TOGETHER_DISCOUNT,
+  UPICK_FEE_LEADER,
+  UPICK_FEE_MEMBER,
+  MAX_PARTY_SIZE,
+} from '../utils/mypageUtils'
 
 const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   // userStatus: 'leader' | 'member' | 'none'
@@ -13,17 +27,16 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   const [planDetailsData, setPlanDetailsData] = useState([]) // 전체 요금제 데이터
   const [monthlyFee, setMonthlyFee] = useState(0) // 현재 요금제의 월 요금
   const [apiUserName, setApiUserName] = useState('유*피') // API에서 받아온 사용자 이름
-  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태
+  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태
   const [partyMembers, setPartyMembers] = useState([]) // 파티원 정보 (본인 제외)
   const [totalPartyFee, setTotalPartyFee] = useState(0) // 파티원 총 요금
   const [totalBillAmount, setTotalBillAmount] = useState(0) // 총 결제 금액 (나 + 파티원)
-  const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액
+  const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액
+  const today = new Date()
+  const month = String(today.getMonth() + 1)
 
-  // 할인 및 이용료 상수
-  const TOGETHER_DISCOUNT = 100000 // 투게더로 인한 할인 금액
-  const UPICK_FEE_LEADER = 1000 // 리더 U+Pick 이용료 (할인 적용)
-  const UPICK_FEE_MEMBER = 2000 // 멤버 U+Pick 이용료
-  const MAX_PARTY_SIZE = 5 // 최대 파티원 수 (리더 포함)
+  // 전 달 날짜 범위
+  const previousMonthRange = getPreviousMonthDateRange()
 
   const fileInputRef = useRef(null)
 
@@ -153,13 +166,12 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
     const totalAmount = totalPartyFee + monthlyFee
     setTotalBillAmount(totalAmount)
   }, [monthlyFee, totalPartyFee])
-
   // 정산받는 금액 계산 (총 결제 금액 - 투게더 할인 + U+Pick 이용료)
   useEffect(() => {
     const upickFee = userStatus === 'leader' ? UPICK_FEE_LEADER : UPICK_FEE_MEMBER
     const calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
     setSettlementAmount(calculatedSettlement)
-  }, [totalBillAmount, userStatus, TOGETHER_DISCOUNT, UPICK_FEE_LEADER, UPICK_FEE_MEMBER])
+  }, [totalBillAmount, userStatus])
 
   // 선택한 요금제의 월 요금 가져오기
   const getMonthlyFeeForPlan = planName => {
@@ -168,73 +180,6 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       return planData?.plan_monthly_fee ? planData.plan_monthly_fee.toLocaleString() + '원' : '00원'
     }
     return '00원'
-  }
-  // 숫자를 천 단위 콤마 포맷으로 변환하는 함수
-  const formatCurrency = amount => {
-    const numAmount = Number(amount)
-    return isNaN(numAmount) ? '0' : numAmount.toLocaleString()
-  }
-
-  // 매칭 그리드 렌더링 함수 (리더용)
-  const renderLeaderMatchingGrid = () => {
-    const totalSlots = MAX_PARTY_SIZE
-    const filledSlots = 1 + partyMembers.length // 리더 1명 + 파티원들
-    const emptySlots = totalSlots - filledSlots
-
-    return (
-      <div className="matching-grid">
-        {/* 리더 (본인) */}
-        <div className="member-card leader">
-          <div className="crown-icon">👑</div>
-          <span className="member-name">{apiUserName}</span>
-        </div>
-
-        {/* 파티원들 */}
-        {partyMembers.map((member, index) => (
-          <div className="member-card filled" key={index}>
-            <span className="member-name">{member.name}</span>
-          </div>
-        ))}
-
-        {/* 빈 슬롯들 */}
-        {Array.from({ length: emptySlots }).map((_, index) => (
-          <div className="member-card empty" key={`empty-${index}`}>
-            <span className="member-name">매칭중</span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  // 매칭 그리드 렌더링 함수 (멤버용)
-  const renderMemberMatchingGrid = () => {
-    const totalSlots = MAX_PARTY_SIZE
-    const filledSlots = 1 + partyMembers.length // 본인 1명 + 다른 파티원들
-    const emptySlots = totalSlots - filledSlots
-
-    return (
-      <div className="matching-grid">
-        {/* 다른 파티원들 */}
-        {partyMembers.map((member, index) => (
-          <div className="member-card filled" key={index}>
-            {member.role === 'leader' && <div className="crown-icon">👑</div>}
-            <span className="member-name">{member.name}</span>
-          </div>
-        ))}
-
-        {/* 본인 */}
-        <div className="member-card filled current-user">
-          <span className="member-name">{apiUserName}</span>
-        </div>
-
-        {/* 빈 슬롯들 */}
-        {Array.from({ length: emptySlots }).map((_, index) => (
-          <div className="member-card empty" key={`empty-${index}`}>
-            <span className="member-name">매칭중</span>
-          </div>
-        ))}
-      </div>
-    )
   }
 
   const handleFileUpload = async file => {
@@ -312,144 +257,88 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
         return renderLeaderContent()
     }
   }
-
   const renderLeaderContent = () => (
     <div className="mypage-content">
       {/* 좌측 영역 */}
       <div className="left-section">
-        {/* 총 결제 금액 박스 */}
-        <div className="payment-summary-box">
-          <div className="box-header">
-            <h3 className="section-title">총 결제 금액</h3>
-            <span className="status-text">{formatCurrency(totalBillAmount)}원/월</span>
-          </div>
-          {/* 매칭 상태 행 */}
-          {renderLeaderMatchingGrid()}
-          {/* 요금 정보 */}
-          <div className="fee-info">
-            <div className="fee-row">
-              <span className="fee-label">파티원 총 요금</span>
-              <span className="fee-amount">{formatCurrency(totalPartyFee)}원</span>
-            </div>
-            <div className="fee-row">
-              <span className="fee-label">투게더로 인한 할인 금액</span>
-              <span className="fee-amount">{formatCurrency(TOGETHER_DISCOUNT)}원</span>
-            </div>
-          </div>{' '}
-          {/* U+Pick 이용료 */}
-          <div className="upick-fee">
-            <div className="fee-header">
-              <span className="service-name">U+Pick 이용료</span>
-              <div className="price-info">
-                <span className="original-price">2,000원</span>
-                <span className="current-price">1,000원</span>
-              </div>
-            </div>
-            <div className="discount-info">대표자 할인 적용 완료</div>
-          </div>
-          {/* 정산받는 금액 */}
-          <div className="settlement-row">
-            <span className="settlement-label">정산받는 금액</span>{' '}
-            <span className="settlement-amount">{formatCurrency(settlementAmount)}원</span>
-          </div>
-        </div>
-      </div>{' '}
+        <PaymentSummaryBox
+          userStatus={userStatus}
+          totalBillAmount={totalBillAmount}
+          formatCurrency={formatCurrency}
+          partyMembers={partyMembers}
+          apiUserName={apiUserName}
+          totalPartyFee={totalPartyFee}
+          togetherDiscount={TOGETHER_DISCOUNT}
+          upickFeeLeader={UPICK_FEE_LEADER}
+          upickFeeMember={UPICK_FEE_MEMBER}
+          settlementAmount={settlementAmount}
+          maxPartySize={MAX_PARTY_SIZE}
+        />
+      </div>
       {/* 우측 영역 */}
       <div className="right-section">
-        {' '}
-        {/* 6월 이용요금 */}
-        <div className="bill-card">
-          <h3 className="bill-month">6월 이용요금</h3>
-          <div className="bill-amount">{formatCurrency(monthlyFee)}원</div>
-          <div className="bill-footer">
-            <div className="bill-period">25.05.01 ~ 25.05.31</div>
-            <button className="submit-btn" onClick={handleSubmitReceipt} disabled={isUploading}>
-              {isUploading ? '업로드 중...' : '납부확인서 제출'}
-            </button>
-          </div>
-        </div>{' '}
-        {/* 5G 프리미엄 에센셜 */}
-        <div className="plan-card">
-          <span className="plan-name">{selectedPlan}</span>
-          <button className="change-btn" onClick={handlePlanChange}>
-            변경하기
-          </button>
-        </div>
-        {/* 결제 정산 관리 */}
-        <div className="manage-card">
-          <span className="manage-title">결제 정산 관리</span>
-          <button className="manage-btn">변경하기</button>
-        </div>
+        <BillCard
+          month={month}
+          monthlyFee={monthlyFee}
+          formatCurrency={formatCurrency}
+          previousMonthRange={previousMonthRange}
+          onSubmitReceipt={handleSubmitReceipt}
+          isUploading={isUploading}
+          userStatus={userStatus}
+          fileInputRef={fileInputRef}
+          onFileSelect={handleFileSelect}
+        />
+        <PlanCard
+          selectedPlan={selectedPlan}
+          onPlanChange={handlePlanChange}
+          userStatus={userStatus}
+        />
+        <ManageCard userStatus={userStatus} />
       </div>
     </div>
   )
+
   const renderMemberContent = () => (
     <div className="mypage-content">
       {/* 좌측 영역 */}
       <div className="left-section">
-        {/* 총 결제 금액 박스 */}
-        <div className="payment-summary-box">
-          <div className="box-header">
-            <h3 className="section-title">총 결제 금액</h3>
-            <span className="status-text">{formatCurrency(totalBillAmount)}원/월</span>
-          </div>
-          {/* 매칭 상태 행 */}
-          {renderMemberMatchingGrid()}
-          {/* 요금 정보 */}
-          <div className="fee-info">
-            <div className="fee-row">
-              <span className="fee-label">파티원 총 요금</span>
-              <span className="fee-amount">{formatCurrency(totalPartyFee)}원</span>
-            </div>
-            <div className="fee-row">
-              <span className="fee-label">투게더로 인한 할인 금액</span>
-              <span className="fee-amount">{formatCurrency(TOGETHER_DISCOUNT)}원</span>
-            </div>
-          </div>
-          {/* U+Pick 이용료 */}
-          <div className="upick-fee">
-            <div className="fee-header">
-              <span className="service-name">U+Pick 이용료</span>
-              <div className="price-info">
-                <span className="current-price">{formatCurrency(UPICK_FEE_MEMBER)}원</span>
-              </div>
-            </div>
-          </div>
-          {/* 정산받는 금액 */}
-          <div className="settlement-row">
-            <span className="settlement-label">정산하실 금액</span>
-            <span className="settlement-amount">{formatCurrency(monthlyFee + 2000)}원</span>
-          </div>
-        </div>
+        <PaymentSummaryBox
+          userStatus={userStatus}
+          totalBillAmount={totalBillAmount}
+          formatCurrency={formatCurrency}
+          partyMembers={partyMembers}
+          apiUserName={apiUserName}
+          totalPartyFee={totalPartyFee}
+          togetherDiscount={TOGETHER_DISCOUNT}
+          upickFeeLeader={UPICK_FEE_LEADER}
+          upickFeeMember={UPICK_FEE_MEMBER}
+          settlementAmount={settlementAmount}
+          maxPartySize={MAX_PARTY_SIZE}
+        />
       </div>
-      {/* 우측 영역 */}{' '}
+      {/* 우측 영역 */}
       <div className="right-section">
-        {/* 6월 이용요금 */}
-        <div className="bill-card">
-          <h3 className="bill-month">6월 이용요금</h3>
-          <div className="bill-amount">{formatCurrency(monthlyFee)}원</div>
-          <div className="bill-footer">
-            <div className="bill-period">25.05.01 ~ 25.05.31</div>
-            <button className="submit-btn" onClick={handleSubmitReceipt} disabled={isUploading}>
-              {isUploading ? '업로드 중...' : '요금명세서 제출'}
-            </button>
-          </div>
-        </div>
-        {/* 5G 프리미엄 에센셜 */}
-        <div className="plan-card">
-          <span className="plan-name">{selectedPlan}</span>
-          <button className="change-btn" onClick={handlePlanChange}>
-            변경하기
-          </button>
-        </div>
-        {/* 결제 정산 관리 */}
-        <div className="manage-card">
-          <span className="manage-title">결제 정산 관리</span>
-          <button className="manage-btn">결제하기</button>
-        </div>
+        <BillCard
+          month={month}
+          monthlyFee={monthlyFee}
+          formatCurrency={formatCurrency}
+          previousMonthRange={previousMonthRange}
+          onSubmitReceipt={handleSubmitReceipt}
+          isUploading={isUploading}
+          userStatus={userStatus}
+          fileInputRef={fileInputRef}
+          onFileSelect={handleFileSelect}
+        />
+        <PlanCard
+          selectedPlan={selectedPlan}
+          onPlanChange={handlePlanChange}
+          userStatus={userStatus}
+        />
+        <ManageCard userStatus={userStatus} />
       </div>
     </div>
   )
+
   const renderNoPartyContent = () => (
     <div className="mypage-content no-party">
       {/* 좌측 영역 */}
@@ -463,27 +352,23 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       </div>
       {/* 우측 영역 */}
       <div className="right-section">
-        {/* 6월 이용요금 */}
-        <div className="bill-card">
-          <h3 className="bill-month">6월 이용요금</h3>
-          <div className="bill-amount">0원</div>
-          <div className="bill-footer">
-            <div className="bill-period">25.05.01 ~ 25.05.31</div>
-            <div className="empty-text">납부하실 요금이 없어요</div>
-          </div>
-        </div>
-        {/* 5G 프리미엄 에센셜 */}
-        <div className="plan-card">
-          <span className="plan-name">사용 중인 요금제가 없어요</span>
-          <button className="change-btn" onClick={handlePlanChange}>
-            변경하기
-          </button>
-        </div>
-        {/* 결제 정산 관리 */}
-        <div className="manage-card">
-          <span className="manage-title">결제 매칭 신청</span>
-          <button className="manage-btn">신청하기</button>
-        </div>
+        <BillCard
+          month={month}
+          monthlyFee={0}
+          formatCurrency={formatCurrency}
+          previousMonthRange={previousMonthRange}
+          onSubmitReceipt={handleSubmitReceipt}
+          isUploading={isUploading}
+          userStatus={userStatus}
+          fileInputRef={fileInputRef}
+          onFileSelect={handleFileSelect}
+        />
+        <PlanCard
+          selectedPlan={selectedPlan}
+          onPlanChange={handlePlanChange}
+          userStatus={userStatus}
+        />
+        <ManageCard userStatus={userStatus} />
       </div>
     </div>
   )
@@ -494,72 +379,26 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       <div className="mypage-header">
         <h1 className="user-name">{apiUserName}</h1>
         <span className="greeting">고객님 안녕하세요</span>
-      </div>{' '}
-      <div className="divider"></div> {/* 메인 컨텐츠 */}
+      </div>
+      <div className="divider"></div>
+      {/* 메인 컨텐츠 */}
       {renderContent()}
-      {/* 숨겨진 파일 입력 */}
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileSelect}
-        accept=".jpg,.jpeg,.png,.pdf"
-        style={{ display: 'none' }}
-      />{' '}
-      {/* 요금제 변경 모달 */}
-      {showPlanModal && (
-        <div className="modal-overlay" onClick={handleModalClose}>
-          <div className="modal-content" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>변경하실 요금제를 선택하세요</h3>
-              <button className="close-btn" onClick={handleModalClose}>
-                ✕
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="plan-dropdown">
-                {planOptions.map(plan => (
-                  <div
-                    key={plan}
-                    className={`plan-option ${plan === selectedPlan ? 'current' : ''}`}
-                    onClick={() => handlePlanSelect(plan)}
-                  >
-                    {plan}
-                    {plan === selectedPlan && <span className="current-label">현재 이용중</span>}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-      {/* 요금제 변경 확인 모달 */}
-      {showConfirmModal && (
-        <div className="modal-overlay" onClick={handleModalClose}>
-          <div className="modal-content confirm-modal" onClick={e => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>변경하실 요금제입니다</h3>
-              <button className="close-btn" onClick={handleModalClose}>
-                ✕
-              </button>
-            </div>
-            <div className="modal-body">
-              <div className="plan-info">
-                <div className="plan-display">
-                  <span className="plan-text">{newPlan}</span>
-                </div>{' '}
-                <div className="plan-note">
-                  <span className="note-amount">월 {getMonthlyFeeForPlan(newPlan)}</span>
-                </div>
-              </div>
-              <div className="modal-actions">
-                <button className="confirm-btn" onClick={handlePlanConfirm}>
-                  확인
-                </button>{' '}
-              </div>{' '}
-            </div>
-          </div>
-        </div>
-      )}
+
+      <PlanModal
+        showPlanModal={showPlanModal}
+        planOptions={planOptions}
+        selectedPlan={selectedPlan}
+        onPlanSelect={handlePlanSelect}
+        onModalClose={handleModalClose}
+      />
+
+      <ConfirmModal
+        showConfirmModal={showConfirmModal}
+        newPlan={newPlan}
+        getMonthlyFeeForPlan={getMonthlyFeeForPlan}
+        onPlanConfirm={handlePlanConfirm}
+        onModalClose={handleModalClose}
+      />
     </div>
   )
 }
