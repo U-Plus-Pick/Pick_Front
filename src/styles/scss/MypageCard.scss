@@ -137,7 +137,7 @@ $middle-pink: #f6b8c3;
 
     &.leader {
       background: $light-pink;
-      border: none;
+      border: 1px solid $primary-pink;
       color: $primary-pink;
 
       .member-name {
