@@ -48,7 +48,7 @@
   width: 7.5rem;
   height: auto;
   transform: translate(100px, 115px);
-  z-index: 1;
+  z-index: 3;
 }
 
 .HeroRelationLeft {
@@ -70,7 +70,7 @@
 .lineTwo,
 .lineCurve {
   position: absolute;
-  z-index: 0;
+  z-index: -1;
 }
 
 .lineOne {
