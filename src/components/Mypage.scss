@@ -1,0 +1,741 @@
+// 컬러 변수
+$primary-pink: #e6007e;
+$secondary-pink: #ee5ca0;
+$light-pink: #fdd5f1;
+$very-light-pink: #fff0fa;
+$light-purple: #f2d6ff;
+$white: #ffffff;
+$black: #333333;
+$gray-text: #666666;
+$light-gray: #f5f5f5;
+$border-gray: #e9ecef;
+$middle-pink: #f6b8c3;
+
+.mypage-window {
+  background: $white;
+  border-radius: 24px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  padding: 36px 40px;
+  width: 100%;
+  max-width: 1100px;
+  min-width: 1000px;
+  position: relative;
+  z-index: 1;
+}
+
+// 헤더
+.mypage-header {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 24px;
+
+  .user-name {
+    font-size: 32px;
+    font-weight: 800;
+    color: $black;
+    margin: 0;
+    letter-spacing: 1px;
+  }
+
+  .greeting {
+    font-size: 18px;
+    font-weight: 500;
+    color: $gray-text;
+  }
+}
+
+.divider {
+  height: 1px;
+  background: $border-gray;
+  margin-bottom: 32px;
+}
+
+// 메인 컨텐츠
+.mypage-content {
+  display: flex;
+  gap: 36px;
+  align-items: stretch;
+}
+
+.left-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// 좌측 - 총 결제 금액 박스
+.payment-summary-box {
+  background: $light-gray;
+  border: 1px solid $border-gray;
+  border-radius: 16px;
+  padding: 28px 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .box-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: $black;
+      margin: 0;
+    }
+
+    .status-text {
+      font-size: 18px;
+      font-weight: 700;
+    }
+  }
+}
+
+// 매칭 그리드
+.matching-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+  .member-card {
+    background: $white;
+    border: 1px solid $border-gray;
+    border-radius: 10px;
+    padding: 14px 8px;
+    flex: 1;
+    text-align: center;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    position: relative;
+
+    .crown-icon {
+      font-size: 18px;
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &.leader {
+      background: $light-pink;
+      border: none;
+      color: $primary-pink;
+
+      .member-name {
+        font-size: 14px;
+        font-weight: 700;
+      }
+    }
+
+    &.filled {
+      background: $white;
+      border: 1px solid $border-gray;
+
+      .member-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: $black;
+      }
+    }
+
+    &.current-user {
+      background: $light-pink;
+      border: 1px solid $primary-pink;
+
+      .member-name {
+        color: $primary-pink;
+        font-weight: 700;
+      }
+    }
+
+    &.empty {
+      background: $light-gray;
+      border: 1px dashed $border-gray;
+
+      .member-name {
+        font-size: 14px;
+        font-weight: 500;
+        color: $gray-text;
+      }
+    }
+
+    .status-icon {
+      font-size: 16px;
+      opacity: 0.6;
+    }
+
+    .status {
+      font-size: 12px;
+      color: #888;
+      font-weight: 500;
+    }
+  }
+}
+
+// 요금 정보
+.fee-info {
+  margin-bottom: 20px;
+
+  .fee-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 14px;
+
+    .fee-label {
+      color: $black;
+      font-weight: 500;
+    }
+
+    .fee-status {
+      color: #999;
+      font-size: 12px;
+    }
+  }
+}
+
+// U+Pick 이용료
+.upick-fee {
+  margin-bottom: 16px;
+  font-size: 14px;
+
+  .fee-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  .service-name {
+    font-weight: 600;
+    color: $black;
+  }
+
+  .price-info {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    .original-price {
+      text-decoration: line-through;
+      color: #bbb;
+      font-size: 13px;
+    }
+
+    .current-price {
+      font-weight: 700;
+      color: $black;
+      font-size: 15px;
+    }
+  }
+
+  .discount-info {
+    font-size: 12px;
+    color: #666;
+    text-align: right;
+  }
+}
+
+// 정산받는 금액
+.settlement-row {
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+
+  .settlement-label {
+    font-weight: 700;
+  }
+
+  .settlement-status {
+    font-size: 16px;
+    color: #999;
+  }
+  .settlement-amount {
+    font-size: 24px;
+    font-weight: 700;
+  }
+}
+
+// 우측 카드들
+.bill-card {
+  background: $light-gray;
+  border: 1px solid $border-gray;
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+
+  .bill-month {
+    font-size: 22px;
+    font-weight: 700;
+    color: $black;
+    margin: 0 0 16px 0;
+  }
+  .bill-amount {
+    font-size: 42px;
+    font-weight: 900;
+    color: $black;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .bill-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+  }
+
+  .bill-period {
+    font-size: 18px;
+    color: #666;
+    margin: 0;
+  }
+
+  .submit-btn {
+    background: $white;
+    color: $primary-pink;
+    border: 2px solid $primary-pink;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+
+    &:hover {
+      background: $primary-pink;
+      color: $white;
+      transform: translateY(-1px);
+    }
+  }
+  &.empty {
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      .action-btn {
+        border: none;
+        border-radius: 25px;
+        padding: 12px 24px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-family: inherit;
+
+        &.primary {
+          background: $light-gray;
+          color: $black;
+
+          &:hover {
+            background: $border-gray;
+          }
+        }
+
+        &.secondary {
+          background: $primary-pink;
+          color: $white;
+
+          &:hover {
+            background: $secondary-pink;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba($primary-pink, 0.3);
+          }
+        }
+      }
+    }
+  }
+}
+
+.plan-card {
+  background: $light-gray;
+  border: 1px solid $border-gray;
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .plan-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: $black;
+  }
+
+  .change-btn {
+    background: $white;
+    color: $primary-pink;
+    border: 2px solid $primary-pink;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+
+    &:hover {
+      background: $primary-pink;
+      color: $white;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.manage-card {
+  background: $light-gray;
+  border: 1px solid $border-gray;
+  border-radius: 16px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .manage-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: $black;
+  }
+
+  .manage-btn {
+    background: $white;
+    color: $primary-pink;
+    border: 2px solid $primary-pink;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+
+    &:hover {
+      background: $primary-pink;
+      color: $white;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// 모달 스타일
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+}
+
+.modal-content {
+  background: $white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  max-height: 500px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &.confirm-modal {
+    max-width: 350px;
+    max-height: 400px;
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid $border-gray;
+
+  h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: $black;
+    margin: 0;
+  }
+
+  .close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: $gray-text;
+    cursor: pointer;
+    padding: 4px;
+
+    &:hover {
+      color: $black;
+    }
+  }
+}
+
+.modal-body {
+  padding: 20px 24px 24px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.plan-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.plan-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 1px solid $border-gray;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: $black;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-pink;
+    background: $very-light-pink;
+  }
+
+  &.current {
+    border-color: $primary-pink;
+    background: $light-pink;
+    color: $primary-pink;
+  }
+
+  .current-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $primary-pink;
+    background: $white;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+}
+
+.plan-info {
+  text-align: center;
+}
+
+.plan-display {
+  margin-bottom: 16px;
+
+  .plan-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: $black;
+  }
+}
+
+.plan-note {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 24px;
+
+  .note-amount {
+    font-size: 14px;
+    font-weight: 600;
+    color: $black;
+  }
+
+  .note-text {
+    font-size: 12px;
+    color: $gray-text;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+
+  .confirm-btn {
+    background: $primary-pink;
+    color: $white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+
+    &:hover {
+      background: $secondary-pink;
+      transform: translateY(-1px);
+    }
+  }
+}
+
+// 드롭다운 스타일
+.dropdown-container {
+  position: relative;
+  width: 100%;
+}
+
+.dropdown-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border: 1px solid $border-gray;
+  border-radius: 8px;
+  background: $white;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: $black;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: $primary-pink;
+  }
+
+  .dropdown-arrow {
+    font-size: 12px;
+    color: $gray-text;
+    transition: transform 0.2s ease;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: $white;
+  border: 1px solid $border-gray;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  color: $black;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: $very-light-pink;
+  }
+
+  &.current {
+    background: $light-pink;
+    color: $primary-pink;
+  }
+
+  .current-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: $primary-pink;
+    background: $white;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+}
+
+// 완료 모달 스타일
+.complete-modal {
+  .complete-info {
+    text-align: center;
+    margin-bottom: 24px;
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: $primary-pink;
+      color: $white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0 auto 16px;
+    }
+
+    .complete-message {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .plan-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: $primary-pink;
+      }
+
+      .complete-text {
+        font-size: 14px;
+        color: $gray-text;
+      }
+    }
+  }
+}
+
+// 반응형
+@media (max-width: 900px) {
+  .mypage-window {
+    min-width: auto;
+    padding: 24px;
+  }
+
+  .mypage-content {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .matching-grid {
+    flex-wrap: wrap;
+
+    .member-card {
+      min-width: calc(20% - 8px);
+    }
+  }
+}

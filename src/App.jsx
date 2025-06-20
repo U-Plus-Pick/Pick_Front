@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import ChatbotPage from './pages/ChatbotPage'
+import MypagePage from './pages/MypagePage'
 import './styles/scss/main.scss'
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
         <main>
           <Routes>
             <Route path="/chatbot" element={<ChatbotPage />} />
+            <Route path="/mypage" element={<MypagePage />} />
           </Routes>
         </main>
       </div>
