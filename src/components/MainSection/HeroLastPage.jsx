@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import css from '../../styles/scss/HeroLastPage.module.scss'
 import HeroLast from '../../assets/HeroLast.png'
 import { FiArrowUpRight } from 'react-icons/fi'
@@ -8,6 +9,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroLastPage = () => {
+  const navigate = useNavigate()
+
   const cardRef = useRef(null)
 
   useEffect(() => {
@@ -44,7 +47,7 @@ const HeroLastPage = () => {
               <FiArrowUpRight />
             </div>
           </button>
-          <button className={css.consultBtn}>
+          <button className={css.consultBtn} onClick={() => navigate('/chatbot')}>
             요금제 상담하기
             <div className={css.iconWrapper2}>
               <FiArrowUpRight />

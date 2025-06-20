@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import css from '../../styles/scss/HeroSection.module.scss'
 import CardItem from './HeroSectionCard'
 import HeroImage1 from '../../assets/HeroIamge1.png'
@@ -10,6 +11,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroSection = () => {
+  const navigate = useNavigate()
+
   const sectionRef = useRef(null)
   const titleRef = useRef(null)
   const buttonGroupRef = useRef(null)
@@ -71,7 +74,9 @@ const HeroSection = () => {
 
         <div className={css.buttonGroup} ref={buttonGroupRef}>
           <button className={css.loginBtn}>로그인 하러 가기</button>
-          <button className={css.planBtn}>요금제 상담하기</button>
+          <button className={css.planBtn} onClick={() => navigate('/chatbot')}>
+            요금제 상담하기
+          </button>
         </div>
 
         <div className={css.cardList}>
@@ -86,6 +91,7 @@ const HeroSection = () => {
                   요금제 <span className={css.highlight2}>상담</span>을 받아보세요
                 </>
               }
+              link="/chatbot"
             />
           </div>
           <div ref={card2Ref}>

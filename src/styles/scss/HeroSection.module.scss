@@ -48,12 +48,22 @@
       .loginBtn {
         background-color: #E6007E;
         color: #fff;
+
+        &:hover{
+          background-color: #6F42C1;
+          color : #fff;
+        }
       }
 
       .planBtn {
         background-color: #fff;
         color: #E6007E;
         border: 1px solid #E6007E;
+
+        &:hover{
+          color : #6F42C1;
+          border : 1px solid #6F42C1;
+        }
       }
     }
 
