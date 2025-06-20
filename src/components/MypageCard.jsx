@@ -1,45 +1,100 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import '../styles/scss/MypageCard.scss'
+import { planService, userService, fileService } from '../services/apiService'
 
-const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
+const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   // userStatus: 'leader' | 'member' | 'none'
   const [isUploading, setIsUploading] = useState(false)
   const [showPlanModal, setShowPlanModal] = useState(false)
   const [showConfirmModal, setShowConfirmModal] = useState(false)
-  const [selectedPlan, setSelectedPlan] = useState('5G 프리미엄 에센셜')
+  const [selectedPlan, setSelectedPlan] = useState('사용 중인 요금제가 없어요')
   const [newPlan, setNewPlan] = useState('')
+  const [planOptions, setPlanOptions] = useState([]) // API로부터 가져올 요금제 목록 (이름만)
+  const [planDetailsData, setPlanDetailsData] = useState([]) // 전체 요금제 데이터
+  const [monthlyFee, setMonthlyFee] = useState(0) // 현재 요금제의 월 요금
+  const [apiUserName, setApiUserName] = useState('유*피') // API에서 받아온 사용자 이름
+  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태
   const fileInputRef = useRef(null)
 
-  // 요금제 목록
-  const planOptions = [
-    '5G 프리미엄 에센셜',
-    '5G 프리미엄 플러스',
-    '5G 베이직',
-    '4G 프리미엄',
-    '4G 베이직',
-  ]
+  // 요금제 목록 가져오기
+  const fetchPlanOptions = async () => {
+    try {
+      // 전체 요금제 데이터와 이름만 따로 받아오기
+      const planDetails = await planService.getPlansWithDetails()
+      const planNames = await planService.getPlans()
 
-  // 파일 업로드 함수
+      setPlanDetailsData(planDetails)
+      setPlanOptions(planNames)
+    } catch (error) {
+      console.error('요금제 목록 조회 오류:', error)
+      // 오류 발생 시 기본값 사용
+      setPlanOptions([
+        '5G 프리미엄 에센셜',
+        '5G 프리미엄 플러스',
+        '5G 베이직',
+        '4G 프리미엄',
+        '4G 베이직',
+      ])
+      setPlanDetailsData([])
+    }
+  }
+  // 사용자 정보 가져오기
+  const fetchUserInfo = async () => {
+    try {
+      const userData = await userService.getUserInfo()
+      // 현재 요금제 설정
+      if (userData.plans) {
+        setSelectedPlan(userData.plans)
+      }
+      // 사용자 이름 설정
+      if (userData.user_name) {
+        setApiUserName(userData.user_name)
+      }
+      // 사용자 상태 설정 (API에서 제공하는 경우)
+      if (userData.user_status || userData.role) {
+        setUserStatus(userData.user_status || userData.role)
+      }
+    } catch (error) {
+      console.error('사용자 정보 조회 오류:', error)
+    }
+  }
+
+  // 컴포넌트 마운트 시 요금제 목록과 사용자 정보 로드
+  useEffect(() => {
+    fetchPlanOptions()
+    fetchUserInfo()
+  }, [])
+  // 요금제가 변경될 때마다 월 요금 계산
+  useEffect(() => {
+    if (planDetailsData.length > 0 && selectedPlan) {
+      const currentPlanData = planDetailsData.find(plan => plan.plan_name === selectedPlan)
+      if (currentPlanData && currentPlanData.plan_monthly_fee) {
+        setMonthlyFee(currentPlanData.plan_monthly_fee)
+      } else {
+        setMonthlyFee(0)
+      }
+    }
+  }, [planDetailsData, selectedPlan])
+  // 선택한 요금제의 월 요금 가져오기
+  const getMonthlyFeeForPlan = planName => {
+    if (planDetailsData.length > 0 && planName) {
+      const planData = planDetailsData.find(plan => plan.plan_name === planName)
+      return planData?.plan_monthly_fee ? planData.plan_monthly_fee.toLocaleString() + '원' : '00원'
+    }
+    return '00원'
+  }
+  // 숫자를 천 단위 콤마 포맷으로 변환하는 함수
+  const formatCurrency = amount => {
+    const numAmount = Number(amount)
+    return isNaN(numAmount) ? '0' : numAmount.toLocaleString()
+  }
+
   const handleFileUpload = async file => {
     setIsUploading(true)
 
     try {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('userName', userName)
-      formData.append('month', '6월')
-
-      // 서버에 파일 전송
-      const response = await fetch('/api/upload-payment-receipt', {
-        method: 'POST',
-        body: formData,
-      })
-
-      if (response.ok) {
-        alert('납부확인서가 성공적으로 제출되었습니다.')
-      } else {
-        throw new Error('업로드 실패')
-      }
+      await fileService.uploadPaymentReceipt(file, apiUserName, '6월')
+      alert('납부확인서가 성공적으로 제출되었습니다.')
     } catch (error) {
       console.error('Upload error:', error)
       alert('파일 업로드 중 오류가 발생했습니다. 다시 시도해주세요.')
@@ -48,12 +103,10 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
     }
   }
 
-  // 납부확인서 제출 버튼 클릭 핸들러
   const handleSubmitReceipt = () => {
     fileInputRef.current?.click()
   }
 
-  // 파일 선택 핸들러
   const handleFileSelect = event => {
     const file = event.target.files[0]
     if (file) {
@@ -81,11 +134,16 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
     setShowPlanModal(false)
     setShowConfirmModal(true)
   }
-
-  const handlePlanConfirm = () => {
-    setSelectedPlan(newPlan)
-    setShowConfirmModal(false)
-    alert('요금제가 성공적으로 변경되었습니다.')
+  const handlePlanConfirm = async () => {
+    try {
+      await planService.changePlan(newPlan)
+      setSelectedPlan(newPlan)
+      setShowConfirmModal(false)
+      alert('요금제가 성공적으로 변경되었습니다.')
+    } catch (error) {
+      console.error('요금제 변경 오류:', error)
+      alert('요금제 변경 중 오류가 발생했습니다. 다시 시도해주세요.')
+    }
   }
 
   const handleModalClose = () => {
@@ -121,7 +179,7 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
           <div className="matching-grid">
             <div className="member-card leader">
               <div className="crown-icon">👑</div>
-              <span className="member-name">유*피</span>
+              <span className="member-name">{apiUserName}</span>
             </div>
             <div className="member-card filled">
               <span className="member-name">최*수</span>
@@ -171,7 +229,7 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
         {/* 6월 이용요금 */}
         <div className="bill-card">
           <h3 className="bill-month">6월 이용요금</h3>
-          <div className="bill-amount">105,590원</div>
+          <div className="bill-amount">{formatCurrency(monthlyFee)}원</div>
           <div className="bill-footer">
             <div className="bill-period">25.05.01 ~ 25.05.31</div>
             <button className="submit-btn" onClick={handleSubmitReceipt} disabled={isUploading}>
@@ -250,12 +308,12 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
           </div>
         </div>
       </div>
-      {/* 우측 영역 */}
+      {/* 우측 영역 */}{' '}
       <div className="right-section">
         {/* 6월 이용요금 */}
         <div className="bill-card">
           <h3 className="bill-month">6월 이용요금</h3>
-          <div className="bill-amount">105,590원</div>
+          <div className="bill-amount">{formatCurrency(monthlyFee)}원</div>
           <div className="bill-footer">
             <div className="bill-period">25.05.01 ~ 25.05.31</div>
             <button className="submit-btn" onClick={handleSubmitReceipt} disabled={isUploading}>
@@ -320,7 +378,7 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
     <div className="mypage-window">
       {/* 헤더 */}
       <div className="mypage-header">
-        <h1 className="user-name">{userName}</h1>
+        <h1 className="user-name">{apiUserName}</h1>
         <span className="greeting">고객님 안녕하세요</span>
       </div>{' '}
       <div className="divider"></div> {/* 메인 컨텐츠 */}
@@ -365,7 +423,7 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
         <div className="modal-overlay" onClick={handleModalClose}>
           <div className="modal-content confirm-modal" onClick={e => e.stopPropagation()}>
             <div className="modal-header">
-              <h3>바뀌 사용할 요금제입니다</h3>
+              <h3>변경하실 요금제입니다</h3>
               <button className="close-btn" onClick={handleModalClose}>
                 ✕
               </button>
@@ -374,10 +432,9 @@ const MypageCard = ({ userStatus = 'leader', userName = '유*피' }) => {
               <div className="plan-info">
                 <div className="plan-display">
                   <span className="plan-text">{newPlan}</span>
-                </div>
+                </div>{' '}
                 <div className="plan-note">
-                  <span className="note-amount">월 00원</span>
-                  <span className="note-text">대표자 요금과 별도로 측정됩니다</span>
+                  <span className="note-amount">월 {getMonthlyFeeForPlan(newPlan)}</span>
                 </div>
               </div>
               <div className="modal-actions">
