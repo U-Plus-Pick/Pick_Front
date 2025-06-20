@@ -1,7 +1,8 @@
 .mapSection {
   width: 100vw;
   height : 100vh;
-  padding: 2rem 2rem;
+  padding: 2rem auto;
+  margin-top : -2rem;
   text-align: center;
   position : relative;
   background-color: #ffffff;
@@ -96,26 +97,27 @@
   position: relative;
   width: 120%;
   overflow: hidden;
-  border-radius: 0 1.5rem 1.5rem 0;
 }
 
 .mapImage {
-  width: 120%;
-  transform: translatey(10%);
+  width: 115%;
+  border-radius: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  transform: translateY(6%);
   filter: brightness(0.97) blur(0.7px);
 }
 
 .purpleBox {
   position: absolute;
-  top: 33.2%;
-  width: 247px;
-  height: 90px;
+  top: 29.2%;
+  width: 234px;
+  height: 83px;
   border: 2px solid #6f42c1;
   z-index: 2;
 
   .focusedImageInsideBox {
     width: 100%;
-    height: 100%;
+    height: auto;
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
@@ -124,18 +126,18 @@
 
 .purpleLine {
   position: absolute;
-  top: 46.5%;
+  top: 40.5%;
   left: 30%;
-  width: 280px;
-  height: 104.5px;
+  width: 270px;
+  height: 162px;
   border-right: 2px dotted #6f42c1;
   border-bottom: 2px dotted #6f42c1;
 }
 
 .pinkBox {
   position: absolute;
-  top: 51%;
-  left: 58.9%;
+  top: 47.3%;
+  left: 55.9%;
   width: 50px;
   height: 50px;
   border: 2px solid #e6007e;
@@ -154,8 +156,8 @@
   position: absolute;
   top: 17.7%;
   left: 32.5%;
-  width: 680px;
-  height: 223px;
+  width: 652px;
+  height: 180px;
   border-right: 2px dotted #e6007e;
   border-top: 2px dotted #e6007e;
 }
