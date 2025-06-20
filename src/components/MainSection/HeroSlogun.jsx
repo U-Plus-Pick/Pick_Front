@@ -20,7 +20,7 @@ const HeroSlogun = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=400%',
+          end: '+=600%',
           pin: true,
           scrub: false,
         },
