@@ -6,6 +6,7 @@ import MyPage from './pages/MyPage'
 import PayFailedPage from './pages/PayFailedPage'
 import MainLayout from './layouts/MainLayout'
 import MainPage from './pages/MainPage'
+import BundleApply from './pages/BundleApply'
 
 import './styles/scss/main.scss'
 
@@ -17,9 +18,9 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
           <Route path="/bundle" />
-          <Route path="/bundle/apply" />
+          <Route path="/bundle/apply" element={<BundleApply />} />
           <Route path="/chatbot" element={<ChatbotPage />} />
-          <Route path-="/login" />
+          <Route path="/login" />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/membership" />
         </Route>
