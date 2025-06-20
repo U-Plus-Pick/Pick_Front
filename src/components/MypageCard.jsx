@@ -23,6 +23,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   const TOGETHER_DISCOUNT = 100000 // 투게더로 인한 할인 금액
   const UPICK_FEE_LEADER = 1000 // 리더 U+Pick 이용료 (할인 적용)
   const UPICK_FEE_MEMBER = 2000 // 멤버 U+Pick 이용료
+  const MAX_PARTY_SIZE = 5 // 최대 파티원 수 (리더 포함)
 
   const fileInputRef = useRef(null)
 
@@ -174,6 +175,68 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
     return isNaN(numAmount) ? '0' : numAmount.toLocaleString()
   }
 
+  // 매칭 그리드 렌더링 함수 (리더용)
+  const renderLeaderMatchingGrid = () => {
+    const totalSlots = MAX_PARTY_SIZE
+    const filledSlots = 1 + partyMembers.length // 리더 1명 + 파티원들
+    const emptySlots = totalSlots - filledSlots
+
+    return (
+      <div className="matching-grid">
+        {/* 리더 (본인) */}
+        <div className="member-card leader">
+          <div className="crown-icon">👑</div>
+          <span className="member-name">{apiUserName}</span>
+        </div>
+
+        {/* 파티원들 */}
+        {partyMembers.map((member, index) => (
+          <div className="member-card filled" key={index}>
+            <span className="member-name">{member.name}</span>
+          </div>
+        ))}
+
+        {/* 빈 슬롯들 */}
+        {Array.from({ length: emptySlots }).map((_, index) => (
+          <div className="member-card empty" key={`empty-${index}`}>
+            <span className="member-name">매칭중</span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  // 매칭 그리드 렌더링 함수 (멤버용)
+  const renderMemberMatchingGrid = () => {
+    const totalSlots = MAX_PARTY_SIZE
+    const filledSlots = 1 + partyMembers.length // 본인 1명 + 다른 파티원들
+    const emptySlots = totalSlots - filledSlots
+
+    return (
+      <div className="matching-grid">
+        {/* 다른 파티원들 */}
+        {partyMembers.map((member, index) => (
+          <div className="member-card filled" key={index}>
+            {member.role === 'leader' && <div className="crown-icon">👑</div>}
+            <span className="member-name">{member.name}</span>
+          </div>
+        ))}
+
+        {/* 본인 */}
+        <div className="member-card filled current-user">
+          <span className="member-name">{apiUserName}</span>
+        </div>
+
+        {/* 빈 슬롯들 */}
+        {Array.from({ length: emptySlots }).map((_, index) => (
+          <div className="member-card empty" key={`empty-${index}`}>
+            <span className="member-name">매칭중</span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
   const handleFileUpload = async file => {
     setIsUploading(true)
 
@@ -261,17 +324,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
             <span className="status-text">{formatCurrency(totalBillAmount)}원/월</span>
           </div>
           {/* 매칭 상태 행 */}
-          <div className="matching-grid">
-            <div className="member-card leader">
-              <div className="crown-icon">👑</div>
-              <span className="member-name">{apiUserName}</span>
-            </div>
-            {partyMembers.map((member, index) => (
-              <div className="member-card filled" key={index}>
-                <span className="member-name">{member.name}</span>
-              </div>
-            ))}
-          </div>
+          {renderLeaderMatchingGrid()}
           {/* 요금 정보 */}
           <div className="fee-info">
             <div className="fee-row">
@@ -280,7 +333,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
             </div>
             <div className="fee-row">
               <span className="fee-label">투게더로 인한 할인 금액</span>
-              <span className="fee-amount">100,000원</span>
+              <span className="fee-amount">{formatCurrency(TOGETHER_DISCOUNT)}원</span>
             </div>
           </div>{' '}
           {/* U+Pick 이용료 */}
@@ -341,17 +394,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
             <span className="status-text">{formatCurrency(totalBillAmount)}원/월</span>
           </div>
           {/* 매칭 상태 행 */}
-          <div className="matching-grid">
-            {partyMembers.map((member, index) => (
-              <div className="member-card filled" key={index}>
-                {member.role === 'leader' && <div className="crown-icon">👑</div>}
-                <span className="member-name">{member.name}</span>
-              </div>
-            ))}
-            <div className="member-card filled current-user">
-              <span className="member-name">{apiUserName}</span>
-            </div>
-          </div>
+          {renderMemberMatchingGrid()}
           {/* 요금 정보 */}
           <div className="fee-info">
             <div className="fee-row">
@@ -360,7 +403,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
             </div>
             <div className="fee-row">
               <span className="fee-label">투게더로 인한 할인 금액</span>
-              <span className="fee-amount">100,000원</span>
+              <span className="fee-amount">{formatCurrency(TOGETHER_DISCOUNT)}원</span>
             </div>
           </div>
           {/* U+Pick 이용료 */}
@@ -368,7 +411,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
             <div className="fee-header">
               <span className="service-name">U+Pick 이용료</span>
               <div className="price-info">
-                <span className="current-price">2,000원</span>
+                <span className="current-price">{formatCurrency(UPICK_FEE_MEMBER)}원</span>
               </div>
             </div>
           </div>
