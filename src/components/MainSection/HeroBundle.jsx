@@ -18,12 +18,12 @@ const HeroBundle = () => {
               <div className={css.HeroBundleTitle}>
                 <span className={css.highlight1}>혼자</span>여도 괜찮습니다.
               </div>
-              <br />
+              <div className={css.space1}></div>
               <span className={css.highlight}>혼자라면</span>
               <br />
               할인은 포기해야 할까요?
               <br />
-              <div className={css.space}></div>
+              <div className={css.space2}></div>
               <span className={css.highlight1}>U+Pick</span>에서 함께 할인받을
               <br />
               <span className={css.highlight2}>새로운 연결</span>을 만들어드립니다.

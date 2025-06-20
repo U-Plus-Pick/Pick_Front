@@ -44,17 +44,3 @@ body {
   }
 }/*# sourceMappingURL=main.css.map */
 /*# sourceMappingURL=main.css.map */
-
-/* global css */
-html, body,
-#root {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: auto;
-    overflow-x: hidden;
-  }
-  
-  *, *::before, *::after {
-    box-sizing: inherit;
-  }
