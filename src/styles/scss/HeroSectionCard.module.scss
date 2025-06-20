@@ -12,6 +12,13 @@
   box-sizing: border-box;
   overflow: hidden;
   text-align: left;
+  transition: 0.3s ease-out;
+
+  *:not(.iconWrapper){
+    user-select: none;
+    outline : none;
+    caret-color : transparent;
+  }
 
   img {
     width: 11rem;
@@ -84,8 +91,3 @@
 
 }
 
-.card3 .cardBody p {
-  margin-top: 1.5rem;
-  margin-bottom: 1.25rem;
-  color: red; // 테스트용
-}

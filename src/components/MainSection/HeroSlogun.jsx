@@ -1,9 +1,9 @@
 import React from 'react'
-import css from '../../styles/scss/HeroIntro.module.scss'
+import css from '../../styles/scss/HeroSlogun.module.scss'
 
-const HeroIntro = () => {
+const HeroSlogun = () => {
   return (
-    <section className={css.heroIntro}>
+    <section className={css.heroSlogun}>
       <div className={css.textLeft}>
         당신의 <span>U+</span>
       </div>
@@ -14,13 +14,12 @@ const HeroIntro = () => {
         당신만의 <span>AI</span>
       </div>
 
-      {/* 동심원 배경 */}
-      <div className={css.ring + ' ' + css.ring1}></div>
-      <div className={css.ring + ' ' + css.ring2}></div>
-      <div className={css.ring + ' ' + css.ring3}></div>
-      <div className={css.ring + ' ' + css.ring4}></div>
+      <div className={`${css.ring} ${css.ring1}`}></div>
+      <div className={`${css.ring} ${css.ring2}`}></div>
+      <div className={`${css.ring} ${css.ring3}`}></div>
+      <div className={`${css.ring} ${css.ring4}`}></div>
     </section>
   )
 }
 
-export default HeroIntro
+export default HeroSlogun

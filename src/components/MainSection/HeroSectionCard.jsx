@@ -2,7 +2,7 @@ import React from 'react'
 import css from '../../styles/scss/HeroSectionCard.module.scss'
 import { FiArrowUpRight } from 'react-icons/fi'
 
-const CardItem = ({ img, title, desc, className, imgClassName }) => {
+const HeroSectionCard = ({ img, title, desc, className, imgClassName }) => {
   return (
     <div className={`${css.card} ${className || ''}`}>
       <img src={img} alt={title} className={imgClassName || ''} />
@@ -18,4 +18,4 @@ const CardItem = ({ img, title, desc, className, imgClassName }) => {
   )
 }
 
-export default CardItem
+export default HeroSectionCard
