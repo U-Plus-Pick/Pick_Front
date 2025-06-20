@@ -1,6 +1,6 @@
 import React from 'react'
 import css from '../../styles/scss/HeroUPI.module.scss'
-import UpiImage from '../../assets/UPI.png'
+import HeroWalkingUPI from '../../assets/HeroWalkingUPI.mp4'
 
 const HeroUPI = () => {
   return (
@@ -13,7 +13,7 @@ const HeroUPI = () => {
         <span className={css.highlight1}>이해하는</span> 존재
       </div>
 
-      <img className={css.upi} src={UpiImage} alt="유피 캐릭터" />
+      <video className={css.upi} src={HeroWalkingUPI} autoPlay muted loop playsInline />
 
       <div className={css.rightText}>
         <p>
