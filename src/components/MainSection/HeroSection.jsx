@@ -5,9 +5,12 @@ import HeroImage1 from '../../assets/HeroIamge1.png'
 import HeroImage2 from '../../assets/HeroIamge2.png'
 import HeroImage3 from '../../assets/HeroIamge3.png'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const HeroSection = () => {
-  const contentRef = useRef(null)
+  const sectionRef = useRef(null)
   const titleRef = useRef(null)
   const buttonGroupRef = useRef(null)
   const card1Ref = useRef(null)
@@ -16,12 +19,20 @@ const HeroSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline()
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=300%',
+          scrub: false,
+          pin: true,
+        },
+      })
 
       tl.from(titleRef.current, {
         opacity: 0,
         y: 30,
-        duration: 0.6,
+        duration: 0.8,
         ease: 'power2.out',
       })
         .from(
@@ -44,14 +55,14 @@ const HeroSection = () => {
           },
           '+=0.2'
         )
-    }, contentRef)
+    }, sectionRef)
 
     return () => ctx.revert()
   }, [])
 
   return (
-    <section className={css.hero}>
-      <div className={css.content} ref={contentRef}>
+    <section className={css.hero} ref={sectionRef}>
+      <div className={css.content}>
         <h2 className={css.title} ref={titleRef}>
           스마트한 통신 생활
           <br />
@@ -71,8 +82,7 @@ const HeroSection = () => {
               title="요금제 추천 ChatBot"
               desc={
                 <>
-                  ChatBot으로 <br />
-                  <span className={css.highlight1}>U+Pick</span>에서 <br />
+                  ChatBot으로 <br /> <span className={css.highlight1}>U+Pick</span>에서 <br />{' '}
                   요금제 <span className={css.highlight2}>상담</span>을 받아보세요
                 </>
               }
@@ -86,12 +96,10 @@ const HeroSection = () => {
               title="결합 혜택 매칭 시스템"
               desc={
                 <>
-                  <span className={css.highlight2}>혼자여도</span> 괜찮아요
-                  <br />
+                  {' '}
+                  <span className={css.highlight2}>혼자여도</span> 괜찮아요 <br />{' '}
                   <span className={css.highlight1}>유플픽</span>이 함께할{' '}
-                  <span className={css.highlight2}>결합 그룹</span>을
-                  <br />
-                  찾아드려요
+                  <span className={css.highlight2}>결합 그룹</span>을 <br /> 찾아드려요
                 </>
               }
             />
@@ -103,7 +111,8 @@ const HeroSection = () => {
               title="멤버십 혜택 지도"
               desc={
                 <>
-                  가까운 <span className={css.highlight2}>제휴처 혜택</span>을 <br />
+                  {' '}
+                  가까운 <span className={css.highlight2}>제휴처 혜택</span>을 <br />{' '}
                   <span className={css.highlight2}>지도</span>로 확인하고 사용해보세요
                 </>
               }
