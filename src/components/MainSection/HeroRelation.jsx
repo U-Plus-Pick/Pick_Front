@@ -45,15 +45,12 @@ const HeroRelation = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.to(cardRefs.current, {
-        rotateY: 180,
-        duration: 0.3,
-        ease: 'power2.inOut',
-        stagger: 0.3,
+      //TimeLine
+      const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=6000', // scroll 구간 길이
+          end: '+=8000',
           scrub: 0.1,
           pin: true,
           anticipatePin: 2,
@@ -61,11 +58,21 @@ const HeroRelation = () => {
           // pinSpacing: false,
         },
       })
+
+      // 🔧 카드 flip 애니메이션
+      tl.to(cardRefs.current, {
+        rotateY: 180,
+        duration: 0.3,
+        ease: 'power2.inOut',
+        stagger: 0.3,
+      })
+
+      // 마지막 이 후 시간 확보
+      tl.to({}, { duration: 0.5 }) // 정지
     }, sectionRef)
 
     return () => ctx.revert()
   }, [])
-
   return (
     <section ref={sectionRef} className={css.heroSectionWrapper}>
       <div className={css.heroRelation}>
