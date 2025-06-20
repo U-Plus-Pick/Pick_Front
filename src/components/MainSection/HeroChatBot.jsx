@@ -31,18 +31,18 @@ const HeroChatBot = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=600%',
+          end: '+=800%',
           pin: true,
           scrub: false,
         },
       })
 
       // 왼쪽 카드 순서
-      tl.from(titleRef.current, { opacity: 0, y: 20, duration: 0.8 })
+      tl.from(titleRef.current, { opacity: 0, y: 20, duration: 1 })
         .from(leftCardRef.current, { opacity: 0, y: 30, duration: 0.8 })
-        .from(h3Ref.current, { opacity: 0, y: 20, duration: 0.6 })
+        .from(h3Ref.current, { opacity: 0, y: 20, duration: 0.8 })
         .from(chatBoxRef.current, { opacity: 0, y: 20, duration: 0.8 })
-        .from(tagRef.current, { opacity: 0, y: 10, duration: 0.6 })
+        .from(tagRef.current, { opacity: 0, y: 10, duration: 1 })
         .from(circleImgRef.current, {
           opacity: 0,
           y: 20,
@@ -52,7 +52,7 @@ const HeroChatBot = () => {
             if (msgRef.current) {
               gsap.to(msgRef.current, {
                 opacity: 1,
-                duration: 0.3,
+                duration: 0.5,
                 onStart: () => {
                   streamText(
                     msgRef.current,
@@ -64,8 +64,8 @@ const HeroChatBot = () => {
           },
         })
 
-        .from(leftImageRef.current, { opacity: 0, y: 20, duration: 0.6 })
-        .from(descRef.current, { opacity: 0, y: 20, duration: 0.6 })
+        .from(leftImageRef.current, { opacity: 0, y: 20, duration: 1 })
+        .from(descRef.current, { opacity: 0, y: 20, duration: 1 })
 
       // 오른쪽 카드 순서
       tl.from([rightCardRef.current, rightCircleRef.current], {
@@ -78,7 +78,7 @@ const HeroChatBot = () => {
           chatBubbleRef.current,
           {
             opacity: 0,
-            duration: 0.1,
+            duration: 0.5,
             onComplete: () =>
               streamText(
                 chatBubbleRef.current,
@@ -87,14 +87,14 @@ const HeroChatBot = () => {
           },
           '+=0.2'
         )
-        .from(categoryRef.current, { opacity: 0, y: 20, duration: 0.6 }, '+=0.3')
+        .from(categoryRef.current, { opacity: 0, y: 20, duration: 1 }, '+=0.3')
         .from(categoryRef.current.querySelectorAll('span'), {
           opacity: 0,
           y: 10,
           stagger: 0.2,
-          duration: 0.4,
+          duration: 1,
         })
-        .from(rightDescRef.current, { opacity: 0, y: 20, duration: 0.8 })
+        .from(rightDescRef.current, { opacity: 0, y: 20, duration: 1 })
     }, sectionRef)
 
     return () => ctx.revert()

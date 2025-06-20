@@ -1,16 +1,16 @@
 .mapSection {
   width: 100vw;
-  height : 100vh;
+  height: 100vh;
   padding: 5rem 2rem 2rem 2rem;
   text-align: center;
-  position : relative;
+  position: relative;
   background-color: #ffffff;
 }
 
-*{
+* {
   user-select: none;
-  outline : none;
-  caret-color : transparent;
+  outline: none;
+  caret-color: transparent;
 }
 
 .title {
@@ -30,8 +30,6 @@
 }
 
 .card {
-  max-width: 1300px;
-  margin: 0 auto;
   display: flex;
   background: #F6F6F6;
   border-radius: 2rem;
@@ -44,13 +42,13 @@
   text-align: left;
 
   .block {
-    margin : 6rem 5rem 3rem 4rem;
+    margin: 6rem 5rem 3rem 4rem;
   }
 
   h3 {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom : -0.7rem;
+    margin-bottom: -0.7rem;
   }
 
   p {
@@ -120,24 +118,6 @@
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
-
-}
-
-.pinkLine,
-.purpleLine {
-  transform: scale(1);
-}
-
-
-.purpleLine {
-  position: absolute;
-  top: 42.5%;
-  left: 30%;
-  width: 270px;
-  height: 130px;
-  border-right: 2px dotted #6f42c1;
-  border-bottom: 2px dotted #6f42c1;
-  z-index: 3;
 }
 
 .pinkBox {
@@ -155,7 +135,11 @@
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
+}
 
+.pinkLine,
+.purpleLine {
+  transform: scale(1); // 애니메이션용 유지
 }
 
 .pinkLine {
@@ -166,6 +150,17 @@
   height: 180px;
   border-right: 2px dotted #e6007e;
   border-top: 2px dotted #e6007e;
+}
+
+.purpleLine {
+  position: absolute;
+  top: 42.5%;
+  left: 30%;
+  width: 270px;
+  height: 130px;
+  border-right: 2px dotted #6f42c1;
+  border-bottom: 2px dotted #6f42c1;
+  z-index: 3;
 }
 
 .pink {

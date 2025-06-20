@@ -30,7 +30,7 @@ const HeroMembershipMap = () => {
         scrollTrigger: {
           trigger: sectionRef.current,
           start: 'top top',
-          end: '+=600%',
+          end: '+=700%',
           scrub: false,
           pin: true,
         },
