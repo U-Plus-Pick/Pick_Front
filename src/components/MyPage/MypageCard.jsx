@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
-import '../styles/scss/MypageCard.scss'
-import { planService, userService, fileService, partyService } from '../services/apiService'
+import '../../styles/scss/MypageCard.scss'
+import { planService, userService, fileService, partyService } from '../../services/apiService'
 import PaymentSummaryBox from './PaymentSummaryBox'
 import BillCard from './BillCard'
 import PlanCard from './PlanCard'
@@ -14,7 +14,7 @@ import {
   UPICK_FEE_LEADER,
   UPICK_FEE_MEMBER,
   MAX_PARTY_SIZE,
-} from '../utils/mypageUtils'
+} from '../../utils/mypageUtils'
 
 const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   // userStatus: 'leader' | 'member' | 'none'

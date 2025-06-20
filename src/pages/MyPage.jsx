@@ -1,5 +1,5 @@
 import React from 'react'
-import MypageCard from '../components/MypageCard'
+import MypageCard from '../components/MyPage/MypageCard'
 import '../styles/scss/MyPage.scss'
 import PaymentBtn from '../components/paymentBtn'
 
