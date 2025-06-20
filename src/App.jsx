@@ -16,8 +16,12 @@ function App() {
         {/* Header 있음 */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
+          <Route path="/bundle" />
+          <Route path="/bundle/apply" />
           <Route path="/chatbot" element={<ChatbotPage />} />
+          <Route path-="/login" />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/membership" />
         </Route>
         {/* Header 없음 */}
         <Route path="/payment/success" element={<PaySuccess />} />
