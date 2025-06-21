@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import '../styles/scss/Header.scss'
 
@@ -6,31 +6,47 @@ const Header = () => {
   const [activeMenu, setActiveMenu] = useState('')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const navigate = useNavigate()
+
+  // 로그인 상태 확인
+  useEffect(() => {
+    const checkToken = () => {
+      const token = localStorage.getItem('token')
+      setIsLoggedIn(!!token)
+    }
+
+    checkToken() // 최초 실행
+
+    // 로그인/로그아웃 등 다른 컴포넌트에서 변경됐을 경우 감지
+    window.addEventListener('storage', checkToken)
+
+    return () => window.removeEventListener('storage', checkToken)
+  }, [])
+
   const handleMenuClick = menu => {
     setActiveMenu(menu)
-    if (menu === 'plan') {
-      navigate('/chatbot')
-    } else if (menu === 'matching') {
-      navigate('/')
-    } else if (menu === 'map') {
-      navigate('/')
-    }
+    if (menu === 'plan') navigate('/chatbot')
+    else if (menu === 'matching') navigate('/')
+    else if (menu === 'map') navigate('/')
   }
 
   const handleLogin = () => {
-    setIsLoggedIn(true)
+    navigate('/login')
   }
 
   const handleLogout = () => {
+    localStorage.removeItem('token')
     setIsLoggedIn(false)
     setActiveMenu('')
+    navigate('/')
+    window.location.reload() //리렌더링 강제
   }
+
   const handleSignup = () => {
-    console.log('회원가입 클릭')
+    navigate('/login?step=agreement')
   }
 
   const handleMyPage = () => {
-    console.log('마이페이지 클릭')
+    navigate('/mypage')
   }
 
   const handleLogoClick = () => {
@@ -50,12 +66,13 @@ const Header = () => {
             title="홈으로 이동"
           />
         </div>
+
         <nav className="header-nav">
           <ul className="nav-list">
             <li className="nav-item">
               <a
                 href="#"
-                className={`nav-link`}
+                className="nav-link"
                 onClick={e => {
                   e.preventDefault()
                   handleMenuClick('plan')
@@ -90,6 +107,7 @@ const Header = () => {
             </li>
           </ul>
         </nav>
+
         <div className="header-buttons">
           {isLoggedIn ? (
             <>

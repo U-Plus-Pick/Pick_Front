@@ -5,6 +5,8 @@ import HeroMapInfo from '../../assets/HeroMapInfo.png'
 import HeroCGV from '../../assets/HeroCGV.png'
 import HeroGS from '../../assets/HeroGS.png'
 import HeroMapMarker from '../../assets/HeroMapMarker.png'
+import HeroMapLeft from '../../assets/HeroMapLeft.png'
+import HeroMapRight from '../../assets/HeroMapRight.png'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -23,6 +25,8 @@ const HeroMembershipMap = () => {
   const purpleBoxRef = useRef(null)
   const block2Ref = useRef(null)
   const mapInfoImageRef = useRef(null)
+  const leftPenguinRef = useRef(null)
+  const rightPenguinRef = useRef(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -38,7 +42,7 @@ const HeroMembershipMap = () => {
 
       tl.from(titleRef.current, { opacity: 0, y: 20, duration: 0.6 })
 
-        .from([cardRef.current, mapRef.current], {
+        .from([cardRef.current, mapRef.current, leftPenguinRef.current, rightPenguinRef.current], {
           opacity: 0,
           y: 50,
           duration: 0.8,
@@ -147,6 +151,18 @@ const HeroMembershipMap = () => {
       </h2>
 
       <div className={css.cardWrapper}>
+        <img
+          src={HeroMapLeft}
+          alt="왼쪽 캐릭터"
+          className={css.leftCharacter}
+          ref={leftPenguinRef}
+        />
+        <img
+          src={HeroMapRight}
+          alt="오른쪽 캐릭터"
+          className={css.rightCharacter}
+          ref={rightPenguinRef}
+        />
         <div className={css.card} ref={cardRef}>
           <div className={css.leftContent}>
             <div className={css.block} ref={block1Ref}>
