@@ -121,16 +121,6 @@ const LoginPage = () => {
     }
   }
 
-  // 처음 로드: 로그인 애니메이션 (좌상단 기준)
-  useEffect(() => {
-    // 초기 로딩 시 약간의 지연 후 시작
-    const timer = setTimeout(() => {
-      animateCircle('login', '0 0')
-    }, 100)
-
-    return () => clearTimeout(timer)
-  }, [])
-
   const goToAgreement = () => {
     if (animating) return
     // 우하단 기준으로 애니메이션
@@ -176,7 +166,15 @@ const LoginPage = () => {
             )}
           </div>
           <div className={`${css.col} ${css.right}`}>
-            {step === 'login' && <LoginForm onNext={goToAgreement} />}
+            {step === 'login' && (
+              <LoginForm
+                onNext={goToAgreement}
+                onLoginSuccess={() => {
+                  navigate('/')
+                  window.location.reload()
+                }}
+              />
+            )}
             {step === 'agreement' && <SignUpAgreement onNext={goToSignUp} goToLogin={goToLogin} />}
             {step === 'signup' && <SignUpForm onBack={goToAgreement} goToLogin={goToLogin} />}
           </div>
