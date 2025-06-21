@@ -123,8 +123,8 @@ const LoginPage = () => {
           </div>
           <div className={`${css.col} ${css.right}`}>
             {step === 'login' && <LoginForm onNext={goToAgreement} />}
-            {step === 'agreement' && <SignUpAgreement onNext={goToSignUp} onBack={goToLogin} />}
-            {step === 'signup' && <SignUpForm onBack={goToAgreement} />}
+            {step === 'agreement' && <SignUpAgreement onNext={goToSignUp} goToLogin={goToLogin} />}
+            {step === 'signup' && <SignUpForm onBack={goToAgreement} goToLogin={goToLogin} />}
           </div>
         </div>
       </div>

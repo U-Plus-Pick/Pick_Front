@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import css from '../../styles/scss/SignUpAgreement.module.scss'
 
-const SignUpAgreement = ({ onNext }) => {
+const SignUpAgreement = ({ onNext, goToLogin }) => {
   const [checkAll, setCheckAll] = useState(false)
   const [checks, setChecks] = useState({
     terms: false,
@@ -50,8 +50,8 @@ const SignUpAgreement = ({ onNext }) => {
 
       <div className={css.description}>
         <p>
-          유플픽 서비스 내 이용자 식별, 회원관리 및 서비스 제공을 위해
-          고객님의 개인정보를 제공합니다. <br />
+          유플픽 서비스 내 이용자 식별, 회원관리 및 서비스 제공을 위해 고객님의 개인정보를
+          제공합니다. <br />
           정보는 개인정보 제3자 제공 동의 시부터 서비스 탈퇴 시 <br />
           지체없이 파기됩니다.
         </p>
@@ -79,6 +79,13 @@ const SignUpAgreement = ({ onNext }) => {
       <button className={css.nextBtn} disabled={!isAllChecked} onClick={onNext}>
         다음으로
       </button>
+
+      <p className={css.loginText}>
+        이미 회원이신가요?{' '}
+        <span className={css.link} onClick={goToLogin}>
+          로그인하러 가기
+        </span>
+      </p>
     </div>
   )
 }

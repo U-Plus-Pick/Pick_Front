@@ -82,6 +82,8 @@ form {
   cursor: pointer;
 }
 
+
+
 input[type='password']::-ms-reveal,
 input[type='password']::-ms-clear {
   display: none;
@@ -92,4 +94,19 @@ input[type='password']::-webkit-clear-button,
 input[type='password']::-webkit-inner-spin-button {
   display: none;
   -webkit-appearance: none;
+}
+
+.loginText {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #666;
+
+  .link {
+    color: var(--pink);
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 0.3rem;
+    text-decoration: underline;
+  }
 }

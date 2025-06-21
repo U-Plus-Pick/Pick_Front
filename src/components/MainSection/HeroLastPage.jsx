@@ -41,7 +41,7 @@ const HeroLastPage = () => {
           <span>을 시작할 준비가 되셨나요?</span>
         </h2>
         <div className={css.buttonGroup}>
-          <button className={css.loginBtn}>
+          <button className={css.loginBtn} onClick={() => navigate('/login')}>
             로그인 하러 가기
             <div className={css.iconWrapper1}>
               <FiArrowUpRight />

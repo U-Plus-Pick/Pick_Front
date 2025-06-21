@@ -85,3 +85,17 @@
   }
 }
 
+.loginText {
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #666;
+
+  .link {
+    color: var(--pink);
+    cursor: pointer;
+    font-weight: 600;
+    margin-left: 0.3rem;
+    text-decoration: underline;
+  }
+}

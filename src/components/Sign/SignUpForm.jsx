@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import css from '../../styles/scss/SignUp.module.scss'
 import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa'
 
-const SignUpForm = ({ onBack }) => {
+const SignUpForm = ({ goToLogin }) => {
   const [form, setForm] = useState({
     name: '',
     birth: '',
@@ -67,6 +67,13 @@ const SignUpForm = ({ onBack }) => {
         <button type="submit" className={css.submitBtn}>
           회원가입
         </button>
+
+        <p className={css.loginText}>
+          이미 회원이신가요?{' '}
+          <span className={css.link} onClick={goToLogin}>
+            로그인하러 가기
+          </span>
+        </p>
       </form>
     </div>
   )

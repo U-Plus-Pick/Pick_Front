@@ -73,7 +73,9 @@ const HeroSection = () => {
         </h2>
 
         <div className={css.buttonGroup} ref={buttonGroupRef}>
-          <button className={css.loginBtn}>로그인 하러 가기</button>
+          <button className={css.loginBtn} onClick={() => navigate('/login')}>
+            로그인 하러 가기
+          </button>
           <button className={css.planBtn} onClick={() => navigate('/chatbot')}>
             요금제 상담하기
           </button>
