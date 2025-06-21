@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import css from '../../styles/scss/HeroUPI.module.scss'
-import HeroWalkingUPI from '../../assets/HeroWalkingUPI.mp4'
+import HeroWalkingUPI from '../../assets/HeroWalkingUPI2.webm'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
@@ -50,7 +50,10 @@ const HeroUPI = () => {
         <span className={css.highlight1}>이해하는</span> 존재
       </div>
 
-      <video className={css.upi} src={HeroWalkingUPI} autoPlay muted loop playsInline />
+      <video autoPlay muted loop playsInline className={css.upi}>
+        <source src={HeroWalkingUPI} type="video/webm" />
+        브라우저가 video 태그를 지원하지 않습니다.
+      </video>
 
       <div className={css.rightText} ref={rightTextRef}>
         <p>
