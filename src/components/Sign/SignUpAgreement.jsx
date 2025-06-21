@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import css from '../../styles/scss/SignUpAgreement.module.scss'
 
-const SignUpAgreement = ({ onNext, goToLogin }) => {
+const SignUpAgreement = ({ goToLogin }) => {
+  const navigate = useNavigate()
   const [checkAll, setCheckAll] = useState(false)
   const [checks, setChecks] = useState({
     terms: false,
@@ -76,7 +78,11 @@ const SignUpAgreement = ({ onNext, goToLogin }) => {
         </label>
       </div>
 
-      <button className={css.nextBtn} disabled={!isAllChecked} onClick={onNext}>
+      <button
+        className={css.nextBtn}
+        disabled={!isAllChecked}
+        onClick={() => navigate('/login?step=signup')}
+      >
         다음으로
       </button>
 

@@ -19,6 +19,7 @@ const Header = () => {
 
   const handleLogin = () => {
     setIsLoggedIn(true)
+    navigate('/login')
   }
 
   const handleLogout = () => {
@@ -27,6 +28,7 @@ const Header = () => {
   }
   const handleSignup = () => {
     console.log('회원가입 클릭')
+    navigate('/login?step=agreement')
   }
 
   const handleMyPage = () => {
