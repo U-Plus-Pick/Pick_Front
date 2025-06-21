@@ -172,3 +172,27 @@
   color: #6f42c1;
   font-weight: 700;
 }
+
+.leftCharacter {
+  position: absolute;
+  bottom: -1rem;
+  left: -10rem;
+  width: 12rem;
+  z-index: -1;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.rightCharacter {
+  position: absolute;
+  top : -4.5rem;
+  right: -9.45rem;
+  width: 15rem;
+  z-index: -1;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
