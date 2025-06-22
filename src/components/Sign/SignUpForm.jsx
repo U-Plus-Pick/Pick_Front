@@ -14,7 +14,7 @@ const SignUpForm = ({ goToLogin }) => {
     plan: '',
   })
 
-  const [selectedPlanName, setSelectedPlanName] = useState('') // ✅ 선택한 요금제 이름
+  const [selectedPlanName, setSelectedPlanName] = useState('')
   const [errors, setErrors] = useState({})
   const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
@@ -82,7 +82,7 @@ const SignUpForm = ({ goToLogin }) => {
         phone: form.phone,
         password: form.password,
         passwordConfirm: form.confirmPassword,
-        planId: form.plan, // ✅ plan이 _id임
+        plan: form.plan,
       })
 
       if (response.data?.message === '회원가입 성공') {
@@ -220,7 +220,7 @@ const SignUpForm = ({ goToLogin }) => {
                     key={idx}
                     className={css.planItem}
                     onClick={() => {
-                      setForm(prev => ({ ...prev, plan: plan._id }))
+                      setForm(prev => ({ ...prev, plan: plan.name }))
                       setSelectedPlanName(plan.name)
                       setIsPlanModalOpen(false)
                     }}
