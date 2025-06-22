@@ -6,9 +6,9 @@ import BundleRole from '../components/Bundle/BundleRole'
 const BundlePage = () => {
   return (
     <div>
-      <BundleIntro />
+      {/* <BundleIntro /> */}
       <BundlePlans />
-      <BundleRole />
+      {/* <BundleRole /> */}
     </div>
   )
 }
