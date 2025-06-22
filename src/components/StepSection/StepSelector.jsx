@@ -9,7 +9,7 @@ const StepSelector = ({ onNext }) => {
         <h2>고객님 어떤 유형으로 결합하시겠어요</h2>
         <p>지인 결합할인은 유형에 따라 수수료가 달라집니다.</p>
       </div>
-      <div className="step-card-wrapper">
+      <div className="step-card-wrapper selector">
         <button
           className={`step-card-twin ${isLeader ? 'active' : ''}`}
           onClick={() => setIsLeader(true)}

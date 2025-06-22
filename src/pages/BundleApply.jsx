@@ -9,6 +9,7 @@ const BundleApply = () => {
   const handleNext = () => {
     setDirection(1)
     setCurrentStep(prev => prev + 1, 6)
+    console.log(currentStep)
   }
   const handleBack = () => {
     setDirection(-1)
