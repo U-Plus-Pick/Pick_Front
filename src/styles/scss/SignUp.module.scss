@@ -156,9 +156,9 @@ input[type='password']::-webkit-inner-spin-button {
     position: relative;
     background-color: white;
     width: 100%;
-    max-width: 600px; // ✅ 크기 축소
+    max-width: 600px; //
     max-height: 60vh;
-    overflow: hidden; // ✅ border-radius 유지용
+    overflow: hidden; //
     padding: 2rem;
     border-radius: 1.2rem;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
