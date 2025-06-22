@@ -14,9 +14,13 @@ const SignUpForm = ({ goToLogin }) => {
     plan: '',
   })
 
+  const [selectedPlanName, setSelectedPlanName] = useState('') // ✅ 선택한 요금제 이름
   const [errors, setErrors] = useState({})
   const [showPw, setShowPw] = useState(false)
   const [showConfirmPw, setShowConfirmPw] = useState(false)
+
+  const [planList, setPlanList] = useState([])
+  const [isPlanModalOpen, setIsPlanModalOpen] = useState(false)
 
   const validateField = (name, value) => {
     switch (name) {
@@ -38,16 +42,24 @@ const SignUpForm = ({ goToLogin }) => {
     const updatedForm = { ...form, [name]: value }
     setForm(updatedForm)
 
-    // 유효성 검사 후 errors
     setErrors(prev => ({
       ...prev,
       [name]: !validateField(name, value),
     }))
   }
 
+  const fetchPlans = async () => {
+    try {
+      const res = await axios.get('http://localhost:3000/api/plans')
+      setPlanList(res.data)
+      setIsPlanModalOpen(true)
+    } catch (err) {
+      alert('요금제 정보를 불러오지 못했습니다.')
+    }
+  }
+
   const handleSubmit = async e => {
     e.preventDefault()
-    //필드 검사
     const newErrors = {
       email: !validateField('email', form.email),
       phone: !validateField('phone', form.phone),
@@ -63,14 +75,14 @@ const SignUpForm = ({ goToLogin }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/register', {
+      const response = await axios.post('http://localhost:3000/api/users/register', {
         name: form.name,
-        birthdate: new Date(form.birth).toISOString(),
+        birthdate: form.birth,
         email: form.email,
         phone: form.phone,
         password: form.password,
         passwordConfirm: form.confirmPassword,
-        plan: form.plan,
+        planId: form.plan, // ✅ plan이 _id임
       })
 
       if (response.data?.message === '회원가입 성공') {
@@ -90,7 +102,6 @@ const SignUpForm = ({ goToLogin }) => {
         <input name="name" placeholder="이름" onChange={handleChange} required />
         <input name="birth" type="date" placeholder="생년월일" onChange={handleChange} required />
 
-        {/* 이메일 */}
         <div className={css.confirmWrapper}>
           <input name="email" type="email" placeholder="이메일" onChange={handleChange} required />
           <div className={css.iconWrap}>
@@ -103,7 +114,6 @@ const SignUpForm = ({ goToLogin }) => {
         </div>
         {errors.email && <p className={css.errorMsg}>올바른 이메일 형식이 아닙니다.</p>}
 
-        {/* 전화번호 */}
         <div className={css.confirmWrapper}>
           <input
             name="phone"
@@ -123,7 +133,6 @@ const SignUpForm = ({ goToLogin }) => {
           <p className={css.errorMsg}>전화번호는 010-1234-5678 형식이어야 합니다.</p>
         )}
 
-        {/* 비밀번호 */}
         <div className={css.confirmWrapper}>
           <input
             name="password"
@@ -147,7 +156,6 @@ const SignUpForm = ({ goToLogin }) => {
           </p>
         )}
 
-        {/* 비밀번호 확인 */}
         <div className={css.confirmWrapper}>
           <input
             name="confirmPassword"
@@ -167,7 +175,22 @@ const SignUpForm = ({ goToLogin }) => {
         </div>
         {errors.confirmPassword && <p className={css.errorMsg}>비밀번호가 일치하지 않습니다.</p>}
 
-        <input name="plan" placeholder="요금제" onChange={handleChange} required />
+        {/* 요금제 선택 */}
+        <div className={css.confirmWrapper}>
+          <input
+            name="plan"
+            placeholder="요금제 선택"
+            value={selectedPlanName || ''}
+            readOnly
+            required
+            onClick={fetchPlans}
+          />
+          <div className={css.iconWrap}>
+            <button type="button" className={css.selectBtn} onClick={fetchPlans}>
+              선택하기
+            </button>
+          </div>
+        </div>
 
         <button type="submit" className={css.submitBtn}>
           회원가입
@@ -180,6 +203,41 @@ const SignUpForm = ({ goToLogin }) => {
           </span>
         </p>
       </form>
+
+      {isPlanModalOpen && (
+        <div className={css.planModal}>
+          <div className={css.planModalContent}>
+            <div className={css.modalHeader}>
+              <h3>요금제 선택</h3>
+              <button className={css.closeBtn} onClick={() => setIsPlanModalOpen(false)}>
+                ×
+              </button>
+            </div>
+            <div className={css.planListWrapper}>
+              <div className={css.planList}>
+                {planList.map((plan, idx) => (
+                  <div
+                    key={idx}
+                    className={css.planItem}
+                    onClick={() => {
+                      setForm(prev => ({ ...prev, plan: plan._id }))
+                      setSelectedPlanName(plan.name)
+                      setIsPlanModalOpen(false)
+                    }}
+                  >
+                    <strong>{plan.name}</strong>
+                    <p>월 요금: {plan.monthly_fee}</p>
+                    <p>데이터: {plan.data}</p>
+                    <p>
+                      음성: {plan.voice} / 문자: {plan.sms}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
