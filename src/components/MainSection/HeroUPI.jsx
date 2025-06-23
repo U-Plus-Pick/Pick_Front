@@ -3,10 +3,13 @@ import css from '../../styles/scss/HeroUPI.module.scss'
 import HeroWalkingUPI from '../../assets/HeroWalkingUPI2.webm'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroUPI = () => {
+  useScrollRefresh()
+
   const sectionRef = useRef(null)
   const leftTextRef = useRef(null)
   const rightTextRef = useRef(null)
@@ -41,7 +44,7 @@ const HeroUPI = () => {
   }, [])
 
   return (
-    <section className={css.heroUPI} ref={sectionRef}>
+    <section id="hero-upi" className={css.heroUPI} ref={sectionRef}>
       <div className={css.leftText} ref={leftTextRef}>
         복잡한 통신 속,
         <br />

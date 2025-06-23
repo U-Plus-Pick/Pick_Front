@@ -2,10 +2,13 @@ import React, { useEffect, useRef } from 'react'
 import css from '../../styles/scss/HeroSlogun.module.scss'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroSlogun = () => {
+  useScrollRefresh()
+
   const sectionRef = useRef(null)
   const centerCircleRef = useRef(null)
   const leftTextRef = useRef(null)
@@ -82,7 +85,7 @@ const HeroSlogun = () => {
   }, [])
 
   return (
-    <section className={css.heroSlogun} ref={sectionRef}>
+    <section id="hero-slogun" className={css.heroSlogun} ref={sectionRef}>
       <div className={css.textLeft} ref={leftTextRef}>
         당신의 <span>U+</span>
       </div>

@@ -9,10 +9,13 @@ import HeroMapLeft from '../../assets/HeroMapLeft.png'
 import HeroMapRight from '../../assets/HeroMapRight.png'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroMembershipMap = () => {
+  useScrollRefresh()
+
   const sectionRef = useRef(null)
   const titleRef = useRef(null)
   const cardRef = useRef(null)
@@ -143,7 +146,7 @@ const HeroMembershipMap = () => {
   }, [])
 
   return (
-    <section className={css.mapSection} ref={sectionRef}>
+    <section id="hero-membershipMap" className={css.mapSection} ref={sectionRef}>
       <h2 className={css.title} ref={titleRef}>
         바로 옆 <span className={css.highlight}>멤버십</span> 혜택
         <br />
