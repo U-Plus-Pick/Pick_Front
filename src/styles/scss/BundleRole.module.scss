@@ -1,0 +1,244 @@
+.bundleRole {
+    width: 100%;
+    padding: 3rem 2rem;
+    margin-top : 5rem;
+    text-align: center;
+    overflow: visible;
+  }
+  
+  .toggleWrap {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+  
+  .toggleItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  
+    .imgCircle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      overflow: visible;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: border 0.3s ease;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.25);
+  
+      img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+      }
+  
+      .check {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 3rem;
+        height: 3rem;
+        background-color: #e6007e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 3px 6px rgba(0, 0, 0, 0.25);
+  
+        svg {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  
+    .label {
+      margin-top: 1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #555;
+    }
+  
+    &:not(.active) {
+      opacity: 0.6;
+      filter: grayscale(100%);
+      transition: all 0.3s ease;
+    //   box-shadow: none;
+    }
+  
+    &.host.active {
+      .imgCircle {
+        border: 4px solid #e6007e;
+        .check {
+          background-color: #e6007e;
+        }
+      }
+      .label {
+        color: #e6007e;
+      }
+    }
+  
+    &.member.active {
+      .imgCircle {
+        border: 4px solid #6f42c1;
+        .check {
+          background-color: #6f42c1;
+        }
+      }
+      .label {
+        color: #6f42c1;
+      }
+    }
+  }
+  
+  .cardBox {
+    max-width: 1400px;
+    margin: 0 auto;
+    border: 2px solid #e6007e;
+    border-radius: 1.5rem;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow : visible;
+  
+    &.member {
+      border-color: #6f42c1;
+    }
+  }
+  
+  .titleTag {
+    position: absolute;
+    top: -1.4rem;
+    left: 2rem;
+    background: white;
+    padding: 0.5rem 1.2rem;
+    border: 2px solid #e6007e;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  
+    &.member {
+      border-color: #6f42c1;
+    }
+  
+    .roleText {
+      color: #e6007e;
+    }
+  
+    .infoText {
+      color: #111;
+    }
+  
+    &.member .roleText {
+      color: #6f42c1;
+    }
+  }
+  
+  .cardSlider {
+    position: relative;
+    overflow: hidden;
+    padding : 0.5rem 0;
+    
+
+    :global(.swiper) {
+      overflow: visible !important; //Swiper 자체도 열어줍니다
+    }
+
+    :global(.swiper-wrapper) {
+      overflow: visible !important; // 카드 내부 효과를 위해 열어둠
+      height: auto !important;
+    }
+    :global(.swiper-slide) {
+      overflow: visible !important; // 카드가 그림자 가질 수 있게
+      display: flex !important;
+      justify-content : center;
+    }
+  
+    :global(.swiper-button-prev),
+    :global(.swiper-button-next) {
+      color: #E6007E;
+      background-color: transparent;
+      padding: 1rem;
+    }
+
+    &.member {
+      :global(.swiper-button-prev),
+      :global(.swiper-button-next) {
+        color: #6f42c1; // 보라색 (결합원)
+      }
+    }
+
+    :global(.swiper-button-prev){
+      margin-left : -0.9rem;
+    }
+
+    :global(.swiper-button-next){
+      margin-right : -0.9rem;
+    }
+  
+    :global(.swiper-button-disabled) {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+  }
+  
+  .card {
+    width: 21rem;
+    height: 25rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.25);
+  
+    &.host {
+      .title {
+        color: #e6007e; // 핑크
+      }
+  
+      .highlight {
+        color: #e6007e;
+      }
+    }
+  
+    &.member {
+      .title {
+        color: #6f42c1; // 보라
+      }
+  
+      .highlight {
+        color: #6f42c1;
+      }
+    }
+  
+    &.common {
+      .title {
+        color: #111; // 검정
+      }
+    }
+  
+    .title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+  
+    img {
+      width: 13rem;
+      height: 13rem;
+      margin-bottom: 1.5rem;
+    }
+  
+    p {
+      font-size: 1rem;
+      color: #444;
+      white-space: pre-line;
+    }
+  }
+  

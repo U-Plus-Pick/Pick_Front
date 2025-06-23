@@ -1,17 +1,16 @@
 .mapSection {
   width: 100vw;
-  height : 100vh;
-  padding: 2rem auto;
-  // margin-top : -2rem;
+  height: 100vh;
+  padding: 5rem 2rem 2rem 2rem;
   text-align: center;
-  position : relative;
+  position: relative;
   background-color: #ffffff;
 }
 
-*{
+* {
   user-select: none;
-  outline : none;
-  caret-color : transparent;
+  outline: none;
+  caret-color: transparent;
 }
 
 .title {
@@ -31,8 +30,6 @@
 }
 
 .card {
-  max-width: 1300px;
-  margin: 0 auto;
   display: flex;
   background: #F6F6F6;
   border-radius: 2rem;
@@ -45,13 +42,13 @@
   text-align: left;
 
   .block {
-    margin : 6rem 5rem 3rem 4rem;
+    margin: 6rem 5rem 3rem 4rem;
   }
 
   h3 {
     font-size: 2rem;
     font-weight: 700;
-    margin-bottom : -0.7rem;
+    margin-bottom: -0.7rem;
   }
 
   p {
@@ -111,7 +108,7 @@
   position: absolute;
   top: 29.2%;
   width: 234px;
-  height: 83px;
+  height: 86px;
   border: 2px solid #6f42c1;
   z-index: 2;
 
@@ -121,17 +118,6 @@
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
-
-}
-
-.purpleLine {
-  position: absolute;
-  top: 40.5%;
-  left: 30%;
-  width: 270px;
-  height: 162px;
-  border-right: 2px dotted #6f42c1;
-  border-bottom: 2px dotted #6f42c1;
 }
 
 .pinkBox {
@@ -149,17 +135,32 @@
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
+}
 
+.pinkLine,
+.purpleLine {
+  transform: scale(1); // 애니메이션용 유지
 }
 
 .pinkLine {
   position: absolute;
-  top: 17.7%;
+  top: 19%;
   left: 32.5%;
   width: 652px;
   height: 180px;
   border-right: 2px dotted #e6007e;
   border-top: 2px dotted #e6007e;
+}
+
+.purpleLine {
+  position: absolute;
+  top: 42.5%;
+  left: 30%;
+  width: 270px;
+  height: 130px;
+  border-right: 2px dotted #6f42c1;
+  border-bottom: 2px dotted #6f42c1;
+  z-index: 3;
 }
 
 .pink {
@@ -170,4 +171,28 @@
 .purple {
   color: #6f42c1;
   font-weight: 700;
+}
+
+.leftCharacter {
+  position: absolute;
+  bottom: -1rem;
+  left: -10rem;
+  width: 12rem;
+  z-index: -1;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+}
+
+.rightCharacter {
+  position: absolute;
+  top : -4.5rem;
+  right: -9.45rem;
+  width: 15rem;
+  z-index: -1;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }

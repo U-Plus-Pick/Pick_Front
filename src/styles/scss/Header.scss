@@ -34,7 +34,7 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   top: 20px;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 1;
   .header-container {
     max-width: 1400px;
     margin: 0 auto;
@@ -143,4 +143,14 @@ $shadow-color: rgba(0, 0, 0, 0.1);
       }
     }
   }
+}
+
+.hide-header {
+  transform: translateY(-200%);
+  transition: transform 0.5s ease-in-out;
+}
+
+.show-header {
+  transform: translateY(0);
+  transition: transform 0.5s ease-in-out;
 }

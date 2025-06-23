@@ -77,11 +77,18 @@
     justify-content: center;
     color: #fff;
     cursor: pointer;
+    transition: color, background-color 0.3s ease;
 
     svg{
       font-size : 1.7rem;
       stroke-width : 3;
       stroke : currentColor;
+    }
+
+    &:hover{
+      color :#E6007E;
+      background-color: #fff;
+      border: 2px solid #E6007E;
     }
   }
 
