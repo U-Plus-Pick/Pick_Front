@@ -1,6 +1,7 @@
 .bundleRole {
     width: 100%;
-    padding: 6rem 2rem;
+    padding: 3rem 2rem;
+    margin-top : 5rem;
     text-align: center;
     overflow: visible;
   }
@@ -141,52 +142,51 @@
   
   .cardSlider {
     position: relative;
-    overflow : visible;
-  
-    .slick-track {
-      display: flex;
-      gap: 1.6rem;
+    overflow: hidden;
+    padding : 0.5rem 0;
+    
+
+    :global(.swiper) {
+      overflow: visible !important; //Swiper 자체도 열어줍니다
+    }
+
+    :global(.swiper-wrapper) {
+      overflow: visible !important; // 카드 내부 효과를 위해 열어둠
+      height: auto !important;
+    }
+    :global(.swiper-slide) {
+      overflow: visible !important; // 카드가 그림자 가질 수 있게
+      display: flex !important;
+      justify-content : center;
     }
   
-    .slick-slide {
-      padding: 0 0.8rem;
-      box-sizing: border-box;
+    :global(.swiper-button-prev),
+    :global(.swiper-button-next) {
+      color: #E6007E;
+      background-color: transparent;
+      padding: 1rem;
     }
-  
-    .slick-arrow {
-        z-index: 5;
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        background: white;
-        border: 2px solid #e6007e;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-  
-      &::before {
-        color: #e6007e;
-        font-size: 1.6rem;
+
+    &.member {
+      :global(.swiper-button-prev),
+      :global(.swiper-button-next) {
+        color: #6f42c1; // 보라색 (결합원)
       }
     }
-  
-    .slick-prev {
-        position: absolute;
-        left: -2.5rem;
-        top: 50%;
-        color : black;
-        transform: translateY(-50%);
+
+    :global(.swiper-button-prev){
+      margin-left : -0.9rem;
+    }
+
+    :global(.swiper-button-next){
+      margin-right : -0.9rem;
     }
   
-    .slick-next {
-        position: absolute;
-        right: -2.5rem;
-        top: 50%;
-        transform: translateY(-50%); // 살짝 바깥으로
+    :global(.swiper-button-disabled) {
+      opacity: 0.3;
+      pointer-events: none;
     }
-}
+  }
   
   .card {
     width: 21rem;
@@ -197,27 +197,48 @@
     text-align: center;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.25);
   
-    h3 {
-      font-size: 1.3rem;
+    &.host {
+      .title {
+        color: #e6007e; // 핑크
+      }
+  
+      .highlight {
+        color: #e6007e;
+      }
+    }
+  
+    &.member {
+      .title {
+        color: #6f42c1; // 보라
+      }
+  
+      .highlight {
+        color: #6f42c1;
+      }
+    }
+  
+    &.common {
+      .title {
+        color: #111; // 검정
+      }
+    }
+  
+    .title {
+      font-size: 1.4rem;
       font-weight: 700;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
   
     img {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 1rem;
+      width: 13rem;
+      height: 13rem;
+      margin-bottom: 1.5rem;
     }
   
     p {
       font-size: 1rem;
       color: #444;
       white-space: pre-line;
-    }
-  
-    .highlight {
-      color: #e6007e;
-      font-weight: 700;
     }
   }
   
