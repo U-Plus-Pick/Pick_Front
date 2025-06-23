@@ -7,10 +7,12 @@ import HeroImage2 from '../../assets/HeroIamge2.png'
 import HeroImage3 from '../../assets/HeroIamge3.png'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroSection = () => {
+  useScrollRefresh()
   const navigate = useNavigate()
 
   const sectionRef = useRef(null)
@@ -64,7 +66,7 @@ const HeroSection = () => {
   }, [])
 
   return (
-    <section className={css.hero} ref={sectionRef}>
+    <section id="hero-section" className={css.hero} ref={sectionRef}>
       <div className={css.content}>
         <h2 className={css.title} ref={titleRef}>
           스마트한 통신 생활

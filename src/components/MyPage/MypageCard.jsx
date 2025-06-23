@@ -71,8 +71,9 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       console.log('사용자 정보 API 응답:', userData)
 
       // 현재 요금제 설정
-      if (userData.plans && userData.plans.plan_name) {
-        setSelectedPlan(userData.plans.plan_name)
+      console.log(userData.plans)
+      if (userData.plans) {
+        setSelectedPlan(userData.plans)
       } else {
         // 요금제가 없는 경우 기본값으로 설정
         setSelectedPlan('사용 중인 요금제가 없어요')
