@@ -29,6 +29,7 @@ export default function StepSummary({ onNext, userBundleInfo, userApiData, accou
     }
   }
   const userName = userApiData.user_name
+  const userPlans = userApiData.plans
   return (
     <div className="card-content">
       <div className="step-title">
@@ -131,7 +132,7 @@ export default function StepSummary({ onNext, userBundleInfo, userApiData, accou
             </div>
             <div>
               <p className="bill-title">[{userName}]님의 요금제</p>
-              <p className="bill-section-content">5G 프리미엄 에센셜</p>
+              <p className="bill-section-content">{userPlans}</p>
             </div>
             <div>
               <p className="bill-title">투게더로 인한 할인 금액</p>
