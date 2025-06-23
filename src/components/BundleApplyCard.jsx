@@ -48,7 +48,7 @@ const BundleApplyCard = ({
         accountInfo={accountInfo}
       />
     ),
-    6: <StepComplete />,
+    6: <StepComplete userApiData={userApiData} />,
   }
 
   useEffect(() => {

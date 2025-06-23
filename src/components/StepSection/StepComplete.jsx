@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-export default function StepComplete() {
+export default function StepComplete({ userApiData }) {
   const navigate = useNavigate()
 
   return (
@@ -14,7 +14,7 @@ export default function StepComplete() {
         <div>
           <div>
             결합원이 모두 모이면 <br />
-            <strong>[upi@ureca.com]</strong>으로 알림이 갑니다. <br />
+            <strong>[{userApiData.user_email}]</strong>으로 알림이 갑니다. <br />
             <br />
             이제 더 저렴한 가격으로 <br />
             <strong>LG U+</strong> 요금제를 즐길 수 있어요.
