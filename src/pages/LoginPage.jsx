@@ -90,6 +90,7 @@ const LoginPage = () => {
         onComplete: () => {
           // 타겟 위치로 이동
           setOriginPosition(origin)
+          setStep(targetStep)
         },
       })
 
