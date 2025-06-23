@@ -4,10 +4,13 @@ import HeroBundle1 from '../../assets/HeroBundle1.png'
 import HeroBundle2 from '../../assets/HeroBundle2.png'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroBundle = () => {
+  useScrollRefresh()
+
   const sectionRef = useRef(null)
   const mockupRef = useRef(null)
   const cardRef = useRef(null)
@@ -57,7 +60,7 @@ const HeroBundle = () => {
   }, [])
 
   return (
-    <section className={css.bundleSection} ref={sectionRef}>
+    <section id="hero-bundle" className={css.bundleSection} ref={sectionRef}>
       <div className={css.imageGroup}>
         <div className={css.left}>
           <img src={HeroBundle1} alt="결합 소개 목업" className={css.mockupImage} ref={mockupRef} />
