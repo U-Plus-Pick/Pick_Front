@@ -5,6 +5,7 @@ import axios from 'axios'
 
 const LoginForm = ({ onLoginSuccess }) => {
   const navigate = useNavigate()
+  const [errorMessage, setErrorMessage] = useState('')
 
   const [form, setForm] = useState({
     email: '',
@@ -30,14 +31,16 @@ const LoginForm = ({ onLoginSuccess }) => {
         onLoginSuccess()
       }
     } catch (err) {
-      console.error(err)
-      alert(err.response?.data?.message || '로그인 실패')
+      const message = err.response?.data?.message || '로그인 실패'
+      setErrorMessage(message)
     }
   }
 
   return (
     <div className={css.card}>
       <form onSubmit={handleSubmit}>
+        {/* 로그인 실패 메세지 */}
+        {errorMessage && <p className={css.errorText}>{errorMessage}</p>}
         <div className={css.inputGroup}>
           <input
             type="email"
