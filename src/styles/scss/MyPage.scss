@@ -1,0 +1,48 @@
+// MypagePage 전체 페이지 스타일
+.mypage-page {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, #f6b8c3 30%, #ffffff 100%);
+  padding: 20px;
+  position: relative; // 유피 이미지 - 흰색 레이아웃의 바깥쪽 왼쪽 하단에 배치
+  &::before {
+    content: '';
+    position: absolute;
+    bottom: calc(50vh - 280px);
+    left: calc(50% - 550px - 180px);
+    width: 180px;
+    height: 240px;
+    background-image: url('/public/left-upi.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    z-index: 1;
+    pointer-events: none;
+  }
+  // right-upi 이미지 - 흰색 레이아웃의 바깥 오른쪽 위, 레이아웃 뒤로 배치
+  &::after {
+    content: '';
+    position: absolute;
+    top: calc(50vh - 300px - 5px);
+    right: calc(50% - 550px - 180px + 30px);
+    width: 180px;
+    height: 240px;
+    background-image: url('/public/right-upi.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: top left;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  // 반응형 - 작은 화면에서는 이미지 숨김
+  @media (max-width: 1200px) {
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}

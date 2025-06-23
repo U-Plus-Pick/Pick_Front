@@ -1,0 +1,63 @@
+.card {
+  background-color: #fff;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.25);
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 450px;
+  justify-content: center;
+  align-items: center;
+}
+
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  font-size: 1rem;
+  padding: 0.75rem 0;
+  outline: none;
+  color: #333;
+  background: transparent;
+
+  &::placeholder {
+    color: #888;
+  }
+
+  &:focus {
+    border-bottom: 1px solid #e6007e;
+  }
+}
+
+.loginBtn {
+  background-color: #e6007e;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.signupBtn {
+  background-color: transparent;
+  color: #e6007e;
+  font-weight: bold;
+  border: 1px solid #e6007e;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.errorText {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}

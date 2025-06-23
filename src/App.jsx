@@ -1,27 +1,36 @@
-import { useState } from 'react'
-import viteLogo from '/vite.svg'
+import React from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import ChatbotPage from './pages/ChatbotPage'
+import PaySuccess from './pages/PaySuccessPage'
+import MyPage from './pages/MyPage'
+import PayFailedPage from './pages/PayFailedPage'
+import MainLayout from './layouts/MainLayout'
+import MainPage from './pages/MainPage'
+import LoginPage from './pages/LoginPage'
+import BundlePage from './pages/BundlePage'
+import BundleApply from './pages/BundleApplyPage'
+
+import './styles/scss/main.scss'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={viteLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-    </>
+    <Router>
+      <Routes>
+        {/* Header 있음 */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/bundle" element={<BundlePage />} />
+          <Route path="/bundle/apply" element={<BundleApply />} />
+          <Route path="/chatbot" element={<ChatbotPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/membership" />
+        </Route>
+        {/* Header 없음 */}
+        <Route path="/payment/success" element={<PaySuccess />} />
+        <Route path="/payment/fail" element={<PayFailedPage />} />
+      </Routes>
+    </Router>
   )
 }
 

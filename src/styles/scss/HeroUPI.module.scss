@@ -1,0 +1,55 @@
+.heroUPI {
+    width : 100vw;
+    height : 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8rem auto;
+    gap: 5rem;
+    background: linear-gradient(
+        to bottom,
+        #ffffff 0%,
+        #ffffff 70%,
+        rgba(254, 229, 255, 0.8) 70%,
+        rgba(243, 211, 255, 0.8) 86%,
+        #ffffff 100%
+      );
+
+      *{
+        user-select: none;
+        outline : none;
+        caret-color : transparent;
+      }
+  }
+  
+  .leftText,
+  .rightText {
+    font-size: 2.2rem;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+  
+  .leftText {
+    text-align: left;
+  
+    .highlight1 {
+      color: #E6007E;
+    }
+  }
+
+  .rightText {
+    text-align: right;
+
+    
+    .highlight2 {
+        color: #6F42C1;
+      }
+  }
+  
+  .upi {
+    width: 28rem;
+    height: auto;
+    pointer-events: none;
+    user-select: none;
+  }
+  
