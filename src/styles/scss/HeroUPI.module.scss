@@ -47,7 +47,9 @@
   }
   
   .upi {
-    width: 31rem;
+    width: 28rem;
     height: auto;
+    pointer-events: none;
+    user-select: none;
   }
   

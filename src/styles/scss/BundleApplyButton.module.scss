@@ -1,0 +1,22 @@
+.applyButton {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.3rem 5rem;
+    background-color: #e6007e;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 3rem;
+    cursor: pointer;
+    z-index: 9999;
+    transition: 0.3s ease;
+
+    &:hover {
+      background-color: #6F42C1;
+      transform: translate(-50%, -5px);
+    }
+  }
+  

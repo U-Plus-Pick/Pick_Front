@@ -65,6 +65,9 @@
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 50%;
+    opacity: 0;
+    transform-origin: center;
+    z-index: 0;
   }
   
   .ring1 {
