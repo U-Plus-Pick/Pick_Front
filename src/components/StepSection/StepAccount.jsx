@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const StepAccount = ({ onNext }) => {
   const userName = '유피'
-  const userBank = 'KB국민은행'
-  const userNum = '123 - 00 - 0000 - 123'
+  const [userBank, setUserBank] = useState('')
+  const [userAccount, setUserAccount] = useState('')
 
   return (
     <div className="card-content">
@@ -14,15 +14,15 @@ const StepAccount = ({ onNext }) => {
       <div className="step-input-wrapper personal">
         <div>
           <p>이름</p>
-          <input value={userName} />
+          <input value={userName} disabled />
         </div>
         <div>
           <p>은행</p>
-          <input value={userBank} />
+          <input value={userBank} onChange={e => setUserBank(e.target.value)} />
         </div>
         <div>
           <p>계좌번호</p>
-          <input value={userNum} />
+          <input value={userAccount} onChange={e => setUserAccount(e.target.value)} />
         </div>
       </div>
       <button className="step-next" onClick={onNext}>

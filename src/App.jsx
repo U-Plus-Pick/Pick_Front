@@ -6,7 +6,7 @@ import MyPage from './pages/MyPage'
 import PayFailedPage from './pages/PayFailedPage'
 import MainLayout from './layouts/MainLayout'
 import MainPage from './pages/MainPage'
-import BundleApply from './pages/BundleApply'
+import BundleApply from './pages/BundleApplyPage'
 
 import './styles/scss/main.scss'
 

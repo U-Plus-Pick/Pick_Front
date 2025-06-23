@@ -185,8 +185,8 @@ $border-gray: #e6e6e6;
     width: 100%;
   }
 }
-.personal input {
-  cursor: no-drop;
+.personal input:disabled {
+  cursor: not-allowed;
 }
 .complete {
   display: flex;

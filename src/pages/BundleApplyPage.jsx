@@ -2,15 +2,26 @@ import React, { useState } from 'react'
 import BundleApplyCard from '../components/BundleApplyCard'
 import '../styles/scss/bundleApply.scss'
 
-const BundleApply = () => {
+const BundleApplyPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
+
   const [direction, setDirection] = useState(1)
+  const [userInfo, setUserInfo] = useState({
+    user_id: '',
+    role: '',
+    name: '',
+    terms_agreed: true,
+  })
 
   const handleNext = () => {
-    setDirection(1)
-    setCurrentStep(prev => prev + 1, 6)
-    console.log(currentStep)
+    if (currentStep === 3 && userInfo.role === 'member') {
+      setCurrentStep(5)
+      console.log(userInfo.role)
+    } else {
+      setCurrentStep(currentStep + 1)
+    }
   }
+
   const handleBack = () => {
     setDirection(-1)
     setCurrentStep(prev => Math.max(prev - 1, 1))
@@ -27,9 +38,11 @@ const BundleApply = () => {
         direction={direction}
         onNext={handleNext}
         onBack={handleBack}
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
       />
     </div>
   )
 }
 
-export default BundleApply
+export default BundleApplyPage

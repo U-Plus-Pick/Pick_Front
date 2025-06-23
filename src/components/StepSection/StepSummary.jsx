@@ -3,9 +3,8 @@ import '../../styles/scss/StepSummary.scss'
 import { summaryStep } from '../../constants/StepData'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
 
-export default function StepSummary({ onNext }) {
-  const role = 'leader'
-  const isLeader = role === 'leader'
+export default function StepSummary({ onNext, userInfo }) {
+  const isLeader = userInfo.role === 'leader'
   return (
     <div className="card-content">
       <div className="step-title">
