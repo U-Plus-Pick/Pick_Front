@@ -220,16 +220,16 @@ const SignUpForm = ({ goToLogin }) => {
                     key={idx}
                     className={css.planItem}
                     onClick={() => {
-                      setForm(prev => ({ ...prev, plan: plan.name }))
-                      setSelectedPlanName(plan.name)
+                      setForm(prev => ({ ...prev, plan: plan.plan_name }))
+                      setSelectedPlanName(plan.plan_name)
                       setIsPlanModalOpen(false)
                     }}
                   >
-                    <strong>{plan.name}</strong>
-                    <p>월 요금: {plan.monthly_fee}</p>
-                    <p>데이터: {plan.data}</p>
+                    <strong>{plan.plan_name}</strong>
+                    <p>월 요금: {plan.plan_monthly_fee}</p>
+                    <p>데이터: {plan.plan_data_count}</p>
                     <p>
-                      음성: {plan.voice} / 문자: {plan.sms}
+                      음성: {plan.plan_voice_minutes} / 문자: {plan.plan_sms_count}
                     </p>
                   </div>
                 ))}
