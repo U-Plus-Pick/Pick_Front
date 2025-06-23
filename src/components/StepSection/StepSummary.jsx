@@ -6,9 +6,8 @@ import { applyService } from '../../services/apiService'
 
 export default function StepSummary({ onNext, userBundleInfo, userApiData, accountInfo }) {
   const isLeader = userBundleInfo.role === 'leader'
-  console.log(userBundleInfo)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  console.log(isLeader)
+
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true)
