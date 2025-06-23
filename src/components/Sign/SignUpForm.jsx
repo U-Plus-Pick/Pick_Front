@@ -14,6 +14,12 @@ const SignUpForm = ({ goToLogin }) => {
     plan: '',
   })
 
+  //회원가입 중복 검사 상태관리변수
+  const [serverErrors, setServerErrors] = useState({
+    email: '',
+    phone: '',
+  })
+
   const [selectedPlanName, setSelectedPlanName] = useState('')
   const [errors, setErrors] = useState({})
   const [showPw, setShowPw] = useState(false)
@@ -46,7 +52,23 @@ const SignUpForm = ({ goToLogin }) => {
       ...prev,
       [name]: !validateField(name, value),
     }))
+
+    // 사용자가 이메일 또는 휴대폰을 수정하면 서버 오류 메시지 초기화
+    if (name === 'email' || name === 'phone') {
+      setServerErrors(prev => ({ ...prev, [name]: '' }))
+    }
   }
+
+  //회원가입 버튼 활성화/비활성화 변수
+  const isFormValid =
+    form.name.trim() &&
+    form.birth &&
+    form.email &&
+    form.phone &&
+    form.password &&
+    form.confirmPassword &&
+    form.plan &&
+    !Object.values(errors).some(Boolean)
 
   const fetchPlans = async () => {
     try {
@@ -60,6 +82,7 @@ const SignUpForm = ({ goToLogin }) => {
 
   const handleSubmit = async e => {
     e.preventDefault()
+
     const newErrors = {
       email: !validateField('email', form.email),
       phone: !validateField('phone', form.phone),
@@ -68,6 +91,7 @@ const SignUpForm = ({ goToLogin }) => {
     }
 
     setErrors(newErrors)
+    setServerErrors({ email: '', phone: '' }) // 서버 오류 초기화
 
     if (Object.values(newErrors).some(Boolean)) {
       alert('입력한 정보가 올바르지 않습니다.')
@@ -92,7 +116,14 @@ const SignUpForm = ({ goToLogin }) => {
         alert(response.data?.message || '회원가입에 실패했습니다.')
       }
     } catch (err) {
-      alert(err.response?.data?.error || '회원가입 중 에러가 발생했습니다.')
+      const message = err.response?.data?.message || ''
+      if (message.includes('이메일')) {
+        setServerErrors(prev => ({ ...prev, email: message }))
+      } else if (message.includes('휴대폰')) {
+        setServerErrors(prev => ({ ...prev, phone: message }))
+      } else {
+        alert(message || '회원가입 중 에러가 발생했습니다.')
+      }
     }
   }
 
@@ -113,6 +144,7 @@ const SignUpForm = ({ goToLogin }) => {
           </div>
         </div>
         {errors.email && <p className={css.errorMsg}>올바른 이메일 형식이 아닙니다.</p>}
+        {serverErrors.email && <p className={css.errorMsg}>{serverErrors.email}</p>}
 
         <div className={css.confirmWrapper}>
           <input
@@ -132,6 +164,7 @@ const SignUpForm = ({ goToLogin }) => {
         {errors.phone && (
           <p className={css.errorMsg}>전화번호는 010-1234-5678 형식이어야 합니다.</p>
         )}
+        {serverErrors.phone && <p className={css.errorMsg}>{serverErrors.phone}</p>}
 
         <div className={css.confirmWrapper}>
           <input
@@ -192,7 +225,7 @@ const SignUpForm = ({ goToLogin }) => {
           </div>
         </div>
 
-        <button type="submit" className={css.submitBtn}>
+        <button type="submit" className={css.submitBtn} disabled={!isFormValid}>
           회원가입
         </button>
 
