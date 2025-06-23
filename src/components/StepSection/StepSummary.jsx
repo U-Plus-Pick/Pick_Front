@@ -6,8 +6,9 @@ import { applyService } from '../../services/apiService'
 
 export default function StepSummary({ onNext, userBundleInfo, userApiData, accountInfo }) {
   const isLeader = userBundleInfo.role === 'leader'
+  console.log(userBundleInfo)
   const [isSubmitting, setIsSubmitting] = useState(false)
-
+  console.log(isLeader)
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true)
@@ -27,7 +28,7 @@ export default function StepSummary({ onNext, userBundleInfo, userApiData, accou
       setIsSubmitting(false)
     }
   }
-
+  const userName = userApiData.user_name
   return (
     <div className="card-content">
       <div className="step-title">
@@ -123,13 +124,13 @@ export default function StepSummary({ onNext, userBundleInfo, userApiData, accou
         <div className="bill-summary">
           <div className="bill-box">
             <div>
-              <p className="bill-title">[유피]님의 부담금</p>
+              <p className="bill-title">[{userName}]님의 부담금</p>
               <p className="bill-section-content">
                 {isLeader ? '본인 요금제 + 파티원 3명 요금제' : '본인 요금제'}
               </p>
             </div>
             <div>
-              <p className="bill-title">[유피]님의 요금제</p>
+              <p className="bill-title">[{userName}]님의 요금제</p>
               <p className="bill-section-content">5G 프리미엄 에센셜</p>
             </div>
             <div>
@@ -140,29 +141,37 @@ export default function StepSummary({ onNext, userBundleInfo, userApiData, accou
           <div className="bill-box">
             <div className="bill-service">
               <p className="bill-usage-title">U+Pick 이용료</p>
-              <div className="bill-usage-fee">
-                <p className="bill-section-content">
-                  <span className="strike">2,000원</span>
-                  <span className="highlight green">-1,000원</span>
-                </p>
-                <span className="bill-sub-text green right">대표자 할인 적용완료</span>
-              </div>
+              {isLeader ? (
+                <div className="bill-usage-fee">
+                  <p className="bill-section-content">
+                    <span className="strike">2,000원</span>
+                    <span className="highlight green">-1,000원</span>
+                  </p>
+                  <span className="bill-sub-text green right">대표자 할인 적용완료</span>
+                </div>
+              ) : (
+                <div className="bill-usage-fee">
+                  <p className="bill-section-content">
+                    <span className="highlight green">-2,000원</span>
+                  </p>
+                </div>
+              )}
             </div>
             <div>
               <p className="bill-title">
-                {isLeader ? '정산받는 금액' : '할인 적용 후 결제 금액'}
+                {isLeader ? '정산받는 금액' : '결제 금액'}
                 {isLeader ? (
                   <span className="bill-sub-title">3명 요금제 금액만큼 환급받게 돼요!</span>
                 ) : (
                   <span className="bill-sub-title">
-                    (할인 금액 - U+Pick 이용료가 적용된 금액이 결제됩니다.)
+                    (U+Pick 이용료가 적용된 금액이 결제됩니다.)
                   </span>
                 )}
               </p>
               <p className="bill-section-content">
                 {isLeader
                   ? '전체 요금제 - (본인 요금제 + 1,000원)'
-                  : '[유피]님의 요금제 - 18,000원'}
+                  : `[${userApiData.user_name}]님의 요금제 - 18,000원`}
               </p>
             </div>
           </div>

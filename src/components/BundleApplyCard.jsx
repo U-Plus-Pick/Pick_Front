@@ -26,7 +26,7 @@ const BundleApplyCard = ({
     1: (
       <StepSelector
         onNext={onNext}
-        userInfo={userBundleInfo}
+        userBundleInfo={userBundleInfo}
         setUserBundleInfo={setUserBundleInfo}
       />
     ),

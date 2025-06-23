@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
-const StepSelector = ({ onNext, setUserInfo }) => {
-  const [isLeader, setIsLeader] = useState(true)
+const StepSelector = ({ onNext, userBundleInfo, setUserBundleInfo }) => {
+  const [isLeader, setIsLeader] = useState(userBundleInfo.role === 'leader')
 
   const handleSelect = leader => {
     setIsLeader(leader)
-    setUserInfo(prev => ({
+    setUserBundleInfo(prev => ({
       ...prev,
       role: leader ? 'leader' : 'member',
     }))
