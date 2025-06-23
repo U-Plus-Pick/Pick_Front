@@ -16,7 +16,7 @@ import {
   MAX_PARTY_SIZE,
 } from '../../utils/mypageUtils'
 
-const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
+const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
   // userStatus: 'leader' | 'member' | 'none'
   const [isUploading, setIsUploading] = useState(false)
   const [showPlanModal, setShowPlanModal] = useState(false)
@@ -64,41 +64,72 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       setPlanDetailsData([])
     }
   }
-
   // 사용자 정보 가져오기
   const fetchUserInfo = async () => {
     try {
       const userData = await userService.getUserInfo()
+      console.log('사용자 정보 API 응답:', userData)
 
       // 현재 요금제 설정
-      if (userData.plans) {
+      if (userData.plans && userData.plans.plan_name) {
         setSelectedPlan(userData.plans.plan_name)
+      } else {
+        // 요금제가 없는 경우 기본값으로 설정
+        setSelectedPlan('사용 중인 요금제가 없어요')
       }
+
       // 사용자 이름 설정
       if (userData.user_name) {
         setApiUserName(userData.user_name)
       }
+
       // 사용자 이메일 설정
       if (userData.user_email) {
         setApiUserEmail(userData.user_email)
       }
+
       // 사용자 전화번호 설정
       if (userData.user_phone) {
         setApiUserPhone(userData.user_phone)
       }
+
       // 사용자 상태 설정 (API에서 제공하는 경우)
       if (userData.apply_division) {
         setUserStatus(userData.apply_division)
+        console.log('사용자 상태 설정:', userData.apply_division)
+      } else {
+        // apply_division이 없거나 null인 경우 none으로 설정
+        setUserStatus('none')
+        console.log('사용자 상태를 none으로 설정')
       }
     } catch (error) {
       console.error('사용자 정보 조회 오류:', error)
+      // 오류 발생 시 기본값으로 설정
+      setUserStatus('none')
+      setSelectedPlan('사용 중인 요금제가 없어요')
     }
   }
+  
   // 파티 정보 가져오기
   const fetchPartyInfo = useCallback(async () => {
     try {
       const partyData = await partyService.getPartyInfo()
       const userData = await userService.getUserInfo()
+      
+      console.log('파티 정보 API 응답:', partyData)
+
+      // 파티 정보가 없는 경우 (none 상태)
+      if (
+        !partyData ||
+        (!partyData.leader_infor && (!partyData.crew_infor || partyData.crew_infor.length === 0))
+      ) {
+        console.log('파티 정보가 없음 - none 상태로 설정')
+        setUserStatus('none')
+        setPartyMembers([])
+        setTotalPartyFee(0)
+        setTotalBillAmount(0)
+        return
+      }
 
       const currentUserEmail = userData.user_email || ''
 
@@ -151,6 +182,11 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       })
     } catch (error) {
       console.error('파티 정보 조회 오류:', error)
+      // 파티 정보 조회 실패 시 none 상태로 설정
+      setUserStatus('none')
+      setPartyMembers([])
+      setTotalPartyFee(0)
+      setTotalBillAmount(0)
     }
   }, [monthlyFee])
 
@@ -160,18 +196,29 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
     fetchUserInfo()
     fetchPartyInfo()
   }, [fetchPartyInfo])
-
   // 요금제가 변경될 때마다 월 요금 계산
   useEffect(() => {
-    if (planDetailsData.length > 0 && selectedPlan) {
+    // userStatus가 none인 경우 요금제 계산하지 않음
+    if (userStatus === 'none') {
+      setMonthlyFee(0)
+      return
+    }
+
+    if (
+      planDetailsData.length > 0 &&
+      selectedPlan &&
+      selectedPlan !== '사용 중인 요금제가 없어요'
+    ) {
       const currentPlanData = planDetailsData.find(plan => plan.plan_name === selectedPlan)
       if (currentPlanData && currentPlanData.plan_monthly_fee) {
         setMonthlyFee(currentPlanData.plan_monthly_fee)
       } else {
         setMonthlyFee(0)
       }
+    } else {
+      setMonthlyFee(0)
     }
-  }, [planDetailsData, selectedPlan])
+  }, [planDetailsData, selectedPlan, userStatus])
 
   // 월요금이 변경될 때마다 총 결제 금액 재계산
   useEffect(() => {

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { loadTossPayments } from '@tosspayments/tosspayments-sdk'
+import { useNavigate } from 'react-router-dom'
 
 const ManageCard = ({
   userStatus,
@@ -9,6 +10,7 @@ const ManageCard = ({
   settlementAmount = 50000,
 }) => {
   const [payment, setPayment] = useState(null)
+  const navigate = useNavigate()
   const clientKey = import.meta.env.VITE_TOSS_CLIENT_KEY
   const today = new Date()
   const month = String(today.getMonth() + 1)
@@ -86,7 +88,6 @@ const ManageCard = ({
         return '변경하기'
     }
   }
-
   // 버튼 클릭 핸들러
   const handleButtonClick = () => {
     switch (userStatus) {
@@ -98,8 +99,8 @@ const ManageCard = ({
         alert('변경하기 기능은 추후 구현 예정입니다.')
         break
       case 'none':
-        // 신청하기 기능 (추후 구현)
-        alert('신청하기 기능은 추후 구현 예정입니다.')
+        // 신청하기 - /bundle/apply 페이지로 이동
+        navigate('/bundle/apply')
         break
       default:
         break
