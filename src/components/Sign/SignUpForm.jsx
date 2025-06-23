@@ -106,7 +106,7 @@ const SignUpForm = ({ goToLogin }) => {
         phone: form.phone,
         password: form.password,
         passwordConfirm: form.confirmPassword,
-        plan: form.plan,
+        plan_name: form.plan,
       })
 
       if (response.data?.message === '회원가입 성공') {
