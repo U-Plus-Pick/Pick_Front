@@ -45,7 +45,7 @@ const LoginPage = () => {
     // 공통 스타일
     ov.style.position = 'fixed'
     ov.style.borderRadius = '50%'
-    ov.style.background = 'linear-gradient(50deg, #ffc3c3 0%, #e6007e 88%)'
+    // ov.style.background = 'linear-gradient(50deg, #ffc3c3 0%, #e6007e 88%)'
     ov.style.pointerEvents = 'none'
     ov.style.zIndex = '999'
     ov.style.display = 'block'
