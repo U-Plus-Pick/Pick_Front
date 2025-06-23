@@ -4,6 +4,8 @@ $primary-pink: #e6007e;
 $dark-gray: #6c757d;
 $light-gray: #d9d9d9;
 $border-gray: #e6e6e6;
+$green: #1da511;
+$red: #dc3545;
 
 .card-container {
   position: relative;
@@ -210,5 +212,34 @@ $border-gray: #e6e6e6;
 
   strong {
     color: $primary-pink;
+  }
+}
+.plans-allowed-input {
+  display: flex;
+
+  svg {
+    color: $primary-pink;
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+  }
+}
+.card-content .allowed {
+  .plans-info {
+    color: $green;
+    font-weight: bold;
+  }
+  input {
+    border: 1px solid $green;
+  }
+}
+.card-content .not,
+.card-content .none {
+  .plans-info {
+    color: $red;
+    font-weight: bold;
+  }
+  input {
+    border: 1px solid $red;
   }
 }

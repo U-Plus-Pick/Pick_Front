@@ -7,6 +7,8 @@ import StepSummary from './StepSection/StepSummary'
 import StepComplete from './StepSection/StepComplete'
 import { GrFormPreviousLink } from 'react-icons/gr'
 import '../styles/scss/bundleApplyCard.scss'
+import { useEffect, useState } from 'react'
+import { userService } from '../services/apiService'
 
 const BundleApplyCard = ({ currentStep, direction, onNext, onBack, userInfo, setUserInfo }) => {
   const renderStepContent = () => {
@@ -16,7 +18,7 @@ const BundleApplyCard = ({ currentStep, direction, onNext, onBack, userInfo, set
       case 2:
         return <StepTerms onNext={onNext} />
       case 3:
-        return <StepPersonalInfo onNext={onNext} />
+        return <StepPersonalInfo onNext={onNext} userApiData={userApiData} />
       case 4:
         return <StepAccount onNext={onNext} />
       case 5:
@@ -28,6 +30,21 @@ const BundleApplyCard = ({ currentStep, direction, onNext, onBack, userInfo, set
     }
   }
 
+  const [userApiData, setUserApiData] = useState(null)
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const data = await userService.getUserInfo()
+        console.log('사용자 정보 API 응답:', data)
+        setUserApiData(data)
+      } catch (error) {
+        console.error('사용자 정보 조회 오류:', error)
+      }
+    }
+
+    fetchUserInfo()
+  }, [])
   return (
     <div className="card-container">
       {currentStep > 1 && (

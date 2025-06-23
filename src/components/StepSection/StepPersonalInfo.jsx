@@ -1,10 +1,22 @@
-import React from 'react'
+import { allowedPlans } from '../../constants/StepData'
+import { FaCircleCheck } from 'react-icons/fa6'
+import { IoIosCloseCircle } from 'react-icons/io'
 
-const StepPersonalInfo = ({ onNext }) => {
-  const phoneNumber = '010-1234-5678'
-  const userEmail = 'upi@upi.com'
-  const userBirth = '2000-01-01'
-  const userPlans = '5G 프리미어 에센셜'
+const StepPersonalInfo = ({ onNext, userApiData }) => {
+  const formatPhoneNumber = phone => {
+    return phone.replace(/(\d{3})(\d{4})(\d{4})/, '$1 - $2 - $3')
+  }
+
+  const confirmPlans = plans => {
+    if (plans.length < 1) return 'none'
+    return allowedPlans.includes(plans) ? 'allowed' : 'not'
+  }
+  const phoneNumber = formatPhoneNumber(userApiData?.user_phone)
+  const userEmail = userApiData?.user_email
+  const userBirth = userApiData?.user_birth
+  const userPlans = userApiData?.plans
+  const isPlans = confirmPlans(userPlans)
+  const isAllowed = isPlans === 'allowed'
 
   return (
     <div className="card-content">
@@ -25,12 +37,32 @@ const StepPersonalInfo = ({ onNext }) => {
           <p>생년월일</p>
           <input value={userBirth} disabled />
         </div>
-        <div>
+        <div className={`${isPlans}`}>
           <p>요금제</p>
-          <input value={userPlans} disabled />
+          <div className="plans-allowed-input">
+            <input value={userPlans} disabled />
+            {isAllowed ? (
+              <FaCircleCheck color={'#1da511'} />
+            ) : (
+              <IoIosCloseCircle color={'#dc3545'} />
+            )}
+          </div>
+          <p className="plans-info">
+            {isPlans === 'allowed' && `'${userPlans}'는 지인 결합 할인이 가능한 요금제입니다.`}
+            {isPlans === 'not' && `'${userPlans}'은 지인 결합 할인이 불가능한 요금제입니다.`}
+            {isPlans === 'none' && '선택된 요금제가 없습니다. 마이페이지에서 설정해주세요.'}
+          </p>
         </div>
       </div>
-      <button className="step-next" onClick={onNext}>
+      <button
+        className="step-next"
+        disabled={!isAllowed}
+        style={{
+          backgroundColor: isAllowed ? '#e6007e' : '#ccc',
+          cursor: isAllowed ? 'pointer' : 'not-allowed',
+        }}
+        onClick={onNext}
+      >
         다음
       </button>
     </div>

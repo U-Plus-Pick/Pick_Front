@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import BundleApplyCard from '../components/BundleApplyCard'
 import '../styles/scss/bundleApply.scss'
+import { useNavigate } from 'react-router-dom'
 
 const BundleApplyPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
@@ -12,8 +13,12 @@ const BundleApplyPage = () => {
     name: '',
     terms_agreed: true,
   })
+  const navigate = useNavigate()
 
   const handleNext = () => {
+    if (!localStorage.getItem('token')) {
+      navigate('/login')
+    }
     if (currentStep === 3 && userInfo.role === 'member') {
       setCurrentStep(5)
       console.log(userInfo.role)
