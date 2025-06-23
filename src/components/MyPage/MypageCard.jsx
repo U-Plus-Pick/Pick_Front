@@ -109,13 +109,13 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       setSelectedPlan('사용 중인 요금제가 없어요')
     }
   }
-  
+
   // 파티 정보 가져오기
   const fetchPartyInfo = useCallback(async () => {
     try {
       const partyData = await partyService.getPartyInfo()
       const userData = await userService.getUserInfo()
-      
+
       console.log('파티 정보 API 응답:', partyData)
 
       // 파티 정보가 없는 경우 (none 상태)
@@ -196,14 +196,9 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     fetchUserInfo()
     fetchPartyInfo()
   }, [fetchPartyInfo])
+
   // 요금제가 변경될 때마다 월 요금 계산
   useEffect(() => {
-    // userStatus가 none인 경우 요금제 계산하지 않음
-    if (userStatus === 'none') {
-      setMonthlyFee(0)
-      return
-    }
-
     if (
       planDetailsData.length > 0 &&
       selectedPlan &&
@@ -218,7 +213,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     } else {
       setMonthlyFee(0)
     }
-  }, [planDetailsData, selectedPlan, userStatus])
+  }, [planDetailsData, selectedPlan]) // userStatus 조건 제거
 
   // 월요금이 변경될 때마다 총 결제 금액 재계산
   useEffect(() => {
@@ -347,11 +342,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
           fileInputRef={fileInputRef}
           onFileSelect={handleFileSelect}
         />
-        <PlanCard
-          selectedPlan={selectedPlan}
-          onPlanChange={handlePlanChange}
-          userStatus={userStatus}
-        />
+        <PlanCard selectedPlan={selectedPlan} onPlanChange={handlePlanChange} />
         <ManageCard
           userStatus={userStatus}
           userName={apiUserName}
@@ -394,11 +385,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
           fileInputRef={fileInputRef}
           onFileSelect={handleFileSelect}
         />
-        <PlanCard
-          selectedPlan={selectedPlan}
-          onPlanChange={handlePlanChange}
-          userStatus={userStatus}
-        />
+        <PlanCard selectedPlan={selectedPlan} onPlanChange={handlePlanChange} />
         <ManageCard
           userStatus={userStatus}
           userName={apiUserName}
@@ -425,7 +412,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       <div className="right-section">
         <BillCard
           month={month}
-          monthlyFee={0}
+          monthlyFee={monthlyFee}
           formatCurrency={formatCurrency}
           previousMonthRange={previousMonthRange}
           onSubmitReceipt={handleSubmitReceipt}
@@ -434,11 +421,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
           fileInputRef={fileInputRef}
           onFileSelect={handleFileSelect}
         />
-        <PlanCard
-          selectedPlan={selectedPlan}
-          onPlanChange={handlePlanChange}
-          userStatus={userStatus}
-        />
+        <PlanCard selectedPlan={selectedPlan} onPlanChange={handlePlanChange} />
         <ManageCard
           userStatus={userStatus}
           userName={apiUserName}
