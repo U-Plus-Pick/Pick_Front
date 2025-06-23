@@ -1,8 +1,7 @@
 import React from 'react'
 
-const PlanCard = ({ selectedPlan, onPlanChange, userStatus }) => {
+const PlanCard = ({ selectedPlan, onPlanChange }) => {
   const getPlanText = () => {
-    if (userStatus === 'none') return '사용 중인 요금제가 없어요'
     return selectedPlan
   }
 

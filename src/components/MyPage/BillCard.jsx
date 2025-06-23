@@ -19,12 +19,11 @@ const BillCard = ({
 
   const showButton = userStatus !== 'none'
   const showEmptyText = userStatus === 'none'
-
   return (
     <div className="bill-card">
       <h3 className="bill-month">{month}월 이용요금</h3>
       <div className="bill-amount">
-        {userStatus === 'none' ? '0원' : `${formatCurrency(monthlyFee)}원`}
+        {monthlyFee === 0 || !monthlyFee ? '0원' : `${formatCurrency(monthlyFee)}원`}
       </div>
       <div className="bill-footer">
         <div className="bill-period">{previousMonthRange.fullRange}</div>
@@ -33,7 +32,7 @@ const BillCard = ({
             {getButtonText()}
           </button>
         )}
-        {showEmptyText && <div className="empty-text">납부하실 요금이 없어요</div>}
+        {showEmptyText && <div className="empty-text">제출하실 서류가 없어요</div>}
       </div>
 
       {/* 숨겨진 파일 입력 */}
