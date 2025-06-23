@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/scss/StepSummary.scss'
 import { summaryStep } from '../../constants/StepData'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
+import { applyService } from '../../services/apiService'
 
-export default function StepSummary({ onNext, userInfo }) {
-  const isLeader = userInfo.role === 'leader'
+export default function StepSummary({ onNext, userBundleInfo, userApiData, accountInfo }) {
+  const isLeader = userBundleInfo.role === 'leader'
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async () => {
+    try {
+      setIsSubmitting(true)
+
+      const result = await applyService.getApplyAccountInfo({
+        leader_email: userApiData.user_email,
+        leader_name: userApiData.user_name,
+        leader_bank_name: accountInfo.userBank,
+        leader_account_number: accountInfo.userAccount,
+      })
+      console.log('정산 정보 응답:', result)
+      onNext()
+    } catch (error) {
+      console.error('신청 실패:', error)
+      alert('신청 처리 중 오류가 발생했습니다.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <div className="card-content">
       <div className="step-title">
@@ -146,8 +169,16 @@ export default function StepSummary({ onNext, userInfo }) {
         </div>
       </div>
 
-      <button className="step-next" onClick={onNext}>
-        신청 완료하기
+      <button
+        className="step-next"
+        onClick={handleSubmit}
+        disabled={isSubmitting}
+        style={{
+          backgroundColor: isSubmitting ? '#ccc' : '#e6007e',
+          cursor: isSubmitting ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {isSubmitting ? '처리 중' : '신청 완료하기'}
       </button>
     </div>
   )

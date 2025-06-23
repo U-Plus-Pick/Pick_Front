@@ -1,6 +1,9 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 export default function StepComplete() {
+  const navigate = useNavigate()
+
   return (
     <div className="card-content">
       <div className="step-title">
@@ -19,7 +22,14 @@ export default function StepComplete() {
           <p>자세한 결합 정보는 마이페이지에서 확인가능합니다.</p>
         </div>
       </div>
-      <button className="step-next">마이페이지</button>
+      <div className="step-complete">
+        <button className="step-next" onClick={() => navigate('/mypage')}>
+          마이페이지로 이동
+        </button>
+        <button className="step-next" onClick={() => navigate('/')}>
+          홈으로 이동
+        </button>
+      </div>
     </div>
   )
 }

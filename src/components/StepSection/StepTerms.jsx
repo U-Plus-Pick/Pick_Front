@@ -4,7 +4,9 @@ import { MdNavigateNext } from 'react-icons/md'
 import { termsContents } from '../../constants/StepData'
 
 const StepTerms = ({ onNext }) => {
+  // 현재 선택된 약관 항목
   const [selectedTerm, setSelectedTerm] = useState('privacy')
+  // 체크된 약관 목록
   const [checkedTerms, setCheckedTerms] = useState([])
 
   const handleToggleCheck = key => {
@@ -14,8 +16,16 @@ const StepTerms = ({ onNext }) => {
       setCheckedTerms(prev => [...prev, key])
     }
   }
-
   const allChecked = checkedTerms.length === termsContents.length
+  const handleToggleAll = () => {
+    if (checkedTerms.length === termsContents.length) {
+      // 전체 해제
+      setCheckedTerms([])
+    } else {
+      // 전체 선택
+      setCheckedTerms(termsContents.map(term => term.key))
+    }
+  }
 
   return (
     <div className="card-content">
@@ -26,8 +36,9 @@ const StepTerms = ({ onNext }) => {
           결합을 완료하기 위해 약관 동의가 필요해요
         </h2>
       </div>
-
+      {/* 약관 카드 영역 */}
       <div className="step-card-wrapper terms">
+        {/* 좌측 : 약관 목록 */}
         <div className="step-card-twin">
           {termsContents.map(term => (
             <div key={term.key} className="terms-item" onClick={() => setSelectedTerm(term.key)}>
@@ -51,8 +62,24 @@ const StepTerms = ({ onNext }) => {
               </div>
             </div>
           ))}
+          {/* 전체 선택 item */}
+          <div className="terms-item" onClick={handleToggleAll}>
+            <button
+              className="terms-check"
+              onClick={e => {
+                e.stopPropagation()
+                handleToggleAll()
+              }}
+            >
+              <FaCircleCheck color={allChecked ? 'green' : '#ccc'} />
+            </button>
+            <div className="terms-text">
+              <p className="terms-title">전체 선택</p>
+            </div>
+          </div>
         </div>
 
+        {/* 우측 : 상세 내용 */}
         <div className="step-card-twin">
           <div className="terms-detail-content">
             {Object.entries(
@@ -67,6 +94,7 @@ const StepTerms = ({ onNext }) => {
         </div>
       </div>
 
+      {/* 전체 체크 시 다음 버튼 활성화 */}
       <button
         className="step-next"
         onClick={onNext}

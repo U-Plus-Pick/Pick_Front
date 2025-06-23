@@ -109,7 +109,7 @@ $red: #dc3545;
 
 //step2
 .terms .step-card-twin {
-  gap: 10px;
+  gap: 6px;
 }
 .terms .terms-item {
   display: flex;
@@ -176,7 +176,8 @@ $red: #dc3545;
     font-size: 15px;
     color: $dark-gray;
   }
-  input {
+  input,
+  select {
     border: none;
     font-size: 22px;
     font-weight: bold;
@@ -187,7 +188,7 @@ $red: #dc3545;
     width: 100%;
   }
 }
-.personal input:disabled {
+input:disabled {
   cursor: not-allowed;
 }
 .complete {
@@ -242,4 +243,25 @@ $red: #dc3545;
   input {
     border: 1px solid $red;
   }
+}
+
+// step4-계좌
+input::placeholder {
+  color: #aaa;
+  font-size: 15px;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+// step6 - 완성
+.step-complete {
+  display: flex;
+  gap: 20px;
+}
+.step-complete .step-next {
+  width: 260px;
+}
+.step-complete .step-next:nth-child(2) {
+  border: 1px solid $primary-pink;
+  color: $primary-pink;
+  background: none;
 }
