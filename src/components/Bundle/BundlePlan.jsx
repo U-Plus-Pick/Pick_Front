@@ -1,6 +1,6 @@
 import React from 'react'
 import css from '../../styles/scss/BundlePlan.module.scss'
-import conditionPenguin from '../../assets/BundleIntro2.png'
+import BundlePlanImg from '../../assets/BundlePlanImg.png'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 
 const plans = [
@@ -55,7 +55,7 @@ const BundlePlan = () => {
         <div className={css.content}>
           <div className={css.conditionCard}>
             <h3>가입 조건</h3>
-            <img src={conditionPenguin} alt="가입조건 펭귄" />
+            <img src={BundlePlanImg} alt="가입조건 펭귄" />
             <p className={css.planLabel}>5G/LTE 무제한 요금제</p>
             <p className={css.note}>※ 속도 제한 요금제, 나눔 요금제 제외</p>
           </div>
