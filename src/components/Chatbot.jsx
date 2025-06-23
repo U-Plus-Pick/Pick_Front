@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import '../styles/scss/Chatbot.scss'
 
 const Chatbot = ({ initialMessage = null }) => {
+  const navigate = useNavigate()
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -345,9 +347,13 @@ const Chatbot = ({ initialMessage = null }) => {
     setInputMessage('')
     setIsLoading(false)
   }
-
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible)
+  }
+
+  // 마이페이지로 이동하는 함수
+  const goToMyPage = () => {
+    navigate('/mypage')
   }
 
   // isStreaming 메시지가 10초 이상 유지되면 자동으로 false로 만드는 안전장치
@@ -385,7 +391,7 @@ const Chatbot = ({ initialMessage = null }) => {
           {sidebarVisible && (
             <div className="chatbot-sidebar">
               <div className="sidebar-header">
-                <div className="settings-icon">
+                <div className="settings-icon" onClick={goToMyPage}>
                   <img src="/user.png" alt="사용자" />
                 </div>
                 <button className="back-icon" onClick={toggleSidebar}>
