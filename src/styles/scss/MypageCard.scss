@@ -56,6 +56,7 @@ $middle-pink: #f6b8c3;
   display: flex;
   gap: 36px;
   align-items: stretch;
+  min-height: 320px; // 최소 높이 설정으로 전체 높이 일관성 확보
 }
 
 .left-section {
@@ -69,6 +70,7 @@ $middle-pink: #f6b8c3;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-height: 320px; // mypage-content와 동일한 최소 높이
 }
 
 // 좌측 - 총 결제 금액 박스
@@ -287,6 +289,8 @@ $middle-pink: #f6b8c3;
   padding: 28px;
   display: flex;
   flex-direction: column;
+  min-height: 180px; // 최소 높이 고정
+  flex-grow: 1; // 가용 공간을 균등하게 차지
 
   .bill-month {
     font-size: 22px;
@@ -314,7 +318,6 @@ $middle-pink: #f6b8c3;
     color: #666;
     margin: 0;
   }
-
   .submit-btn {
     background: $white;
     color: $primary-pink;
@@ -332,6 +335,21 @@ $middle-pink: #f6b8c3;
       color: $white;
       transform: translateY(-1px);
     }
+  }
+
+  .empty-text {
+    background: $light-gray;
+    color: $gray-text;
+    border: 2px solid $border-gray;
+    border-radius: 25px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    text-align: center;
+    // 버튼과 동일한 높이 유지
+    display: inline-block;
+    min-height: 20px; // 텍스트 높이에 맞춰 조정
   }
   &.empty {
     .action-buttons {
@@ -382,6 +400,8 @@ $middle-pink: #f6b8c3;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 80px; // 최소 높이 설정
+  flex-shrink: 0; // 고정 높이 유지
 
   .plan-name {
     font-size: 16px;
@@ -418,6 +438,8 @@ $middle-pink: #f6b8c3;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  min-height: 80px; // 최소 높이 설정
+  flex-shrink: 0; // 고정 높이 유지
 
   .manage-title {
     font-size: 16px;
@@ -731,7 +753,7 @@ $middle-pink: #f6b8c3;
   align-items: center;
   justify-content: center;
   height: 100%;
-  min-height: 400px;
+  // min-height: 400px;
   text-align: center;
   padding: 40px 20px;
 
@@ -761,6 +783,22 @@ $middle-pink: #f6b8c3;
   border-radius: 16px;
   border: 1px solid $border-gray;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  min-height: 300px; // 우측 카드들의 총 높이와 맞춤 (bill-card 180px + plan-card 80px + gap 20px + manage-card 80px = 약 300px)
+}
+
+// none 상태에서 좌측 섹션이 우측과 같은 높이를 가지도록 강제
+.mypage-content.no-party {
+  .left-section {
+    display: flex;
+
+    .empty-state {
+      flex: 1; // 부모 높이를 모두 차지
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 }
 
 // none 상태일 때 우측 카드들도 흰색 배경으로 맞춤

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import css from '../../styles/scss/BundleRole.module.scss'
-import BundleIntro1 from '../../assets/BundleIntro1.png'
+import BundleIntro2 from '../../assets/BundleIntro2.png'
+import BundleIntro3 from '../../assets/BundleIntro3.png'
 import BundleRoleCard from './BundleRoleCard'
 import { bundleRoleData } from './bundleRoleData'
 import { FaCheck } from 'react-icons/fa'
@@ -26,7 +27,7 @@ export default function BundleRole() {
             onClick={() => handleToggle(role)}
           >
             <div className={css.imgCircle}>
-              <img src={BundleIntro1} alt={role} />
+              <img src={role === 'host' ? BundleIntro2 : BundleIntro3} alt={role} /> {/* 👈 수정 */}
               {activeTab === role && (
                 <div className={css.check}>
                   <FaCheck />

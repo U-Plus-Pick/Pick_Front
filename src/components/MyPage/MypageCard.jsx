@@ -16,7 +16,7 @@ import {
   MAX_PARTY_SIZE,
 } from '../../utils/mypageUtils'
 
-const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
+const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
   // userStatus: 'leader' | 'member' | 'none'
   const [isUploading, setIsUploading] = useState(false)
   const [showPlanModal, setShowPlanModal] = useState(false)
@@ -27,11 +27,13 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   const [planDetailsData, setPlanDetailsData] = useState([]) // 전체 요금제 데이터
   const [monthlyFee, setMonthlyFee] = useState(0) // 현재 요금제의 월 요금
   const [apiUserName, setApiUserName] = useState('유*피') // API에서 받아온 사용자 이름
-  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태
+  const [apiUserEmail, setApiUserEmail] = useState('') // API에서 받아온 사용자 이메일
+  const [apiUserPhone, setApiUserPhone] = useState('') // API에서 받아온 사용자 전화번호
+  const [userStatus, setUserStatus] = useState(defaultUserStatus) // API에서 받아온 사용자 상태
   const [partyMembers, setPartyMembers] = useState([]) // 파티원 정보 (본인 제외)
   const [totalPartyFee, setTotalPartyFee] = useState(0) // 파티원 총 요금
   const [totalBillAmount, setTotalBillAmount] = useState(0) // 총 결제 금액 (나 + 파티원)
-  const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액
+  const [settlementAmount, setSettlementAmount] = useState(0) // 정산받는 금액
   const today = new Date()
   const month = String(today.getMonth() + 1)
 
@@ -66,27 +68,68 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   const fetchUserInfo = async () => {
     try {
       const userData = await userService.getUserInfo()
+      console.log('사용자 정보 API 응답:', userData)
+
       // 현재 요금제 설정
-      if (userData.plans) {
-        setSelectedPlan(userData.plans)
+      if (userData.plans && userData.plans.plan_name) {
+        setSelectedPlan(userData.plans.plan_name)
+      } else {
+        // 요금제가 없는 경우 기본값으로 설정
+        setSelectedPlan('사용 중인 요금제가 없어요')
       }
+
       // 사용자 이름 설정
       if (userData.user_name) {
         setApiUserName(userData.user_name)
       }
+
+      // 사용자 이메일 설정
+      if (userData.user_email) {
+        setApiUserEmail(userData.user_email)
+      }
+
+      // 사용자 전화번호 설정
+      if (userData.user_phone) {
+        setApiUserPhone(userData.user_phone)
+      }
+
       // 사용자 상태 설정 (API에서 제공하는 경우)
       if (userData.apply_division) {
         setUserStatus(userData.apply_division)
+        console.log('사용자 상태 설정:', userData.apply_division)
+      } else {
+        // apply_division이 없거나 null인 경우 none으로 설정
+        setUserStatus('none')
+        console.log('사용자 상태를 none으로 설정')
       }
     } catch (error) {
       console.error('사용자 정보 조회 오류:', error)
+      // 오류 발생 시 기본값으로 설정
+      setUserStatus('none')
+      setSelectedPlan('사용 중인 요금제가 없어요')
     }
   }
+
   // 파티 정보 가져오기
   const fetchPartyInfo = useCallback(async () => {
     try {
       const partyData = await partyService.getPartyInfo()
       const userData = await userService.getUserInfo()
+
+      console.log('파티 정보 API 응답:', partyData)
+
+      // 파티 정보가 없는 경우 (none 상태)
+      if (
+        !partyData ||
+        (!partyData.leader_infor && (!partyData.crew_infor || partyData.crew_infor.length === 0))
+      ) {
+        console.log('파티 정보가 없음 - none 상태로 설정')
+        setUserStatus('none')
+        setPartyMembers([])
+        setTotalPartyFee(0)
+        setTotalBillAmount(0)
+        return
+      }
 
       const currentUserEmail = userData.user_email || ''
 
@@ -139,6 +182,11 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       })
     } catch (error) {
       console.error('파티 정보 조회 오류:', error)
+      // 파티 정보 조회 실패 시 none 상태로 설정
+      setUserStatus('none')
+      setPartyMembers([])
+      setTotalPartyFee(0)
+      setTotalBillAmount(0)
     }
   }, [monthlyFee])
 
@@ -151,15 +199,21 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
 
   // 요금제가 변경될 때마다 월 요금 계산
   useEffect(() => {
-    if (planDetailsData.length > 0 && selectedPlan) {
+    if (
+      planDetailsData.length > 0 &&
+      selectedPlan &&
+      selectedPlan !== '사용 중인 요금제가 없어요'
+    ) {
       const currentPlanData = planDetailsData.find(plan => plan.plan_name === selectedPlan)
       if (currentPlanData && currentPlanData.plan_monthly_fee) {
         setMonthlyFee(currentPlanData.plan_monthly_fee)
       } else {
         setMonthlyFee(0)
       }
+    } else {
+      setMonthlyFee(0)
     }
-  }, [planDetailsData, selectedPlan])
+  }, [planDetailsData, selectedPlan]) // userStatus 조건 제거
 
   // 월요금이 변경될 때마다 총 결제 금액 재계산
   useEffect(() => {
@@ -288,12 +342,14 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
           fileInputRef={fileInputRef}
           onFileSelect={handleFileSelect}
         />
-        <PlanCard
-          selectedPlan={selectedPlan}
-          onPlanChange={handlePlanChange}
+        <PlanCard selectedPlan={selectedPlan} onPlanChange={handlePlanChange} />
+        <ManageCard
           userStatus={userStatus}
+          userName={apiUserName}
+          userEmail={apiUserEmail || 'ureca04@gmail.com'}
+          userPhone={apiUserPhone || '01012341234'}
+          settlementAmount={settlementAmount}
         />
-        <ManageCard userStatus={userStatus} />
       </div>
     </div>
   )
@@ -329,12 +385,14 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
           fileInputRef={fileInputRef}
           onFileSelect={handleFileSelect}
         />
-        <PlanCard
-          selectedPlan={selectedPlan}
-          onPlanChange={handlePlanChange}
+        <PlanCard selectedPlan={selectedPlan} onPlanChange={handlePlanChange} />
+        <ManageCard
           userStatus={userStatus}
+          userName={apiUserName}
+          userEmail={apiUserEmail || 'ureca04@gmail.com'}
+          userPhone={apiUserPhone || '01012341234'}
+          settlementAmount={settlementAmount}
         />
-        <ManageCard userStatus={userStatus} />
       </div>
     </div>
   )
@@ -354,7 +412,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
       <div className="right-section">
         <BillCard
           month={month}
-          monthlyFee={0}
+          monthlyFee={monthlyFee}
           formatCurrency={formatCurrency}
           previousMonthRange={previousMonthRange}
           onSubmitReceipt={handleSubmitReceipt}
@@ -363,12 +421,14 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
           fileInputRef={fileInputRef}
           onFileSelect={handleFileSelect}
         />
-        <PlanCard
-          selectedPlan={selectedPlan}
-          onPlanChange={handlePlanChange}
+        <PlanCard selectedPlan={selectedPlan} onPlanChange={handlePlanChange} />
+        <ManageCard
           userStatus={userStatus}
+          userName={apiUserName}
+          userEmail={apiUserEmail || 'ureca04@gmail.com'}
+          userPhone={apiUserPhone || '01012341234'}
+          settlementAmount={settlementAmount}
         />
-        <ManageCard userStatus={userStatus} />
       </div>
     </div>
   )

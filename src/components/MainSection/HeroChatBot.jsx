@@ -4,10 +4,13 @@ import UPI from '../../assets/UPI.png'
 import UPIChatbot from '../../assets/HeroUpiChatBot.png'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
 const HeroChatBot = () => {
+  useScrollRefresh()
+
   const sectionRef = useRef(null)
   const titleRef = useRef(null)
   const leftCardRef = useRef(null)
@@ -117,7 +120,7 @@ const HeroChatBot = () => {
   }
 
   return (
-    <section className={css.consult} ref={sectionRef}>
+    <section id="hero-chatbot" className={css.consult} ref={sectionRef}>
       <div className={css.container}>
         <h2 className={css.title} ref={titleRef}>
           우리의

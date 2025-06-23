@@ -10,6 +10,7 @@ import HeroRelationLeft from '../../assets/HeroRelationLeft.png'
 import HeroRelationRight from '../../assets/HeroRelationRight.png'
 import HeroLine from '../../assets/HeroLine.png'
 import HeroLineCurve from '../../assets/HeroCurveLine.png'
+import useScrollRefresh from '../../hooks/useScrollRefresh'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -40,6 +41,8 @@ const texts = [
 ]
 
 const HeroRelation = () => {
+  useScrollRefresh()
+
   const sectionRef = useRef(null)
   const cardRefs = useRef([])
 
@@ -74,7 +77,7 @@ const HeroRelation = () => {
     return () => ctx.revert()
   }, [])
   return (
-    <section ref={sectionRef} className={css.heroSectionWrapper}>
+    <section id="hero-relation" ref={sectionRef} className={css.heroSectionWrapper}>
       <div className={css.heroRelation}>
         <h2 className={css.title}>
           <span className={css.lg}>LG U+</span>의 혜택

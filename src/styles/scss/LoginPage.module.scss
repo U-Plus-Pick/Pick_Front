@@ -68,13 +68,13 @@
 .initOverlay {
   position: fixed;
   border-radius: 50%;
-  background: linear-gradient(50deg, #ffc3c3 0%, #e6007e 88%);
+  background:  
+  radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 100%),
+  linear-gradient(50deg, #ffc3c3 38%, #e6007e 76%);
   pointer-events: none;
   z-index: 999;
   display: none; // 초기에는 숨김
   opacity: 0;
-
-  /* width, height, transform, transform-origin, scale 은 JS에서만 제어 */
 }
 
 /* 로고 이미지 */

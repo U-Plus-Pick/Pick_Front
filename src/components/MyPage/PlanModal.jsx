@@ -14,16 +14,23 @@ const PlanModal = ({ showPlanModal, planOptions, selectedPlan, onPlanSelect, onM
         </div>
         <div className="modal-body">
           <div className="plan-dropdown">
-            {planOptions.map(plan => (
-              <div
-                key={plan}
-                className={`plan-option ${plan === selectedPlan ? 'current' : ''}`}
-                onClick={() => onPlanSelect(plan)}
-              >
-                {plan}
-                {plan === selectedPlan && <span className="current-label">현재 이용중</span>}
-              </div>
-            ))}
+            {planOptions
+              .sort((a, b) => {
+                // 현재 선택된 요금제를 최상단으로 배치
+                if (a === selectedPlan) return -1
+                if (b === selectedPlan) return 1
+                return 0
+              })
+              .map(plan => (
+                <div
+                  key={plan}
+                  className={`plan-option ${plan === selectedPlan ? 'current' : ''}`}
+                  onClick={() => onPlanSelect(plan)}
+                >
+                  {plan}
+                  {plan === selectedPlan && <span className="current-label">현재 이용중</span>}
+                </div>
+              ))}
           </div>
         </div>
       </div>
