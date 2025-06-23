@@ -7,6 +7,7 @@ import PayFailedPage from './pages/PayFailedPage'
 import MainLayout from './layouts/MainLayout'
 import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
+import BundlePage from './pages/BundlePage'
 
 import './styles/scss/main.scss'
 
@@ -17,7 +18,7 @@ function App() {
         {/* Header 있음 */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/bundle" />
+          <Route path="/bundle" element={<BundlePage />} />
           <Route path="/bundle/apply" />
           <Route path="/chatbot" element={<ChatbotPage />} />
           <Route path="/login" element={<LoginPage />} />

@@ -1,0 +1,223 @@
+.bundleRole {
+    width: 100%;
+    padding: 6rem 2rem;
+    text-align: center;
+    overflow: visible;
+  }
+  
+  .toggleWrap {
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    margin-top: 4rem;
+    margin-bottom: 4rem;
+  }
+  
+  .toggleItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  
+    .imgCircle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px solid #ddd;
+      overflow: visible;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: border 0.3s ease;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.25);
+  
+      img {
+        width: 80%;
+        height: 80%;
+        object-fit: contain;
+      }
+  
+      .check {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 3rem;
+        height: 3rem;
+        background-color: #e6007e;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 3px 6px rgba(0, 0, 0, 0.25);
+  
+        svg {
+          font-size: 1.5rem;
+        }
+      }
+    }
+  
+    .label {
+      margin-top: 1rem;
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: #555;
+    }
+  
+    &:not(.active) {
+      opacity: 0.6;
+      filter: grayscale(100%);
+      transition: all 0.3s ease;
+    //   box-shadow: none;
+    }
+  
+    &.host.active {
+      .imgCircle {
+        border: 4px solid #e6007e;
+        .check {
+          background-color: #e6007e;
+        }
+      }
+      .label {
+        color: #e6007e;
+      }
+    }
+  
+    &.member.active {
+      .imgCircle {
+        border: 4px solid #6f42c1;
+        .check {
+          background-color: #6f42c1;
+        }
+      }
+      .label {
+        color: #6f42c1;
+      }
+    }
+  }
+  
+  .cardBox {
+    max-width: 1400px;
+    margin: 0 auto;
+    border: 2px solid #e6007e;
+    border-radius: 1.5rem;
+    padding: 3rem 2rem;
+    position: relative;
+    overflow : visible;
+  
+    &.member {
+      border-color: #6f42c1;
+    }
+  }
+  
+  .titleTag {
+    position: absolute;
+    top: -1.4rem;
+    left: 2rem;
+    background: white;
+    padding: 0.5rem 1.2rem;
+    border: 2px solid #e6007e;
+    border-radius: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+  
+    &.member {
+      border-color: #6f42c1;
+    }
+  
+    .roleText {
+      color: #e6007e;
+    }
+  
+    .infoText {
+      color: #111;
+    }
+  
+    &.member .roleText {
+      color: #6f42c1;
+    }
+  }
+  
+  .cardSlider {
+    position: relative;
+    overflow : visible;
+  
+    .slick-track {
+      display: flex;
+      gap: 1.6rem;
+    }
+  
+    .slick-slide {
+      padding: 0 0.8rem;
+      box-sizing: border-box;
+    }
+  
+    .slick-arrow {
+        z-index: 5;
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        background: white;
+        border: 2px solid #e6007e;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+  
+      &::before {
+        color: #e6007e;
+        font-size: 1.6rem;
+      }
+    }
+  
+    .slick-prev {
+        position: absolute;
+        left: -2.5rem;
+        top: 50%;
+        color : black;
+        transform: translateY(-50%);
+    }
+  
+    .slick-next {
+        position: absolute;
+        right: -2.5rem;
+        top: 50%;
+        transform: translateY(-50%); // 살짝 바깥으로
+    }
+}
+  
+  .card {
+    width: 21rem;
+    height: 25rem;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 1.5rem;
+    text-align: center;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05), 0px 4px 8px rgba(0, 0, 0, 0.25);
+  
+    h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+  
+    img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+  
+    p {
+      font-size: 1rem;
+      color: #444;
+      white-space: pre-line;
+    }
+  
+    .highlight {
+      color: #e6007e;
+      font-weight: 700;
+    }
+  }
+  
