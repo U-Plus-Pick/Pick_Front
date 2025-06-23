@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { io } from 'socket.io-client'
 import '../styles/scss/Chatbot.scss'
 
-const Chatbot = ({ initialMessage = null, userId = null }) => {
+const Chatbot = ({ initialMessage = null }) => {
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -17,9 +17,54 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
   const [chatRooms, setChatRooms] = useState([])
   const [currentChatId, setCurrentChatId] = useState(1)
   const [isLoadingChatRooms, setIsLoadingChatRooms] = useState(false)
+  const [userId, setUserId] = useState(null)
   const messagesEndRef = useRef(null)
   const socketRef = useRef(null)
   const currentStreamingMessageRef = useRef(null)
+
+  // JWT 토큰에서 사용자 ID 추출 함수
+  const getUserIdFromToken = () => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) return null
+
+      // JWT 토큰을 디코딩 (base64 디코딩)
+      const payload = JSON.parse(atob(token.split('.')[1]))
+      return payload.id
+    } catch (error) {
+      console.error('토큰 디코딩 에러:', error)
+      return null
+    }
+  }
+  // 컴포넌트 마운트 시 토큰에서 사용자 ID 추출
+  useEffect(() => {
+    const extractedUserId = getUserIdFromToken()
+    setUserId(extractedUserId)
+  }, [])
+
+  // localStorage 변화 감지 (로그인/로그아웃 시)
+  useEffect(() => {
+    const handleStorageChange = () => {
+      const extractedUserId = getUserIdFromToken()
+      setUserId(extractedUserId)
+    }
+
+    // storage 이벤트 리스너 추가
+    window.addEventListener('storage', handleStorageChange)
+
+    // 같은 탭에서의 변경사항도 감지하기 위한 주기적 확인
+    const intervalId = setInterval(() => {
+      const currentUserId = getUserIdFromToken()
+      if (currentUserId !== userId) {
+        setUserId(currentUserId)
+      }
+    }, 1000)
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange)
+      clearInterval(intervalId)
+    }
+  }, [userId])
 
   // 자동 스크롤 함수
   const scrollToBottom = () => {
@@ -106,17 +151,18 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
       }
     }
   }, [])
-
   // 사용자의 채팅방들을 DB에서 불러오는 함수
   const loadChatRoomsFromDB = useCallback(async () => {
     if (!userId) return
 
     setIsLoadingChatRooms(true)
     try {
+      const token = localStorage.getItem('token')
       const response = await fetch(`http://localhost:3000/chat/rooms/${userId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
       })
 
@@ -140,7 +186,6 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
       loadChatRoomsFromDB()
     }
   }, [userId, loadChatRoomsFromDB])
-
   // 채팅방을 DB에 저장하는 함수
   const saveChatToDB = async chatData => {
     if (!userId) {
@@ -149,10 +194,12 @@ const Chatbot = ({ initialMessage = null, userId = null }) => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/chat/save', {
+      const token = localStorage.getItem('token')
+      const response = await fetch('http://localhost:3000/api/chat/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
         },
         body: JSON.stringify({
           ...chatData,
