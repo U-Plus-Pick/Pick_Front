@@ -66,9 +66,10 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'leader' }) => {
   const fetchUserInfo = async () => {
     try {
       const userData = await userService.getUserInfo()
+
       // 현재 요금제 설정
       if (userData.plans) {
-        setSelectedPlan(userData.plans)
+        setSelectedPlan(userData.plans.plan_name)
       }
       // 사용자 이름 설정
       if (userData.user_name) {
