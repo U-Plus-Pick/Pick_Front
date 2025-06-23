@@ -171,12 +171,38 @@ export const fileService = {
   },
 }
 
+// 파티 참여 관련 API
+export const applyService = {
+  getApplyAccountInfo: async leaderAccount => {
+    try {
+      console.log(leaderAccount)
+      const token = localStorage.getItem('token')
+      if (!token) throw new Error('로그인이 필요합니다.')
+      const response = await apiRequest('/api/payments/leader', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify(leaderAccount),
+      })
+      const data = await response.json()
+      console.log('계좌 정보 조회 응답:', data)
+      return data
+    } catch (error) {
+      console.error('계좌 정보 조회 오류:', error)
+      throw error
+    }
+  },
+}
+
 // 통합 API 서비스
 export const apiService = {
   ...planService,
   ...userService,
   ...partyService,
   ...fileService,
+  ...applyService,
 }
 
 export default apiService

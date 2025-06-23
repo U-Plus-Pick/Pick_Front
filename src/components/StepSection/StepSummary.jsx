@@ -1,10 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../../styles/scss/StepSummary.scss'
 import { summaryStep } from '../../constants/StepData'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
+import { applyService } from '../../services/apiService'
 
-export default function StepSummary({ onNext, userInfo }) {
-  const isLeader = userInfo.role === 'leader'
+export default function StepSummary({ onNext, userBundleInfo, userApiData, accountInfo }) {
+  const isLeader = userBundleInfo.role === 'leader'
+  const [isSubmitting, setIsSubmitting] = useState(false)
+
+  const handleSubmit = async () => {
+    try {
+      setIsSubmitting(true)
+
+      const result = await applyService.getApplyAccountInfo({
+        leader_email: userApiData.user_email,
+        leader_name: userApiData.user_name,
+        leader_bank_name: accountInfo.userBank,
+        leader_account_number: accountInfo.userAccount,
+      })
+      console.log('정산 정보 응답:', result)
+      onNext()
+    } catch (error) {
+      console.error('신청 실패:', error)
+      alert('신청 처리 중 오류가 발생했습니다.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+  const userName = userApiData.user_name
+  const userPlans = userApiData.plans
   return (
     <div className="card-content">
       <div className="step-title">
@@ -100,14 +124,14 @@ export default function StepSummary({ onNext, userInfo }) {
         <div className="bill-summary">
           <div className="bill-box">
             <div>
-              <p className="bill-title">[유피]님의 부담금</p>
+              <p className="bill-title">[{userName}]님의 부담금</p>
               <p className="bill-section-content">
                 {isLeader ? '본인 요금제 + 파티원 3명 요금제' : '본인 요금제'}
               </p>
             </div>
             <div>
-              <p className="bill-title">[유피]님의 요금제</p>
-              <p className="bill-section-content">5G 프리미엄 에센셜</p>
+              <p className="bill-title">[{userName}]님의 요금제</p>
+              <p className="bill-section-content">{userPlans}</p>
             </div>
             <div>
               <p className="bill-title">투게더로 인한 할인 금액</p>
@@ -117,37 +141,53 @@ export default function StepSummary({ onNext, userInfo }) {
           <div className="bill-box">
             <div className="bill-service">
               <p className="bill-usage-title">U+Pick 이용료</p>
-              <div className="bill-usage-fee">
-                <p className="bill-section-content">
-                  <span className="strike">2,000원</span>
-                  <span className="highlight green">-1,000원</span>
-                </p>
-                <span className="bill-sub-text green right">대표자 할인 적용완료</span>
-              </div>
+              {isLeader ? (
+                <div className="bill-usage-fee">
+                  <p className="bill-section-content">
+                    <span className="strike">2,000원</span>
+                    <span className="highlight green">-1,000원</span>
+                  </p>
+                  <span className="bill-sub-text green right">대표자 할인 적용완료</span>
+                </div>
+              ) : (
+                <div className="bill-usage-fee">
+                  <p className="bill-section-content">
+                    <span className="highlight green">-2,000원</span>
+                  </p>
+                </div>
+              )}
             </div>
             <div>
               <p className="bill-title">
-                {isLeader ? '정산받는 금액' : '할인 적용 후 결제 금액'}
+                {isLeader ? '정산받는 금액' : '결제 금액'}
                 {isLeader ? (
                   <span className="bill-sub-title">3명 요금제 금액만큼 환급받게 돼요!</span>
                 ) : (
                   <span className="bill-sub-title">
-                    (할인 금액 - U+Pick 이용료가 적용된 금액이 결제됩니다.)
+                    (U+Pick 이용료가 적용된 금액이 결제됩니다.)
                   </span>
                 )}
               </p>
               <p className="bill-section-content">
                 {isLeader
                   ? '전체 요금제 - (본인 요금제 + 1,000원)'
-                  : '[유피]님의 요금제 - 18,000원'}
+                  : `[${userApiData.user_name}]님의 요금제 - 18,000원`}
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      <button className="step-next" onClick={onNext}>
-        신청 완료하기
+      <button
+        className="step-next"
+        onClick={handleSubmit}
+        disabled={isSubmitting}
+        style={{
+          backgroundColor: isSubmitting ? '#ccc' : '#e6007e',
+          cursor: isSubmitting ? 'not-allowed' : 'pointer',
+        }}
+      >
+        {isSubmitting ? '처리 중' : '신청 완료하기'}
       </button>
     </div>
   )

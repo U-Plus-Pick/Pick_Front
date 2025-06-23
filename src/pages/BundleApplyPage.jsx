@@ -1,22 +1,29 @@
 import React, { useState } from 'react'
 import BundleApplyCard from '../components/BundleApplyCard'
 import '../styles/scss/bundleApply.scss'
+import { useNavigate } from 'react-router-dom'
 
 const BundleApplyPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
-
   const [direction, setDirection] = useState(1)
-  const [userInfo, setUserInfo] = useState({
+  const [userBundleInfo, setUserBundleInfo] = useState({
     user_id: '',
     role: '',
     name: '',
     terms_agreed: true,
   })
+  const [accountInfo, setAccountInfo] = useState({
+    userBank: '',
+    userAccount: '',
+  })
 
+  const navigate = useNavigate()
   const handleNext = () => {
-    if (currentStep === 3 && userInfo.role === 'member') {
+    if (!localStorage.getItem('token')) {
+      navigate('/login')
+    }
+    if (currentStep === 3 && userBundleInfo.role === 'member') {
       setCurrentStep(5)
-      console.log(userInfo.role)
     } else {
       setCurrentStep(currentStep + 1)
     }
@@ -38,8 +45,10 @@ const BundleApplyPage = () => {
         direction={direction}
         onNext={handleNext}
         onBack={handleBack}
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
+        userBundleInfo={userBundleInfo}
+        setUserBundleInfo={setUserBundleInfo}
+        accountInfo={accountInfo}
+        setAccountInfo={setAccountInfo}
       />
     </div>
   )
