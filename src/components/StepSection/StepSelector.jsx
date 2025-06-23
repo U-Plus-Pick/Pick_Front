@@ -1,8 +1,15 @@
 import React, { useState } from 'react'
 
-const StepSelector = ({ onNext }) => {
+const StepSelector = ({ onNext, setUserInfo }) => {
   const [isLeader, setIsLeader] = useState(true)
 
+  const handleSelect = leader => {
+    setIsLeader(leader)
+    setUserInfo(prev => ({
+      ...prev,
+      role: leader ? 'leader' : 'member',
+    }))
+  }
   return (
     <div className="card-content">
       <div className="step-title">
@@ -12,7 +19,7 @@ const StepSelector = ({ onNext }) => {
       <div className="step-card-wrapper selector">
         <button
           className={`step-card-twin ${isLeader ? 'active' : ''}`}
-          onClick={() => setIsLeader(true)}
+          onClick={() => handleSelect(true)}
         >
           <img src="/step1_leader.png" alt="결합 대표" />
           <p>결합 대표로 할게요</p>
@@ -24,7 +31,7 @@ const StepSelector = ({ onNext }) => {
         </button>
         <button
           className={`step-card-twin ${!isLeader ? 'active' : ''}`}
-          onClick={() => setIsLeader(false)}
+          onClick={() => handleSelect(false)}
         >
           <img src="/step1_member.png" alt="결합원" />
           <p>결합원으로 할게요</p>

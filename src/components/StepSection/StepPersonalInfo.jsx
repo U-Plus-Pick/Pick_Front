@@ -10,6 +10,7 @@ const StepPersonalInfo = ({ onNext }) => {
     <div className="card-content">
       <div className="step-title">
         <h2>[유피]님의 개인 정보를 확인해 주세요</h2>
+        <p>개인 정보는 마이페이지에서 변경 가능합니다.</p>
       </div>
       <div className="step-input-wrapper personal">
         <div>

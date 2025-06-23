@@ -14,15 +14,15 @@ const StepAccount = ({ onNext }) => {
       <div className="step-input-wrapper personal">
         <div>
           <p>이름</p>
-          <input value={userName} disabled />
+          <input value={userName} />
         </div>
         <div>
           <p>은행</p>
-          <input value={userBank} disabled />
+          <input value={userBank} />
         </div>
         <div>
           <p>계좌번호</p>
-          <input value={userNum} disabled />
+          <input value={userNum} />
         </div>
       </div>
       <button className="step-next" onClick={onNext}>

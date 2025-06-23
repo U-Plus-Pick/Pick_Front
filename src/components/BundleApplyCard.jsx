@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import StepSelector from './StepSection/StepSelector'
 import StepTerms from './StepSection/StepTerms'
@@ -10,12 +10,19 @@ import { GrFormPreviousLink } from 'react-icons/gr'
 import '../styles/scss/bundleApplyCard.scss'
 
 const BundleApplyCard = ({ currentStep, direction, onNext, onBack }) => {
+  const [userInfo, setUserInfo] = useState({
+    user_id: '',
+    role: '',
+    name: '',
+    terms_agreed: true,
+  })
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 1:
-        return <StepSelector onNext={onNext} />
+        return <StepSelector onNext={onNext} userInfo={userInfo} setUserInfo={setUserInfo} />
       case 2:
-        return <StepTerms onNext={onNext} />
+        return <StepSummary onNext={onNext} />
       case 3:
         return <StepPersonalInfo onNext={onNext} />
       case 4:
