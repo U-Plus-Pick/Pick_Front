@@ -3,10 +3,12 @@ const API_BASE_URL = 'http://localhost:3000' // 같은 도메인에서 API 호�
 
 // 공통 fetch 함수
 const apiRequest = async (url, options = {}) => {
+  const token = localStorage.getItem('token')
+
   const defaultHeaders = {
     'Content-Type': 'application/json',
-    // 인증 토큰이 필요한 경우
-    // 'Authorization': `Bearer ${localStorage.getItem('token')}`
+    // JWT 토큰이 있으면 Authorization 헤더에 추가
+    ...(token && { Authorization: `Bearer ${token}` }),
   }
 
   const config = {
@@ -47,14 +49,13 @@ export const planService = {
       })
 
       const plans = await response.json()
-      // plan_name만 추출하여 반환
+      // API 응답에서 plan_name 필드를 사용
       return plans.map(plan => plan.plan_name)
     } catch (error) {
       console.error('요금제 목록 조회 오류:', error)
       throw error
     }
   },
-
   // 요금제 전체 데이터 조회
   getPlansWithDetails: async () => {
     try {
@@ -63,17 +64,26 @@ export const planService = {
       })
 
       const plans = await response.json()
-      // 전체 데이터 반환
-      return plans
+      // API 응답을 그대로 반환 (이미 plan_name 필드가 있음)
+      // plan_monthly_fee는 문자열 형태이므로 숫자 변환
+      return plans.map(plan => ({
+        ...plan,
+        plan_monthly_fee: parseInt(plan.plan_monthly_fee?.replace(/[,원]/g, '')) || 0,
+      }))
     } catch (error) {
       console.error('요금제 상세 정보 조회 오류:', error)
       throw error
     }
-  }, // 요금제 변경
+  },
+  // 요금제 변경 (인증 필요)
   changePlan: async newPlan => {
     try {
-      console.log('요금제 변경 요청:', { plan_name: newPlan })
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('로그인이 필요합니다.')
+      }
 
+      console.log('요금제 변경 요청:', { plan_name: newPlan })
       const response = await apiRequest('/api/users/me/plan', {
         method: 'PATCH',
         body: JSON.stringify({ plan_name: newPlan }),
@@ -91,13 +101,18 @@ export const planService = {
 
 // 사용자 관련 API
 export const userService = {
-  // 사용자 정보 조회
+  // 사용자 정보 조회 (인증 필요)
   getUserInfo: async () => {
     try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('로그인이 필요합니다.')
+      }
+
       const response = await apiRequest('/api/users/me', {
         method: 'GET',
       })
-
+      // console.log('사용자 정보 조회 응답:', response.json())
       return await response.json()
     } catch (error) {
       console.error('사용자 정보 조회 오류:', error)
@@ -108,9 +123,14 @@ export const userService = {
 
 // 파티 관련 API
 export const partyService = {
-  // 파티 정보 조회
+  // 파티 정보 조회 (인증 필요)
   getPartyInfo: async () => {
     try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('로그인이 필요합니다.')
+      }
+
       const response = await apiRequest('/api/party/infor', {
         method: 'GET',
       })
@@ -125,15 +145,20 @@ export const partyService = {
 
 // 파일 업로드 관련 API
 export const fileService = {
-  // 납부확인서 업로드
+  // 납부확인서 업로드 (인증 필요)
   uploadPaymentReceipt: async (file, userName, month) => {
     try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        throw new Error('로그인이 필요합니다.')
+      }
+
       const formData = new FormData()
       formData.append('file', file)
       formData.append('userName', userName)
       formData.append('month', month)
 
-      const response = await apiRequest('/api/upload-payment-receipt', {
+      const response = await apiRequest('/api/party/documents', {
         method: 'POST',
         body: formData,
       })
