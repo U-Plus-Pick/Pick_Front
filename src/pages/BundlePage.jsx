@@ -7,8 +7,8 @@ const BundlePage = () => {
   return (
     <div>
       {/* <BundleIntro /> */}
-      <BundlePlans />
-      {/* <BundleRole /> */}
+      {/* <BundlePlans /> */}
+      <BundleRole />
     </div>
   )
 }
