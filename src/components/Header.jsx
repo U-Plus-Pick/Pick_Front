@@ -25,7 +25,7 @@ const Header = () => {
   const handleMenuClick = menu => {
     setActiveMenu(menu)
     if (menu === 'plan') navigate('/chatbot')
-    else if (menu === 'matching') navigate('/')
+    else if (menu === 'matching') navigate('/bundle')
     else if (menu === 'map') navigate('/')
   }
 
