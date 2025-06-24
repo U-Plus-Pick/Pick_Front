@@ -1,0 +1,268 @@
+$border-gray: #cacaca;
+$middle-pink: #f6b8c3;
+$dark-green: #2a8d00;
+$dark-2: #6c757d;
+$primary-pink: #e6007e;
+
+.step-summary-wrapper {
+  display: flex;
+  gap: 18px;
+}
+.summary-card {
+  border: 1px solid $border-gray;
+  border-radius: 15px;
+  padding: 25px;
+  width: 350px;
+  text-align: center;
+  font-family: 'Noto-sans-KR', sans-serif;
+  height: 380px;
+}
+// 매칭 멤버
+.seat-label {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 3px;
+  width: 110px;
+}
+.pink {
+  background-color: $middle-pink;
+  color: black;
+}
+.leader-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  .leader-img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+  }
+}
+.member-section {
+  margin-top: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .member-wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    justify-items: center;
+    align-items: end;
+  }
+  .member-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .matching {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+    }
+  }
+  .member-matching-label {
+    margin-top: 8px;
+    font-size: 14px;
+    color: $dark-green;
+    background-color: #c8f8c8;
+    padding: 0 8px;
+    border-radius: 3px;
+  }
+}
+.member-section .pink {
+  font-size: 14px;
+  padding: 0 8px;
+  border-radius: 3px;
+}
+.member-img {
+  width: 50px;
+}
+
+// 정산 과정
+.process {
+  padding: 18px 25px;
+
+  .subtitle {
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-family: 'Noto-sans-KR';
+  }
+}
+.process-timeline {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.timeline-step {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  padding-left: 36px;
+  padding-bottom: 12px;
+}
+
+.timeline-step:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-step::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ccc;
+}
+
+.timeline-step:last-child::before {
+  bottom: 70%;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  font-size: 18px;
+  background-color: white;
+  z-index: 1;
+}
+
+.step-text {
+  flex: 1;
+  font-size: 14px;
+  justify-items: left;
+  padding-left: 15px;
+}
+
+.step-text strong {
+  display: block;
+  font-size: 15px;
+}
+
+.process-question {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #555;
+
+  .icon-hover-wrap {
+    font-size: 14px;
+  }
+}
+
+.process-question .pink {
+  color: #e91e63;
+  font-weight: 600;
+}
+
+.process-question {
+  position: relative;
+  font-size: 16px;
+}
+
+.icon-hover-wrap {
+  position: relative;
+  display: inline-block;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+.icon-hover-wrap .answer {
+  display: none;
+  position: absolute;
+  top: 24px;
+  right: -45px;
+  width: 320px;
+  padding: 10px;
+  background: #f8f9fd;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  font-size: 13px;
+  text-align: left;
+  color: black;
+
+  strong {
+    color: $primary-pink;
+  }
+}
+
+.icon-hover-wrap:hover .answer {
+  display: block;
+}
+
+// 요금제 요약
+.bill-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-family: 'Noto-sans-KR', sans-serif;
+  width: 350px;
+  justify-content: space-between;
+}
+.bill-box {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  background-color: #fff;
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  max-height: 215px;
+  justify-content: center;
+}
+.bill-box > div {
+  justify-items: left;
+}
+.bill-title {
+  font-size: 14px;
+}
+.bill-service {
+  display: flex;
+  justify-content: space-between;
+
+  .bill-usage-title {
+    font-size: 16px;
+    font-family: 'Noto-sans-KR';
+    font-weight: 500;
+  }
+  .bill-usage-fee {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Noto-sans-KR';
+  }
+}
+.bill-section-content {
+  font-size: 18px;
+  font-weight: 600;
+}
+.bill-sub-text {
+  font-size: 12px;
+  font-weight: 600;
+}
+.bill-sub-title {
+  font-size: 12px;
+  margin-left: 8px;
+  color: #666;
+}
+.green {
+  color: #2cb75c;
+}
+.strike {
+  text-decoration: line-through;
+  color: #aaa;
+  margin-right: 6px;
+}
+.right {
+  text-align: right;
+}
