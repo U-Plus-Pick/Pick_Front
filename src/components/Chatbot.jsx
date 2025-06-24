@@ -201,7 +201,7 @@ const Chatbot = ({ initialMessage = null }) => {
   }, [userId, loadChatRoomsFromDB])
 
   // 채팅방을 DB에 저장하는 함수
-  const saveChatToDB = async chatData => {
+  const saveChatToDB = useCallback(async chatData => {
     const token = localStorage.getItem('token')
     if (!token) {
       console.warn('로그인된 사용자가 없습니다.')
@@ -233,7 +233,7 @@ const Chatbot = ({ initialMessage = null }) => {
       console.error('채팅 저장 에러:', error)
       throw error
     }
-  }
+  }, [])
 
   const sendToGPT = useCallback(
     message => {
@@ -394,6 +394,55 @@ const Chatbot = ({ initialMessage = null }) => {
     const d = typeof date === 'string' ? new Date(date) : date
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
   }
+  // 기존 채팅방의 메시지를 업데이트하는 함수
+  const updateExistingChat = useCallback(async () => {
+    const token = localStorage.getItem('token')
+    if (!token || messages.length <= 1) return
+
+    // 현재 채팅방이 이미 저장된 채팅방인지 확인
+    const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
+    if (!existingChatRoom) return
+
+    // 메시지가 추가되었는지 확인 (기존 메시지 수보다 많아진 경우)
+    if (messages.length <= existingChatRoom.messages.length) return
+
+    try {
+      const chatData = {
+        id: currentChatId,
+        title: existingChatRoom.title,
+        messages: messages,
+        createdAt: existingChatRoom.createdAt,
+      }
+
+      // DB에 업데이트
+      await saveChatToDB(chatData)
+
+      // 로컬 상태 업데이트
+      setChatRooms(prev =>
+        prev.map(room =>
+          room.id === currentChatId ? { ...room, messages: messages, updatedAt: new Date() } : room
+        )
+      )
+
+      console.log('기존 채팅방 업데이트 완료')
+    } catch (error) {
+      console.error('채팅방 업데이트 실패:', error)
+    }
+  }, [currentChatId, messages, chatRooms, saveChatToDB])
+
+  // 메시지가 변경될 때마다 기존 채팅방 업데이트 확인
+  useEffect(() => {
+    // 봇 메시지가 완전히 완성되었을 때만 저장 (스트리밍 중이 아닐 때)
+    const hasStreamingMessage = messages.some(msg => msg.isStreaming)
+    if (!hasStreamingMessage && messages.length > 1) {
+      // 디바운싱: 메시지 변경 후 2초 후에 저장
+      const timer = setTimeout(() => {
+        updateExistingChat()
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [messages, updateExistingChat])
 
   return (
     <div className="chatbot-container">
