@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import css from '../../styles/scss/SignUp.module.scss'
 import { FaCheckCircle, FaTimesCircle, FaEye } from 'react-icons/fa'
 import axios from 'axios'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { ko } from 'date-fns/locale'
 
 const SignUpForm = ({ goToLogin }) => {
   const [form, setForm] = useState({
@@ -131,7 +134,25 @@ const SignUpForm = ({ goToLogin }) => {
     <div className={css.card}>
       <form onSubmit={handleSubmit}>
         <input name="name" placeholder="이름" onChange={handleChange} required />
-        <input name="birth" type="date" placeholder="생년월일" onChange={handleChange} required />
+        <DatePicker
+          locale={ko}
+          selected={form.birth ? new Date(form.birth) : null}
+          onChange={date => {
+            if (date) {
+              const iso = date.toISOString().slice(0, 10)
+              setForm(prev => ({ ...prev, birth: iso }))
+            }
+          }}
+          dateFormat="yyyy-MM-dd"
+          placeholderText="생년월일 (YYYY-MM-DD)"
+          showYearDropdown
+          scrollableYearDropdown
+          yearDropdownItemNumber={125} // 1900~2024
+          maxDate={new Date()}
+          minDate={new Date('1900-01-01')}
+          className={css.input} // 기존 input 스타일과 동일하게 적용하려면
+          required
+        />
 
         <div className={css.confirmWrapper}>
           <input name="email" type="email" placeholder="이메일" onChange={handleChange} required />
