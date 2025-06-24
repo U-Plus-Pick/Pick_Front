@@ -109,7 +109,7 @@ const SignUpForm = ({ goToLogin }) => {
         phone: form.phone.replace(/-/g, ''),
         password: form.password,
         passwordConfirm: form.confirmPassword,
-        plan_name: form.plan,
+        plan: form.plan,
       })
 
       if (response.data?.message === '회원가입 성공') {
