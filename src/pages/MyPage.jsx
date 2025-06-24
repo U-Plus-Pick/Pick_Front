@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MypageCard from '../components/MyPage/MypageCard'
 import '../styles/scss/MyPage.scss'
-import PaymentBtn from '../components/paymentBtn'
 
 const MyPage = () => {
   const navigate = useNavigate()
@@ -68,7 +67,6 @@ const MyPage = () => {
   return (
     <div className="mypage-page">
       <MypageCard />
-      {/* <PaymentBtn /> */}
     </div>
   )
 }

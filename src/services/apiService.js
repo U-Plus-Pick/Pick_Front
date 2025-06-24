@@ -196,6 +196,28 @@ export const applyService = {
   },
 }
 
+// 파티 참여 관련 API
+export const paymentService = {
+  postTossInfo: async payInfo => {
+    try {
+      console.log(payInfo)
+      const response = await apiRequest('/api/toss', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payInfo),
+      })
+      const data = await response.json()
+      console.log('toss 결제 정보 저장:', data)
+      return data
+    } catch (error) {
+      console.error('toss 결제 정보 저장 오류:', error)
+      throw error
+    }
+  },
+}
+
 // 통합 API 서비스
 export const apiService = {
   ...planService,
@@ -203,6 +225,7 @@ export const apiService = {
   ...partyService,
   ...fileService,
   ...applyService,
+  ...paymentService,
 }
 
 export default apiService
