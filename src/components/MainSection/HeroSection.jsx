@@ -112,6 +112,7 @@ const HeroSection = () => {
                   <span className={css.highlight2}>결합 그룹</span>을 <br /> 찾아드려요
                 </>
               }
+              link="/bundle"
             />
           </div>
           <div ref={card3Ref}>
@@ -126,6 +127,7 @@ const HeroSection = () => {
                   <span className={css.highlight2}>지도</span>로 확인하고 사용해보세요
                 </>
               }
+              link="/membership"
             />
           </div>
         </div>

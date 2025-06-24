@@ -23,7 +23,7 @@ export default function PaySuccess() {
     const confirmPayment = async () => {
       try {
         // api명세서 나오면 맞춰서 수정 필요
-        const response = await axios.post('http://localhost:3000/api/payments/confirm', {
+        const response = await axios.post('http://localhost:3000/api/toss', {
           paymentKey,
           orderId,
           amount,
