@@ -103,7 +103,7 @@ const SignUpForm = ({ goToLogin }) => {
         name: form.name,
         birthdate: form.birth,
         email: form.email,
-        phone: form.phone,
+        phone: form.phone.replace(/-/g, ''),
         password: form.password,
         passwordConfirm: form.confirmPassword,
         plan_name: form.plan,
