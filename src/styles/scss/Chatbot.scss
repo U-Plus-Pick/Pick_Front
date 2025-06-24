@@ -143,9 +143,11 @@ $shadow-color: rgba(0, 0, 0, 0.1);
             }
 
             .toggle-arrow {
-              font-size: 14px;
+              font-size: 23px;
               line-height: 1;
               font-weight: bold;
+              line-height: 1; // 아이콘 정렬
+              transform: translateX(-1.5px);
             }
           }
         }
@@ -290,9 +292,10 @@ $shadow-color: rgba(0, 0, 0, 0.1);
           }
 
           .toggle-arrow {
-            font-size: 14px;
+            font-size: 23px;
             line-height: 1;
             font-weight: bold;
+            line-height: 1; // 아이콘 정렬
           }
         }
 
@@ -474,7 +477,7 @@ $shadow-color: rgba(0, 0, 0, 0.1);
           }
 
           .send-button {
-            background: linear-gradient(135deg, $primary-pink 0%, $secondary-pink 100%);
+            background: $secondary-pink;
             color: $white;
             border: none;
             padding: 14px 20px;

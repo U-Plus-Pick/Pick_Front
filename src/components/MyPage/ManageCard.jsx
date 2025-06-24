@@ -14,7 +14,6 @@ const ManageCard = ({
   const clientKey = import.meta.env.VITE_TOSS_CLIENT_KEY
   const today = new Date()
   const month = String(today.getMonth() + 1)
-
   // Toss Payments 초기화
   useEffect(() => {
     async function fetchPayment() {
@@ -40,9 +39,9 @@ const ManageCard = ({
       alert('결제 시스템을 초기화하는 중입니다. 잠시 후 다시 시도해주세요.')
       return
     }
-
     try {
-      const orderId = `${userEmail.split('@')[0]}_${month}`
+      const timestamp = Date.now()
+      const orderId = `${userEmail.split('@')[0]}_${timestamp}`
       await payment.requestPayment({
         method: 'CARD',
         amount: {

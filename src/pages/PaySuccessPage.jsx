@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import axios from 'axios'
+import { paymentService } from '../services/apiService'
+
 import upi from '../assets/PaidSuccess.png'
 
 import '../styles/scss/PaySuccessPage.scss'
@@ -18,18 +19,26 @@ export default function PaySuccess() {
   const month = String(today.getMonth() + 1)
 
   const [showModal, setShowModal] = useState(true)
+  const [isRequested, setIsRequested] = useState(false)
 
   useEffect(() => {
     const confirmPayment = async () => {
+      if (isRequested) return // 중복 요청 막기
+      setIsRequested(true)
+
       try {
-        // api명세서 나오면 맞춰서 수정 필요
-        const response = await axios.post('http://localhost:3000/api/toss', {
-          paymentKey,
-          orderId,
-          amount,
-          userEmail,
-        })
-        console.log('결제 성공:', response.data)
+        const payInfo = {
+          id: orderId,
+          user_email: userEmail,
+          payment_key: paymentKey,
+          amount: Number(amount),
+          payment_method: 'CARD',
+          paid_status: 'SUCCESS',
+          paid_at: new Date().toISOString(),
+        }
+
+        const result = await paymentService.postTossInfo(payInfo)
+        console.log('결제 저장 성공:', result)
       } catch (error) {
         console.error('결제 실패:', error.response?.data)
       }
@@ -37,7 +46,7 @@ export default function PaySuccess() {
     if (paymentKey && orderId && amount) {
       confirmPayment()
     }
-  }, [paymentKey, orderId, amount, userEmail])
+  }, [paymentKey, orderId, amount, userEmail, isRequested])
 
   const handleCloseModal = targetPath => {
     setShowModal(false)
