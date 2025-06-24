@@ -110,7 +110,6 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       setSelectedPlan('사용 중인 요금제가 없어요')
     }
   }
-
   // 파티 정보 가져오기
   const fetchPartyInfo = useCallback(async () => {
     try {
@@ -119,33 +118,78 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
 
       console.log('파티 정보 API 응답:', partyData)
 
-      const currentUserEmail = userData.user_email || ''
-
-      // 모든 파티원 정보 (리더 + 크루)
-      const allMembers = []
-
-      // 리더 정보 추가
-      if (partyData.leader_infor) {
-        allMembers.push({
-          email: partyData.leader_infor.leader_email,
-          name: partyData.leader_infor.leader_name,
-          plan_name: partyData.leader_infor.plan_name,
-          monthly_fee: partyData.leader_infor.plan_fee,
-          role: 'leader',
-        })
+      // 파티 정보가 없는 경우 (빈 객체이거나 필수 필드가 없는 경우)
+      if (!partyData || (!partyData.party_id && !partyData.leader_infor)) {
+        console.log('파티 정보가 없음 - 기존 userStatus 유지')
+        setPartyMembers([])
+        setTotalPartyFee(0)
+        setTotalBillAmount(monthlyFee) // 본인 요금만
+        return
       }
 
-      // 크루 정보 추가
-      if (partyData.crew_infor && Array.isArray(partyData.crew_infor)) {
-        partyData.crew_infor.forEach(member => {
+      const currentUserEmail = userData.user_email || ''
+
+      // 모든 파티원 정보 (새로운 API 구조와 기존 구조 모두 지원)
+      const allMembers = []
+
+      // 새로운 API 구조 처리 (party_id, leader, members)
+      if (partyData.party_id) {
+        // 리더 정보 추가
+        if (partyData.leader) {
           allMembers.push({
-            email: member.member_email,
-            name: member.member_name,
-            plan_name: member.plan_name,
-            monthly_fee: member.plan_monthly_fee,
-            role: 'member',
+            email: partyData.leader.email,
+            name: partyData.leader.name,
+            plan_name: partyData.leader.plans?.plan_name,
+            monthly_fee: partyData.leader.plans?.monthly_fee || 0,
+            role: 'leader',
           })
-        })
+        }
+
+        // 멤버들 정보 추가
+        if (partyData.members && Array.isArray(partyData.members)) {
+          partyData.members.forEach(member => {
+            allMembers.push({
+              email: member.email,
+              name: member.name,
+              plan_name: member.plans?.plan_name,
+              monthly_fee: member.plans?.monthly_fee || 0,
+              role: 'member',
+            })
+          })
+        }
+      }
+      // 기존 API 구조 처리 (leader_infor, crew_infor)
+      else {
+        // 리더 정보 추가
+        if (partyData.leader_infor) {
+          allMembers.push({
+            email: partyData.leader_infor.leader_email,
+            name: partyData.leader_infor.leader_name,
+            plan_name: partyData.leader_infor.plan_name,
+            monthly_fee: partyData.leader_infor.plan_fee,
+            role: 'leader',
+          })
+        }
+
+        // 크루 정보 추가
+        if (partyData.crew_infor && Array.isArray(partyData.crew_infor)) {
+          partyData.crew_infor.forEach(member => {
+            allMembers.push({
+              email: member.member_email,
+              name: member.member_name,
+              plan_name: member.plan_name,
+              monthly_fee: member.plan_monthly_fee,
+              role: 'member',
+            })
+          })
+        }
+      }
+
+      // 현재 사용자가 파티에 있는지 확인하고 역할 업데이트 (선택적)
+      const currentUser = allMembers.find(member => member.email === currentUserEmail)
+      if (currentUser && currentUser.role !== userStatus) {
+        console.log(`파티에서 사용자 역할 감지: ${currentUser.role}, 현재 상태: ${userStatus}`)
+        setUserStatus(currentUser.role)
       }
 
       // 본인을 제외한 파티원들만 필터링
@@ -164,19 +208,20 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
         allMembers,
         otherMembers,
         currentUserEmail,
+        currentUserRole: currentUser?.role,
+        userStatus,
         totalPartyFee: totalFee,
         monthlyFee,
         totalBillAmount: totalAmount,
       })
     } catch (error) {
       console.error('파티 정보 조회 오류:', error)
-      // 파티 정보 조회 실패 시 none 상태로 설정
-      setUserStatus('none')
+      // 파티 정보 조회 실패 시에도 userStatus는 유지 (fetchUserInfo에서 설정한 값 유지)
       setPartyMembers([])
       setTotalPartyFee(0)
-      setTotalBillAmount(0)
+      setTotalBillAmount(monthlyFee) // 본인 요금만
     }
-  }, [monthlyFee])
+  }, [monthlyFee, userStatus])
 
   // 컴포넌트 마운트 시 요금제 목록과 사용자 정보, 파티 정보 로드
   useEffect(() => {
@@ -208,7 +253,6 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     const totalAmount = totalPartyFee + monthlyFee
     setTotalBillAmount(totalAmount)
   }, [monthlyFee, totalPartyFee])
-
   // 정산받는 금액 계산
   useEffect(() => {
     const upickFee = userStatus === 'leader' ? UPICK_FEE_LEADER : UPICK_FEE_MEMBER
@@ -219,6 +263,9 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
     } else if (userStatus === 'member') {
       // 멤버: 본인 요금 + U+Pick 이용료
+      calculatedSettlement = monthlyFee + upickFee
+    } else {
+      // none 상태: 본인 요금 + U+Pick 이용료
       calculatedSettlement = monthlyFee + upickFee
     }
 
