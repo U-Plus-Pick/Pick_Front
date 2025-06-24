@@ -156,16 +156,16 @@ const Chatbot = ({ initialMessage = null }) => {
   }, [])
   // 사용자의 채팅방들을 DB에서 불러오는 함수
   const loadChatRoomsFromDB = useCallback(async () => {
-    if (!userId) return
+    const token = localStorage.getItem('token')
+    if (!token) return
 
     setIsLoadingChatRooms(true)
     try {
-      const token = localStorage.getItem('token')
-      const response = await fetch(`http://localhost:3000/chat/rooms/${userId}`, {
+      const response = await fetch(`http://localhost:3000/api/chat/rooms`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
+          Authorization: `Bearer ${token}`,
         },
       })
 
@@ -181,32 +181,44 @@ const Chatbot = ({ initialMessage = null }) => {
     } finally {
       setIsLoadingChatRooms(false)
     }
-  }, [userId])
-
+  }, []) // userId 의존성 제거
   // 컴포넌트 마운트 시 채팅방 불러오기
   useEffect(() => {
-    if (userId) {
+    const token = localStorage.getItem('token')
+    if (token) {
       loadChatRoomsFromDB()
     }
+  }, [loadChatRoomsFromDB])
+
+  // 토큰 변화 감지하여 채팅방 다시 불러오기
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (token && userId) {
+      loadChatRoomsFromDB()
+    } else if (!token) {
+      setChatRooms([]) // 로그아웃 시 채팅방 목록 초기화
+    }
   }, [userId, loadChatRoomsFromDB])
+
   // 채팅방을 DB에 저장하는 함수
   const saveChatToDB = async chatData => {
-    if (!userId) {
+    const token = localStorage.getItem('token')
+    if (!token) {
       console.warn('로그인된 사용자가 없습니다.')
       return
     }
 
     try {
-      const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3000/api/gpt/', {
+      const response = await fetch('http://localhost:3000/api/chat/insert-messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token && { Authorization: `Bearer ${token}` }),
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          ...chatData,
-          userId: userId, // 사용자 ID 추가
+          chatroom_id: chatData.id,
+          messages: chatData.messages,
+          chatroom_title: chatData.title,
         }),
       })
 
@@ -216,8 +228,10 @@ const Chatbot = ({ initialMessage = null }) => {
 
       const result = await response.json()
       console.log('채팅 저장 완료:', result)
+      return result
     } catch (error) {
       console.error('채팅 저장 에러:', error)
+      throw error
     }
   }
 
@@ -309,10 +323,10 @@ const Chatbot = ({ initialMessage = null }) => {
       sendMessage()
     }
   }
-
   const resetChat = async () => {
+    const token = localStorage.getItem('token')
     // 로그인한 사용자이고, 현재 채팅이 기본 메시지보다 많고, 아직 저장되지 않은 새 채팅이면 저장
-    if (userId && messages.length > 1) {
+    if (token && messages.length > 1) {
       // 이미 저장된 채팅방인지 확인
       const isAlreadySaved = chatRooms.some(room => room.id === currentChatId)
 
@@ -326,11 +340,15 @@ const Chatbot = ({ initialMessage = null }) => {
           createdAt: new Date(),
         }
 
-        // DB에 저장
-        await saveChatToDB(chatData)
+        try {
+          // DB에 저장
+          await saveChatToDB(chatData)
 
-        // 채팅방 리스트에 추가 (로컬 상태 업데이트)
-        setChatRooms(prev => [chatData, ...prev])
+          // 채팅방 리스트에 추가 (로컬 상태 업데이트)
+          setChatRooms(prev => [chatData, ...prev])
+        } catch (error) {
+          console.error('채팅 저장 실패:', error)
+        }
       }
     }
 
