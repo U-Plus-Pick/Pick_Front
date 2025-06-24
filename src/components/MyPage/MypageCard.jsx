@@ -110,13 +110,17 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       setSelectedPlan('사용 중인 요금제가 없어요')
     }
   }
+
   // 파티 정보 가져오기
   const fetchPartyInfo = useCallback(async () => {
     try {
-      const partyData = await partyService.getPartyInfo()
+      const response = await partyService.getPartyInfo()
       const userData = await userService.getUserInfo()
 
-      console.log('파티 정보 API 응답:', partyData)
+      console.log('파티 정보 API 응답:', response)
+
+      // 응답에서 party 객체 추출
+      const partyData = response.party
 
       // 파티 정보가 없는 경우 (빈 객체이거나 필수 필드가 없는 경우)
       if (!partyData || (!partyData.party_id && !partyData.leader_infor)) {
@@ -166,7 +170,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
             email: partyData.leader_infor.leader_email,
             name: partyData.leader_infor.leader_name,
             plan_name: partyData.leader_infor.plan_name,
-            monthly_fee: partyData.leader_infor.plan_fee,
+            monthly_fee: partyData.leader_infor.plan_fee, // plan_fee로 수정
             role: 'leader',
           })
         }
