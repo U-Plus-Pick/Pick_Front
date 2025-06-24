@@ -197,7 +197,7 @@ const Chatbot = ({ initialMessage = null }) => {
 
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:3000/api/chat/messages', {
+      const response = await fetch('http://localhost:3000/api/gpt/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -364,7 +364,7 @@ const Chatbot = ({ initialMessage = null }) => {
         setMessages(prev =>
           prev.map(msg => (msg.isStreaming ? { ...msg, isStreaming: false } : msg))
         )
-      }, 5000) // 5초
+      }, 10000) // 10초
       return () => clearTimeout(timer)
     }
   }, [messages])

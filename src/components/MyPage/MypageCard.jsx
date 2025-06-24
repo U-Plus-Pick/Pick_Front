@@ -119,19 +119,6 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
 
       console.log('파티 정보 API 응답:', partyData)
 
-      // 파티 정보가 없는 경우 (none 상태)
-      if (
-        !partyData ||
-        (!partyData.leader_infor && (!partyData.crew_infor || partyData.crew_infor.length === 0))
-      ) {
-        console.log('파티 정보가 없음 - none 상태로 설정')
-        setUserStatus('none')
-        setPartyMembers([])
-        setTotalPartyFee(0)
-        setTotalBillAmount(0)
-        return
-      }
-
       const currentUserEmail = userData.user_email || ''
 
       // 모든 파티원 정보 (리더 + 크루)
@@ -221,12 +208,22 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     const totalAmount = totalPartyFee + monthlyFee
     setTotalBillAmount(totalAmount)
   }, [monthlyFee, totalPartyFee])
-  // 정산받는 금액 계산 (총 결제 금액 - 투게더 할인 + U+Pick 이용료)
+
+  // 정산받는 금액 계산
   useEffect(() => {
     const upickFee = userStatus === 'leader' ? UPICK_FEE_LEADER : UPICK_FEE_MEMBER
-    const calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
+
+    let calculatedSettlement
+    if (userStatus === 'leader') {
+      // 리더: 총 결제 금액 - 투게더 할인 + U+Pick 이용료 (기존 로직)
+      calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
+    } else if (userStatus === 'member') {
+      // 멤버: 본인 요금 + U+Pick 이용료
+      calculatedSettlement = monthlyFee + upickFee
+    }
+
     setSettlementAmount(calculatedSettlement)
-  }, [totalBillAmount, userStatus])
+  }, [totalBillAmount, monthlyFee, userStatus])
 
   // 선택한 요금제의 월 요금 가져오기
   const getMonthlyFeeForPlan = planName => {
