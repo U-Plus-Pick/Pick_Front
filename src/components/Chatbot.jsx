@@ -417,12 +417,20 @@ const Chatbot = ({ initialMessage = null }) => {
       // DB에 업데이트
       await saveChatToDB(chatData)
 
-      // 로컬 상태 업데이트
-      setChatRooms(prev =>
-        prev.map(room =>
-          room.id === currentChatId ? { ...room, messages: messages, updatedAt: new Date() } : room
-        )
-      )
+      // 로컬 상태 업데이트 (업데이트된 채팅방을 최상단으로 이동)
+      setChatRooms(prev => {
+        const updatedRoom = {
+          ...existingChatRoom,
+          messages: messages,
+          updatedAt: new Date(),
+        }
+
+        // 업데이트된 채팅방을 제외한 나머지 채팅방들
+        const otherRooms = prev.filter(room => room.id !== currentChatId)
+
+        // 업데이트된 채팅방을 맨 앞에 배치
+        return [updatedRoom, ...otherRooms]
+      })
 
       console.log('기존 채팅방 업데이트 완료')
     } catch (error) {
@@ -443,6 +451,17 @@ const Chatbot = ({ initialMessage = null }) => {
       return () => clearTimeout(timer)
     }
   }, [messages, updateExistingChat])
+
+  // 채팅방 클릭 시 메시지를 로드하는 함수
+  const handleChatRoomClick = useCallback(chatRoom => {
+    // 메시지 로드 및 현재 채팅 ID 설정
+    const sanitizedMessages = chatRoom.messages.map(msg => ({
+      ...msg,
+      isStreaming: false,
+    }))
+    setMessages(sanitizedMessages)
+    setCurrentChatId(chatRoom.id)
+  }, [])
 
   return (
     <div className="chatbot-container">
@@ -487,15 +506,7 @@ const Chatbot = ({ initialMessage = null }) => {
                           <button
                             key={chatRoom.id}
                             className="chat-room-item"
-                            onClick={() => {
-                              // 모든 메시지의 isStreaming을 false로 초기화
-                              const sanitizedMessages = chatRoom.messages.map(msg => ({
-                                ...msg,
-                                isStreaming: false,
-                              }))
-                              setMessages(sanitizedMessages)
-                              setCurrentChatId(chatRoom.id)
-                            }}
+                            onClick={() => handleChatRoomClick(chatRoom)}
                           >
                             <div className="chat-room-title">{chatRoom.title}</div>
                             <div className="chat-room-date">
