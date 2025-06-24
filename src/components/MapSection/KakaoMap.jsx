@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react'
 import { useKakaoMapLoader } from '../../hooks/useKakaoMapLoader'
 import { membershipBrands } from '../../constants/MembershipData'
 
-export default function Kakaomap({ radius, onUpdateShops }) {
+export default function Kakaomap({ radius, onUpdateShops, onMapLoad }) {
   const loaded = useKakaoMapLoader()
-  const [location, setLocation] = useState({ lat: 33.450701, lng: 126.570667 })
+  const [location, setLocation] = useState({ lat: 37.530881, lng: 126.973491 })
 
   // 내 위치 가져오기
   useEffect(() => {
@@ -31,10 +31,18 @@ export default function Kakaomap({ radius, onUpdateShops }) {
       }
       const map = new window.kakao.maps.Map(mapContainer, mapOption)
 
+      // onMapLoad에 map + kakao.maps 전달
+      if (onMapLoad) {
+        onMapLoad({
+          map,
+          kakaoMaps: window.kakao.maps,
+        })
+      }
+
       // 현재 위치 마커
       const markerImage = new window.kakao.maps.MarkerImage(
         '/map/me.png',
-        new window.kakao.maps.Size(100, 100),
+        new window.kakao.maps.Size(70, 70),
         { offset: new window.kakao.maps.Point(20, 40) }
       )
       new window.kakao.maps.Marker({
@@ -43,13 +51,13 @@ export default function Kakaomap({ radius, onUpdateShops }) {
         image: markerImage,
       })
 
-      // 혜택 가능한 브랜드명 리스트
-      const ps = new window.kakao.maps.services.Places()
-
       // 검색 결과 누적 초기화
       if (onUpdateShops) {
         onUpdateShops([])
       }
+
+      // 혜택 가능한 브랜드명 리스트
+      const ps = new window.kakao.maps.services.Places()
 
       membershipBrands.forEach(brand => {
         ps.keywordSearch(
@@ -57,13 +65,28 @@ export default function Kakaomap({ radius, onUpdateShops }) {
           (data, status) => {
             if (status === window.kakao.maps.services.Status.OK) {
               if (onUpdateShops) {
-                onUpdateShops(prev => [...prev, ...data])
+                onUpdateShops(prev => [
+                  ...prev,
+                  ...data.map(place => ({
+                    ...place,
+                    brandLogo: brand.logo,
+                    desc: brand.description,
+                    benefitCnt: brand.count,
+                  })),
+                ])
               }
+
+              const MarkerLogoImage = new window.kakao.maps.MarkerImage(
+                brand.logo, // 브랜드별 logo
+                new window.kakao.maps.Size(50, 50),
+                { offset: new window.kakao.maps.Point(25, 50) }
+              )
 
               data.forEach(place => {
                 const marker = new window.kakao.maps.Marker({
                   map: map,
                   position: new window.kakao.maps.LatLng(place.y, place.x),
+                  image: MarkerLogoImage,
                 })
 
                 const infowindow = new window.kakao.maps.InfoWindow({

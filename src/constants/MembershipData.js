@@ -4,7 +4,7 @@ export const membershipBrands = [
     description: `아메리카노(R사이즈) 1잔 무료
 ※ ICE/HOT 선택 가능`,
     count: `VIP콕 내 제휴사 통합 월 1회, 연 12회 가능`,
-    logo: '',
+    logo: '/map/hollys.png',
   },
   {
     name: 'CGV',
@@ -14,13 +14,13 @@ export const membershipBrands = [
     count: `VVIP/VIP 등급 전용
 VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
 (월 1회 사용 가능, CGV/메가박스 중 택 1)`,
-    logo: '',
+    logo: '/map/CGV.png',
   },
   {
     name: '롯데월드 어드벤처 부산',
     description: `종합이용권(1 Day / AFTER 4)본인 35% 할인 (동반 3인 10%)`,
     count: `VIP콕 내 제휴사 통합 월 1회, 연 12회 가능`,
-    logo: '',
+    logo: '/map/lotte.png',
   },
   {
     name: '에버랜드',
@@ -46,7 +46,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
     name: '배스킨라빈스',
     description: `싱글레귤러 1개 무료 교환`,
     count: `VIP콕 통합 월 1회, 연 12회 가능`,
-    logo: '',
+    logo: '/map/BR.png',
   },
   {
     name: '쉐이크쉑',
@@ -122,7 +122,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
 우수 2천원 할인
 ※ 5만원 이상 결제 시`,
     count: `월 1회`,
-    logo: '',
+    logo: '/map/GSthefresh.png',
   },
   {
     name: 'GS25',
@@ -136,7 +136,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
  [우수]
  일 최대 1만원까지 할인 가능
  월 최대 10만원까지 할인 가능`,
-    logo: '',
+    logo: '/map/GS25.png',
   },
   {
     name: '파리바게뜨',
@@ -149,7 +149,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
  [우수]
  일 최대 1만원까지 할인 가능
  월 최대 10만원까지 할인 가능<`,
-    logo: '',
+    logo: '/map/paris.png',
   },
   {
     name: '뚜레쥬르',
@@ -159,7 +159,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
     count: `일 1회
 일 최대 2만원까지 할인 가능
 월 최대 10만원까지 할인 가능`,
-    logo: '',
+    logo: '/map/TJ.png',
   },
   {
     name: '젠지',
@@ -172,7 +172,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
     name: '배스킨라빈스',
     description: `패밀리 사이즈(5가지 맛) 4천원 할인`,
     count: `월 1회`,
-    logo: '',
+    logo: '/map/BR.png',
   },
   { name: '펫생각', description: `20% 할인(최대 2만원)`, count: `월 1회`, logo: '' },
   {
@@ -238,7 +238,7 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
     description: `굽네치킨 2,500원 할인 쿠폰 1매
 ※1만7천원이상 주문시 사용가능`,
     count: `월 1회`,
-    logo: '',
+    logo: '/map/goobne.png',
   },
   { name: '컬리너리스퀘어', description: `10%할인`, count: `1일 1회`, logo: '' },
   {
@@ -318,13 +318,6 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
     description: `견적금액 10만원이상 중고폰 판매시
  1만원 상품권지급`,
     count: `제한 없음`,
-    logo: '',
-  },
-  {
-    name: '다락',
-    description: `VVIP/VIP : 월 이용금액 1개월 무료 + 35% 할인 
- 우수 : 35% 할인`,
-    count: `월 1회`,
     logo: '',
   },
   { name: '셀렉스', description: `15% 할인 (최대 3만원)`, count: `월 1회`, logo: '' },
