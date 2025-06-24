@@ -1,44 +1,41 @@
 import React from 'react'
 import css from '../../styles/scss/BundlePlan.module.scss'
-import BundlePlanImg from '../../assets/BundlePlanImg.png'
+import BundlePlanImg from '../../assets/BundlePlan/BundlePlanImg.png'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 
 const plans = [
   {
     name: '5G 프리미어 에센셜',
-    price: '(8,500원)',
+    price: '(85,000원)',
     details: [
-      '데이터: 무제한',
-      '공유 데이터: 테더링+쉐어링70GB',
-      '전화: 집/이동전화 무제한',
-      '문자: 기본 제공',
-      '기본혜택: U+ 모바일tv 기본 월정액',
+      { label: '데이터', value: '무제한', sub: '테더링+쉐어링 70GB' },
+      { label: '전화', value: '무제한', sub: '부가통화 300분' },
+      { label: '문자', value: '기본 제공' },
+      { label: '기본혜택', value: 'U+ 모바일tv 기본 월정액' },
     ],
     total: '65,000원',
   },
   {
     name: '5G 프리미어 레귤러',
-    price: '(9,500원)',
+    price: '(95,000원)',
     details: [
-      '데이터: 무제한',
-      '공유 데이터: 테더링+쉐어링80GB',
-      '전화: 집/이동전화 무제한',
-      '문자: 기본 제공',
-      '기본혜택: U+ 모바일tv 기본 월정액',
-      '스마트기기: 1대 월정액 할인',
+      { label: '데이터', value: '무제한', sub: '테더링+쉐어링 80GB' },
+      { label: '전화', value: '무제한' },
+      { label: '문자', value: '기본 제공' },
+      { label: '기본혜택', value: 'U+ 모바일tv 기본 월정액' },
+      { label: '스마트기기', value: '1대 월정액 할인' },
     ],
     total: '75,000원',
   },
   {
     name: '5G 프리미어 플러스',
-    price: '(10,500원)',
+    price: '(105,000원)',
     details: [
-      '데이터: 무제한',
-      '공유 데이터: 테더링+쉐어링100GB',
-      '전화: 집/이동전화 무제한',
-      '문자: 기본 제공',
-      '기본혜택: U+ 모바일tv 기본 월정액',
-      '스마트기기: 2대 월정액 할인',
+      { label: '데이터', value: '무제한', sub: '테더링+쉐어링 100GB' },
+      { label: '전화', value: '무제한' },
+      { label: '문자', value: '기본 제공' },
+      { label: '기본혜택', value: 'U+ 모바일tv\n기본 월정액' },
+      { label: '스마트기기', value: '2대 월정액 할인' },
     ],
     total: '85,000원',
   },
@@ -73,7 +70,14 @@ const BundlePlan = () => {
                   <p className={css.price}>{plan.price}</p>
                   <ul>
                     {plan.details.map((item, i) => (
-                      <li key={i}>{item}</li>
+                      <li key={i} className={css.detailItem}>
+                        <div className={css.detailRow}>
+                          <span className={css.label}>{item.label}</span>
+                          <span className={css.colon}>:</span>
+                          <span className={css.value}>{item.value}</span>
+                        </div>
+                        {item.sub && <div className={css.subText}>{item.sub}</div>}
+                      </li>
                     ))}
                   </ul>
                   <div className={css.finalPrice}>
