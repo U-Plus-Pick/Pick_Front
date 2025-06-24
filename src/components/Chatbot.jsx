@@ -323,6 +323,7 @@ const Chatbot = ({ initialMessage = null }) => {
       sendMessage()
     }
   }
+
   const resetChat = async () => {
     const token = localStorage.getItem('token')
     // 로그인한 사용자이고, 현재 채팅이 기본 메시지보다 많고, 아직 저장되지 않은 새 채팅이면 저장
@@ -346,6 +347,7 @@ const Chatbot = ({ initialMessage = null }) => {
 
           // 채팅방 리스트에 추가 (로컬 상태 업데이트)
           setChatRooms(prev => [chatData, ...prev])
+          console.log('새 채팅 버튼 클릭으로 수동 저장 완료')
         } catch (error) {
           console.error('채팅 저장 실패:', error)
         }
@@ -383,7 +385,7 @@ const Chatbot = ({ initialMessage = null }) => {
         setMessages(prev =>
           prev.map(msg => (msg.isStreaming ? { ...msg, isStreaming: false } : msg))
         )
-      }, 10000) // 10초
+      }, 5000) // 5초
       return () => clearTimeout(timer)
     }
   }, [messages])
@@ -438,19 +440,62 @@ const Chatbot = ({ initialMessage = null }) => {
     }
   }, [currentChatId, messages, chatRooms, saveChatToDB])
 
-  // 메시지가 변경될 때마다 기존 채팅방 업데이트 확인
+  // 채팅방 클릭 시 메시지를 로드하는 함수
   useEffect(() => {
-    // 봇 메시지가 완전히 완성되었을 때만 저장 (스트리밍 중이 아닐 때)
-    const hasStreamingMessage = messages.some(msg => msg.isStreaming)
-    if (!hasStreamingMessage && messages.length > 1) {
-      // 디바운싱: 메시지 변경 후 2초 후에 저장
-      const timer = setTimeout(() => {
-        updateExistingChat()
-      }, 2000)
+    const token = localStorage.getItem('token')
+    if (!token || messages.length <= 1) return
 
-      return () => clearTimeout(timer)
+    // 사용자 메시지가 추가되었을 때 즉시 저장 (봇 응답 기다리지 않음)
+    const lastMessage = messages[messages.length - 1]
+    if (lastMessage && lastMessage.sender === 'user') {
+      // 기존 채팅방인지 확인
+      const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
+
+      if (existingChatRoom) {
+        // 기존 채팅방 업데이트
+        const timer = setTimeout(() => {
+          updateExistingChat()
+        }, 500)
+        return () => clearTimeout(timer)
+      }
     }
-  }, [messages, updateExistingChat])
+
+    // 봇 메시지가 완전히 완성되었을 때 저장 (스트리밍 중이 아닐 때)
+    const hasStreamingMessage = messages.some(msg => msg.isStreaming)
+    if (!hasStreamingMessage) {
+      const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
+
+      if (existingChatRoom) {
+        // 기존 채팅방 업데이트
+        const timer = setTimeout(() => {
+          updateExistingChat()
+        }, 200)
+        return () => clearTimeout(timer)
+      } else {
+        // 새 채팅방 자동 저장 (봇 응답 완료 후)
+        const userMessage = messages.find(m => m.sender === 'user')
+        if (userMessage) {
+          const timer = setTimeout(async () => {
+            const chatData = {
+              id: currentChatId,
+              title: userMessage.text.substring(0, 30) + '...',
+              messages: messages,
+              createdAt: new Date(),
+            }
+
+            try {
+              await saveChatToDB(chatData)
+              setChatRooms(prev => [chatData, ...prev])
+              console.log('새 채팅방 자동 저장 완료')
+            } catch (error) {
+              console.error('새 채팅방 자동 저장 실패:', error)
+            }
+          }, 200)
+          return () => clearTimeout(timer)
+        }
+      }
+    }
+  }, [messages, updateExistingChat, currentChatId, chatRooms, saveChatToDB])
 
   // 채팅방 클릭 시 메시지를 로드하는 함수
   const handleChatRoomClick = useCallback(chatRoom => {
