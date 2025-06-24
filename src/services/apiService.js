@@ -199,7 +199,7 @@ export const applyService = {
       const token = localStorage.getItem('token')
       console.log(token, roleObj)
       if (!token) throw new Error('로그인이 필요합니다.')
-      const response = await apiRequest('/api/join-requests', {
+      const response = await apiRequest('/api/party/apply', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
