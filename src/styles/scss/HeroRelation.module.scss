@@ -169,6 +169,7 @@
   }
 
   :global(.pink) {
+    all : unset;
     color: #FDD5F1;
     font-weight: 600;
   }
