@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { io } from 'socket.io-client'
 import '../styles/scss/Chatbot.scss'
+import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
 const Chatbot = ({ initialMessage = null }) => {
   const navigate = useNavigate()
@@ -395,7 +396,7 @@ const Chatbot = ({ initialMessage = null }) => {
                   <img src="/user.png" alt="사용자" />
                 </div>
                 <button className="back-icon" onClick={toggleSidebar}>
-                  <span className="toggle-arrow">←</span>
+                  <FiChevronLeft className="toggle-arrow" />
                 </button>
               </div>
               <div className="sidebar-section">
@@ -456,7 +457,7 @@ const Chatbot = ({ initialMessage = null }) => {
           <div className={`chatbot-main ${!sidebarVisible ? 'sidebar-hidden' : ''}`}>
             {!sidebarVisible && (
               <button className="sidebar-toggle-btn" onClick={toggleSidebar}>
-                <span className="toggle-arrow">→</span>
+                <FiChevronRight className="toggle-arrow" />
               </button>
             )}
             <div className="chat-header">
