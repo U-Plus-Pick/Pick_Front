@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import css from '../../styles/scss/HeroUPI.module.scss'
-import HeroWalkingUPI from '../../assets/HeroWalkingUPI2.webm'
+import HeroWalkingUPI from '../../assets/Hero/HeroWalkingUPI2.webm'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useScrollRefresh from '../../hooks/useScrollRefresh'

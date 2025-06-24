@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import css from '../../styles/scss/HeroLastPage.module.scss'
-import HeroLast from '../../assets/HeroLast.png'
+import HeroLast from '../../assets/Hero/HeroLast.png'
 import { FiArrowUpRight } from 'react-icons/fi'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'

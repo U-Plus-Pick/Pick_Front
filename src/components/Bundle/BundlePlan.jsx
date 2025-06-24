@@ -1,6 +1,6 @@
 import React from 'react'
 import css from '../../styles/scss/BundlePlan.module.scss'
-import BundlePlanImg from '../../assets/BundlePlanImg.png'
+import BundlePlanImg from '../../assets/BundlePlan/BundlePlanImg.png'
 import { HiOutlineChevronDoubleRight } from 'react-icons/hi'
 
 const plans = [
