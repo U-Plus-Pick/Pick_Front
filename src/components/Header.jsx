@@ -26,7 +26,7 @@ const Header = () => {
     setActiveMenu(menu)
     if (menu === 'plan') navigate('/chatbot')
     else if (menu === 'matching') navigate('/bundle')
-    else if (menu === 'map') navigate('/')
+    else if (menu === 'map') navigate('/membership')
   }
 
   const handleLogin = () => {

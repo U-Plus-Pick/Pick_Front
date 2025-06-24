@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 
-const StepSelector = ({ onNext, userBundleInfo, setUserBundleInfo }) => {
-  const [isLeader, setIsLeader] = useState(userBundleInfo.role === 'leader')
+const StepSelector = ({ onNext, userRole, setUserRole }) => {
+  const [isLeader, setIsLeader] = useState(userRole ? userRole === 'leader' : true)
 
   const handleSelect = leader => {
     setIsLeader(leader)
-    setUserBundleInfo(prev => ({
-      ...prev,
-      role: leader ? 'leader' : 'member',
-    }))
+    setUserRole(leader ? 'leader' : 'member')
   }
+
   return (
     <div className="card-content">
       <div className="step-title">

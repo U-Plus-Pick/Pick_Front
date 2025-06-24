@@ -15,21 +15,15 @@ const BundleApplyCard = ({
   direction,
   onNext,
   onBack,
-  userBundleInfo,
-  setUserBundleInfo,
+  userRole,
+  setUserRole,
   accountInfo,
   setAccountInfo,
 }) => {
   const [userApiData, setUserApiData] = useState(null)
 
   const stepComponents = {
-    1: (
-      <StepSelector
-        onNext={onNext}
-        userBundleInfo={userBundleInfo}
-        setUserBundleInfo={setUserBundleInfo}
-      />
-    ),
+    1: <StepSelector onNext={onNext} userRole={userRole} setUserRole={setUserRole} />,
     2: <StepTerms onNext={onNext} />,
     3: <StepPersonalInfo onNext={onNext} userApiData={userApiData} />,
     4: (
@@ -43,7 +37,7 @@ const BundleApplyCard = ({
     5: (
       <StepSummary
         onNext={onNext}
-        userBundleInfo={userBundleInfo}
+        userRole={userRole}
         userApiData={userApiData}
         accountInfo={accountInfo}
       />
