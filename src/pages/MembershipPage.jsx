@@ -9,6 +9,11 @@ const MembershipPage = () => {
   const [radius, setRadius] = useState(1000) // 1km
   const [shopList, setShopList] = useState([])
   const [mapObj, setMapObj] = useState(null)
+  const [searchKeyword, setSearchKeyword] = useState('')
+
+  const searchShopList = shopList.filter(shop =>
+    shop.place_name.toLowerCase().includes(searchKeyword.toLowerCase())
+  )
 
   return (
     <section className="membership-container">
@@ -19,7 +24,11 @@ const MembershipPage = () => {
       {/* 리스트 */}
       <div className="map-info-wrapper">
         <div className="map-search">
-          <input placeholder="내 주변 혜택을 검색해보세요!" />
+          <input
+            placeholder="내 주변 혜택을 검색해보세요!"
+            value={searchKeyword}
+            onChange={e => setSearchKeyword(e.target.value)}
+          />
           <IoIosSearch />
         </div>
         <div className="info-title-item">
@@ -35,7 +44,7 @@ const MembershipPage = () => {
           </div>
         </div>
         <ul>
-          {shopList.map((shop, index) => (
+          {searchShopList.map((shop, index) => (
             <li
               key={`${shop.id}_${index}`}
               onClick={() => {
