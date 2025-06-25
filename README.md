@@ -27,7 +27,7 @@ U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결
       <img src="https://avatars.githubusercontent.com/u/101700659?v=4" width="100" /><br/>
       <strong>최영준</strong><br/>
       <a href="https://github.com/udwns310">@udwns310 </a>
-      <h3>프론트엔드 담당</h3>
+      <p>프론트엔드 담당</p>
     </td>
     <td align="center">
       <img src="https://avatars.githubusercontent.com/u/88296511?v=4" width="100" /><br/>
