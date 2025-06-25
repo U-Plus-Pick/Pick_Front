@@ -156,7 +156,7 @@ npm run dev
 * `ChatbotPage.jsx` : AI 챗봇 인터페이스
 * `BunddleApplyPage.jsx` : 결합 매칭 신청 UI
 * `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인
-* `MembershipMap.jsx` : 위치 기반 멤버십 혜택 지도
+* `MembershipPage.jsx` : 위치 기반 멤버십 혜택 지도
 
 ---
 
@@ -187,7 +187,11 @@ UI 디자인은 Figma 최종 시안 기반
 ![image](https://github.com/user-attachments/assets/5cfdf871-69e1-4dd0-96a7-5f06607c2e95)
 
 ## 마이 페이지  
-![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)
+![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)  
+
+## 멤버십 지도 페이지  
+![image](https://github.com/user-attachments/assets/d493dc7a-b69f-4862-8dff-915a6214620a)
+
 
 
 
