@@ -7,10 +7,14 @@ import { MdOutlineNavigateNext } from 'react-icons/md'
 
 const MembershipPage = () => {
   const [radius, setRadius] = useState(1000) // 1km
+  const [gradeFilter, setGradeFilter] = useState('ALL') // 등급
+
   const [shopList, setShopList] = useState([])
   const [mapObj, setMapObj] = useState(null)
   const [searchKeyword, setSearchKeyword] = useState('')
   const [markers, setMarkers] = useState([])
+
+  const [selectedShopId, setSelectedShopId] = useState(null)
   const [currentInfoWindow, setCurrentInfoWindow] = useState(null)
 
   const searchShopList = shopList.filter(shop =>
@@ -31,9 +35,14 @@ const MembershipPage = () => {
         <Kakaomap
           radius={radius}
           level={levelMap[radius]}
+          selectedShopId={selectedShopId}
+          setSelectedShopId={setSelectedShopId}
+          currentInfoWindow={currentInfoWindow}
+          setCurrentInfoWindow={setCurrentInfoWindow}
           onUpdateShops={setShopList}
           onMapLoad={setMapObj}
           onMarkersUpdate={setMarkers}
+          gradeFilter={gradeFilter}
         />
       </div>
       {/* 리스트 */}
@@ -48,14 +57,21 @@ const MembershipPage = () => {
         </div>
         <div className="info-title-item">
           <div>
-            📍 <strong>[현재 위치]</strong> 기준 <br />
+            📍 <strong>[현재 위치]</strong> <br />
+            <select value={gradeFilter} onChange={e => setGradeFilter(e.target.value)}>
+              <option value="ALL">ALL</option>
+              <option value="VIP">VIP</option>
+              <option value="BASIC">BASIC</option>
+            </select>
+            혜택 중{' '}
             <select value={radius} onChange={e => setRadius(Number(e.target.value))}>
               <option value={500}>500m</option>
               <option value={1000}>1km</option>
               <option value={2000}>2km</option>
               <option value={3000}>3km</option>
             </select>
-            에서 받을 수 있는 혜택입니다
+            내 에서
+            <br /> 받을 수 있는 혜택입니다
           </div>
         </div>
         <ul>
@@ -80,8 +96,8 @@ const MembershipPage = () => {
               <div className="shop-info">
                 <img
                   src={shop.brandLogo}
-                  alt={shop.place_name}
-                  style={{ width: '36px', height: '36px' }}
+                  alt="로고 준비중"
+                  style={{ width: '36px', height: '36px', objectFit: 'cover' }}
                 />
                 <div>
                   <div className="shop-name">{shop.place_name}</div>

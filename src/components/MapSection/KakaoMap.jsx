@@ -2,7 +2,18 @@ import React, { useEffect, useState } from 'react'
 import { useKakaoMapLoader } from '../../hooks/useKakaoMapLoader'
 import { membershipBrands } from '../../constants/MembershipData'
 
-export default function Kakaomap({ radius, level, onUpdateShops, onMapLoad, onMarkersUpdate }) {
+export default function Kakaomap({
+  radius,
+  level,
+  selectedShopId,
+  setSelectedShopId,
+  currentInfoWindow,
+  setCurrentInfoWindow,
+  onUpdateShops,
+  onMapLoad,
+  onMarkersUpdate,
+  gradeFilter,
+}) {
   const loaded = useKakaoMapLoader()
   const [location, setLocation] = useState({ lat: 37.530881, lng: 126.973491 })
   const [markers, setMarkers] = useState([])
@@ -60,67 +71,89 @@ export default function Kakaomap({ radius, level, onUpdateShops, onMapLoad, onMa
       // 혜택 가능한 브랜드명 리스트
       const ps = new window.kakao.maps.services.Places()
 
-      membershipBrands.forEach(brand => {
-        ps.keywordSearch(
-          brand.name,
-          (data, status) => {
-            if (status === window.kakao.maps.services.Status.OK) {
-              if (onUpdateShops) {
-                onUpdateShops(prev => [
-                  ...prev,
-                  ...data.map(place => ({
-                    ...place,
-                    brandLogo: brand.logo,
-                    desc: brand.description,
-                    benefitCnt: brand.count,
-                  })),
-                ])
+      membershipBrands
+        .filter(brand => gradeFilter === 'ALL' || brand.membership_grade === gradeFilter)
+        .forEach(brand => {
+          ps.keywordSearch(
+            brand.membership_brand,
+            (data, status) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                if (onUpdateShops) {
+                  onUpdateShops(prev => [
+                    ...prev,
+                    ...data.map(place => ({
+                      ...place,
+                      brandLogo: brand.logo,
+                      desc: brand.membership_description,
+                      benefitCnt: brand.count,
+                    })),
+                  ])
+                }
+
+                const MarkerLogoImage = new window.kakao.maps.MarkerImage(
+                  brand.logo, // 브랜드별 logo
+                  new window.kakao.maps.Size(50, 50),
+                  { offset: new window.kakao.maps.Point(25, 50) }
+                )
+
+                data.forEach(place => {
+                  const marker = new window.kakao.maps.Marker({
+                    map: map,
+                    position: new window.kakao.maps.LatLng(place.y, place.x),
+                    image: MarkerLogoImage,
+                  })
+
+                  const infowindow = new window.kakao.maps.InfoWindow({
+                    content: `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`,
+                  })
+
+                  window.kakao.maps.event.addListener(marker, 'mouseover', () => {
+                    infowindow.open(map, marker)
+                  })
+
+                  window.kakao.maps.event.addListener(marker, 'mouseout', () => {
+                    infowindow.close()
+                  })
+
+                  window.kakao.maps.event.addListener(marker, 'click', () => {
+                    if (selectedShopId === place.id) {
+                      if (currentInfoWindow) {
+                        currentInfoWindow.close()
+                      }
+
+                      setSelectedShopId(null)
+                      setCurrentInfoWindow(null)
+                      return
+                    }
+
+                    if (currentInfoWindow) {
+                      currentInfoWindow.close()
+                    }
+
+                    infowindow.open(map, marker)
+                    setSelectedShopId(place.id)
+                    setCurrentInfoWindow(infowindow)
+                  })
+
+                  setMarkers(prev => [
+                    ...prev,
+                    {
+                      marker,
+                      infowindow,
+                      place,
+                    },
+                  ])
+                })
               }
-
-              const MarkerLogoImage = new window.kakao.maps.MarkerImage(
-                brand.logo, // 브랜드별 logo
-                new window.kakao.maps.Size(50, 50),
-                { offset: new window.kakao.maps.Point(25, 50) }
-              )
-
-              data.forEach(place => {
-                const marker = new window.kakao.maps.Marker({
-                  map: map,
-                  position: new window.kakao.maps.LatLng(place.y, place.x),
-                  image: MarkerLogoImage,
-                })
-
-                const infowindow = new window.kakao.maps.InfoWindow({
-                  content: `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`,
-                })
-
-                window.kakao.maps.event.addListener(marker, 'mouseover', () => {
-                  infowindow.open(map, marker)
-                })
-
-                window.kakao.maps.event.addListener(marker, 'mouseout', () => {
-                  infowindow.close()
-                })
-
-                setMarkers(prev => [
-                  ...prev,
-                  {
-                    marker,
-                    infowindow,
-                    place,
-                  },
-                ])
-              })
+            },
+            {
+              location: new window.kakao.maps.LatLng(location.lat, location.lng),
+              radius: radius,
             }
-          },
-          {
-            location: new window.kakao.maps.LatLng(location.lat, location.lng),
-            radius: radius,
-          }
-        )
-      })
+          )
+        })
     }
-  }, [loaded, location, radius])
+  }, [loaded, location, radius, gradeFilter])
 
   useEffect(() => {
     if (onMarkersUpdate) {

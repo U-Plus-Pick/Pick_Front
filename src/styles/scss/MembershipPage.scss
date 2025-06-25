@@ -21,7 +21,7 @@ $border-gray-2: #eaeaea;
   position: absolute;
   z-index: 100;
   bottom: 3rem;
-  height: 80%;
+  height: 82%;
   left: 5rem;
   width: 380px;
   border-radius: 30px;
@@ -66,7 +66,7 @@ $border-gray-2: #eaeaea;
 
 .map-search {
   position: relative;
-  margin: 30px 15px 10px;
+  margin: 30px 15px 5px;
   svg {
     position: absolute;
     right: 1rem;
@@ -86,19 +86,18 @@ $border-gray-2: #eaeaea;
 .info-title-item {
   text-align-last: center;
   font-size: 20px;
-  padding: 10px 30px;
+  padding: 15px 30px;
   border-bottom: 1px solid $border-gray-2;
 
   strong {
     color: $primary-pink;
   }
   select {
-    width: 80px;
     font-size: 19px;
-    margin: 10px 0;
+    margin: 5px 0;
     border: none;
-    background: $border-gray;
-    padding: 3px 5px;
+    background: #e6e6e6;
+    margin: 0 5px;
   }
 }
 
@@ -110,7 +109,7 @@ $border-gray-2: #eaeaea;
   align-items: center;
 
   img {
-    object-fit: contain;
+    object-fit: cover;
   }
 
   .shop-name {
