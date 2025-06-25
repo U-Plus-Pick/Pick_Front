@@ -78,7 +78,6 @@ export default function Kakaomap({
             brand.membership_brand,
             (data, status) => {
               if (status === window.kakao.maps.services.Status.OK) {
-                // VIP / BASIC 탭 선택에 따라 보여줄 가맹점 결정
                 const targetItem =
                   gradeFilter === 'ALL'
                     ? brand.items[0]
@@ -88,6 +87,7 @@ export default function Kakaomap({
 
                 const desc = targetItem?.membership_description || ''
                 const logo = brand.logo || '/default_logo.png'
+
                 if (onUpdateShops) {
                   onUpdateShops(prev => [
                     ...prev,
@@ -112,24 +112,52 @@ export default function Kakaomap({
                     position: new window.kakao.maps.LatLng(place.y, place.x),
                     image: MarkerLogoImage,
                   })
-                  const infowindow = new window.kakao.maps.InfoWindow({
-                    content: `<div style="padding:5px;font-size:12px;">
-                      <div>${place.place_name}</div>
-                      <div style="margin-top: 4px; white-space: pre-wrap;">${desc}</div>
-                    </div>`,
+
+                  const benefitHtml = brand.items
+                    .map(item => {
+                      const tagClass = item.membership_tap.includes('VIP')
+                        ? 'infowindow-tag-vip'
+                        : 'infowindow-tag-basic'
+
+                      const lines = item.membership_description.split('\n')
+                      const descHtml = lines.map(line => `<div>${line}</div>`).join('')
+
+                      return `
+                        <div class="infowindow-benefit-item">
+                          <span class="${tagClass}">${item.membership_tap}</span>
+                          <div class="infowindow-benefit-desc">${descHtml}</div>
+                        </div>
+                      `
+                    })
+                    .join('')
+
+                  const customOverlay = new window.kakao.maps.CustomOverlay({
+                    position: new window.kakao.maps.LatLng(place.y, place.x),
+                    content: `
+                      <div class="custom-infowindow">
+                        <div class="custom-infowindow-brand">${brand.membership_brand}</div>
+                        <div class="custom-infowindow-benefits">${benefitHtml}</div>
+                      </div>
+                    `,
+                    xAnchor: 0.5,
+                    yAnchor: 1.3,
                   })
+
+                  // 마우스 오버
                   window.kakao.maps.event.addListener(marker, 'mouseover', () => {
-                    infowindow.open(map, marker)
+                    customOverlay.setMap(map)
                   })
 
+                  // 마우스 아웃
                   window.kakao.maps.event.addListener(marker, 'mouseout', () => {
-                    infowindow.close()
+                    customOverlay.setMap(null)
                   })
 
+                  // 클릭 이벤트
                   window.kakao.maps.event.addListener(marker, 'click', () => {
                     if (selectedShopId === place.id) {
                       if (currentInfoWindow) {
-                        currentInfoWindow.close()
+                        currentInfoWindow.setMap(null)
                       }
 
                       setSelectedShopId(null)
@@ -138,19 +166,19 @@ export default function Kakaomap({
                     }
 
                     if (currentInfoWindow) {
-                      currentInfoWindow.close()
+                      currentInfoWindow.setMap(null)
                     }
 
-                    infowindow.open(map, marker)
+                    customOverlay.setMap(map)
                     setSelectedShopId(place.id)
-                    setCurrentInfoWindow(infowindow)
+                    setCurrentInfoWindow(customOverlay)
                   })
 
                   setMarkers(prev => [
                     ...prev,
                     {
                       marker,
-                      infowindow,
+                      overlay: customOverlay,
                       place,
                     },
                   ])
