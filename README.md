@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/36e40504-633a-47c9-a790-07bd92c9e027)
+
 # U+Pick Frontend
 
 ## 개요
