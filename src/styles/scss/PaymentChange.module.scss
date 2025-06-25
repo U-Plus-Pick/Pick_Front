@@ -1,23 +1,18 @@
-.overlay {
+// 기존 overlay는 아예 제거하거나 사용하지 않도록 수정
+// 만약 jsx에 <div className={css.overlay}>로 감싸져 있다면, 제거하거나 className만 빼도 돼
+
+.modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-  }
-  
-  .modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: #fff;
     border-radius: 1rem;
+    border : none;
     padding: 2rem;
     width: 28rem;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    position: relative;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,14 +30,23 @@
   
   .title {
     margin-bottom: 1.5rem;
+  
     h2 {
       font-size: 1.4rem;
       text-align: center;
+    }
+  
+    p {
+      font-size: 0.95rem;
+      color: #888;
+      text-align: center;
+      margin-top: 0.5rem;
     }
   }
   
   .form {
     width: 100%;
+  
     > div {
       margin-bottom: 1rem;
     }

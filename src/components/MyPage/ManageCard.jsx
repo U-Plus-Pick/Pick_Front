@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { loadTossPayments } from '@tosspayments/tosspayments-sdk'
 import { useNavigate } from 'react-router-dom'
 import PaymentChange from './PaymentChange'
+import axios from 'axios'
 
 const ManageCard = ({
   userStatus,
@@ -112,10 +113,27 @@ const ManageCard = ({
   }
 
   //계좌 저장 핸들러
-  const handleSaveAccount = () => {
-    console.log('새 계좌 정보:', accountInfo)
-    // TODO: API 호출 등 저장 로직
-    setShowChangeModal(false)
+  const handleSaveAccount = async () => {
+    try {
+      const res = await axios.patch(
+        'http://localhost:3000/api/payments/leader/change',
+        {
+          leader_bank_name: accountInfo.userBank,
+          leader_account_number: accountInfo.userAccount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // 또는 상태관리된 토큰
+          },
+        }
+      )
+
+      alert(res.data.message || '계좌 정보가 성공적으로 저장되었습니다.')
+      setShowChangeModal(false)
+    } catch (err) {
+      console.error('계좌 저장 실패:', err)
+      alert(err.response?.data?.message || '계좌 저장 중 오류가 발생했습니다.')
+    }
   }
 
   return (
