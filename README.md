@@ -118,7 +118,7 @@ npm run dev
 * `PlanList.jsx` / `PlanCompare.jsx` : 요금제 리스트 및 비교
 * `PartyMatch.jsx` : 결합 매칭 신청 UI
 * `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인
-* `MembershipMap.jsx` : 위치 기반 멤버십 혜택 지도 (개발 중)
+* `MembershipMap.jsx` : 위치 기반 멤버십 혜택 지도
 
 ---
 
