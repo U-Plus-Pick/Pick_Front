@@ -1,32 +1,32 @@
 ![image](https://github.com/user-attachments/assets/36e40504-633a-47c9-a790-07bd92c9e027)
 
->당신의 U+, 당신만의 AI
+> 당신의 U+, 당신만의 AI
 
 # U+Pick (유플픽) - LG U+ 맞춤형 요금제 추천 & 결합 할인 플랫폼
-당신의 U+, 당신만의 AI
 
-## 프로젝트 개요
-
-U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결합 할인 매칭, 위치 기반 멤버십 혜택 안내를 통합 제공하는 플랫폼입니다.  
-고객의 통신 서비스 경험을 향상시키고 실질적인 비용 절감 및 편리함을 목표로 합니다.
+**U+Pick**은 LG U+ 고객을 위한 **AI 기반 맞춤 요금제 추천**, **지인 결합 할인 매칭**, **위치 기반 멤버십 혜택 안내**를 통합 제공하는 플랫폼입니다.  
+고객의 통신 서비스 경험을 향상시키고 **실질적인 비용 절감 및 편리함**을 목표로 합니다.
 
 ---
 
+## 📅 프로젝트 기간
 
-
-## 프로젝트 기간
-
-📅 2025.06.09 ~ 2025.06.27
+**2025.06.09 ~ 2025.06.27**
 
 ---
-## 프론트엔드 담당
+
+## 👨‍💻 팀원 소개
+
+
+
+### 💻 프론트엔드 담당
 
 <table>
   <tr>
     <td align="center">
       <img src="https://avatars.githubusercontent.com/u/101700659?v=4" width="100" /><br/>
       <strong>최영준</strong><br/>
-      <a href="https://github.com/udwns310">@udwns310 </a>
+      <a href="https://github.com/udwns310">@udwns310</a>
     </td>
     <td align="center">
       <img src="https://avatars.githubusercontent.com/u/88296511?v=4" width="100" /><br/>
@@ -41,15 +41,31 @@ U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결
   </tr>
 </table>
 
+### 🔧 백엔드 담당
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/110558148?v=4" width="100" /><br/>
+      <strong>한여준</strong><br/>
+      <a href="https://github.com/Hanyeojun">@Hanyeojun</a>
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/63743294?v=4" width="100" /><br/>
+      <strong>임재찬</strong><br/>
+      <a href="https://github.com/alex8396">@alex8396</a>
+    </td>
+  </tr>
+</table>
 
 ---
 
-## 관련 링크
+## 🔗 관련 링크
 
-- [프론트엔드 Repo](https://github.com/U-Plus-Pick/Pick_Front)
-- [백엔드 Repo](https://github.com/U-Plus-Pick/Pick_Back)
-- [프로젝트 Notion](https://wonderful-dewberry-9d0.notion.site/04-U-Pick-206796e7580e80cf8e1cefc9df8d4c23?source=copy_link)
-- [최종 시안 Figma](https://www.figma.com/design/qaATYVnUNOeFKnJQU6mdX2/U-Pick?node-id=0-1&p=f&t=FEsA1aEdVqXb2dNQ-0)
+- [🔗 프론트엔드 Repo](https://github.com/U-Plus-Pick/Pick_Front)
+- [🔗 백엔드 Repo](https://github.com/U-Plus-Pick/Pick_Back)
+- [🔗 프로젝트 Notion](https://wonderful-dewberry-9d0.notion.site/04-U-Pick-206796e7580e80cf8e1cefc9df8d4c23?source=copy_link)
+- [🔗 최종 시안 Figma](https://www.figma.com/design/qaATYVnUNOeFKnJQU6mdX2/U-Pick?node-id=0-1&p=f&t=FEsA1aEdVqXb2dNQ-0)
 
 ---
 
