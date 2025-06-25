@@ -43,7 +43,6 @@ export default function Kakaomap({
       }
       const map = new window.kakao.maps.Map(mapContainer, mapOption)
 
-      // onMapLoad에 map + kakao.maps 전달
       if (onMapLoad) {
         onMapLoad({
           map,
@@ -68,30 +67,41 @@ export default function Kakaomap({
         onUpdateShops([])
       }
       setMarkers([])
+
       // 혜택 가능한 브랜드명 리스트
       const ps = new window.kakao.maps.services.Places()
 
       membershipBrands
-        .filter(brand => gradeFilter === 'ALL' || brand.membership_grade === gradeFilter)
+        .filter(brand => gradeFilter === 'ALL' || brand.membership_grade_list.includes(gradeFilter))
         .forEach(brand => {
           ps.keywordSearch(
             brand.membership_brand,
             (data, status) => {
               if (status === window.kakao.maps.services.Status.OK) {
+                // VIP / BASIC 탭 선택에 따라 보여줄 가맹점 결정
+                const targetItem =
+                  gradeFilter === 'ALL'
+                    ? brand.items[0]
+                    : brand.items.find(i =>
+                        i.membership_tap.includes(gradeFilter === 'VIP' ? 'VIP' : '기본')
+                      )
+
+                const desc = targetItem?.membership_description || ''
+                const logo = brand.logo || '/default_logo.png'
                 if (onUpdateShops) {
                   onUpdateShops(prev => [
                     ...prev,
                     ...data.map(place => ({
                       ...place,
-                      brandLogo: brand.logo,
-                      desc: brand.membership_description,
+                      brandLogo: logo,
+                      desc,
                       benefitCnt: brand.count,
                     })),
                   ])
                 }
 
                 const MarkerLogoImage = new window.kakao.maps.MarkerImage(
-                  brand.logo, // 브랜드별 logo
+                  logo,
                   new window.kakao.maps.Size(50, 50),
                   { offset: new window.kakao.maps.Point(25, 50) }
                 )
@@ -102,11 +112,12 @@ export default function Kakaomap({
                     position: new window.kakao.maps.LatLng(place.y, place.x),
                     image: MarkerLogoImage,
                   })
-
                   const infowindow = new window.kakao.maps.InfoWindow({
-                    content: `<div style="padding:5px;font-size:12px;">${place.place_name}</div>`,
+                    content: `<div style="padding:5px;font-size:12px;">
+                      <div>${place.place_name}</div>
+                      <div style="margin-top: 4px; white-space: pre-wrap;">${desc}</div>
+                    </div>`,
                   })
-
                   window.kakao.maps.event.addListener(marker, 'mouseover', () => {
                     infowindow.open(map, marker)
                   })

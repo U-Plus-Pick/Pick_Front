@@ -115,6 +115,7 @@ const MembershipPage = () => {
                   display: '-webkit-box',
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: 'vertical',
+                  whiteSpace: 'pre-wrap',
                 }}
               >
                 {shop.desc || '혜택 정보 준비중'}
