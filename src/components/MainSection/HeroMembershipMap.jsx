@@ -32,6 +32,7 @@ const HeroMembershipMap = () => {
   const rightPenguinRef = useRef(null)
 
   useEffect(() => {
+    if (window.innerWidth < 1600) return
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {

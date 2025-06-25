@@ -180,9 +180,6 @@
   width: 12rem;
   z-index: -1;
 
-  @media (max-width: 1024px) {
-    display: none;
-  }
 }
 
 .rightCharacter {
@@ -192,7 +189,67 @@
   width: 15rem;
   z-index: -1;
 
-  @media (max-width: 1024px) {
-    display: none;
+}
+
+
+@media (max-width: 1200px) {
+  .mapSection {
+    min-height : 100vh;
+    .card {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .leftContent,
+    .rightContent {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+
+      h3 {
+        font-size: 1.8rem;
+      }
+
+      p {
+        font-size: 1.2rem;
+        margin-top: 1rem;
+      }
+    }
+
+    .leftContent {
+      .block {
+        display: flex;
+        flex-direction: column;
+        align-items: center; //텍스트+로고카드 가운데 정렬
+
+        .logoCards {
+          justify-content: center;     //로고 카드 중앙 정렬
+          flex-wrap: wrap;
+          gap: 2rem;
+        }
+
+        .logoCard {
+          margin: 0 auto;              //로고 카드 각자 가운데
+        }
+
+        .mapInfoImage {
+          display: block;
+          margin: 1.5rem auto 0 auto;  //하단 이미지 중앙 정렬
+        }
+      }
+    }
+
+    .mapWrapper,
+    .mapImage,
+    .purpleBox,
+    .pinkBox,
+    .pinkLine,
+    .purpleLine,
+    .leftCharacter,
+    .rightCharacter {
+      display: none !important;
+    }
   }
 }
