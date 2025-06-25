@@ -69,7 +69,7 @@
 
 ---
 
-# U+Pick Frontend
+# 🌐 U+Pick Frontend
 
 ## 개요
 
