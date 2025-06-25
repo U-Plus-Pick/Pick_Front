@@ -91,3 +91,49 @@
     }
   }
   
+  /* 1200px 이하 전용 */
+@media (max-width: 1200px) {
+  /* 1) 섹션 전체 */
+  .bundleSection {
+    height: 100vh;
+    // padding: 6rem 1.2rem;
+    text-align: center;
+  }
+
+  /* 2) 그룹을 세로 스택으로 */
+  .bundleSection .imageGroup {
+    flex-direction: column;
+    align-items: center;
+    gap: 4rem;
+  }
+
+  /* 3) 목업 이미지는 숨김 */
+  .bundleSection .left .mockupImage {
+    display: none;
+  }
+
+  /* 4) 오른쪽 박스 내부 순서·변형 조정 */
+  .bundleSection .right {
+    align-items: center;
+    transform: none !important;
+  }
+
+  /* 제목·설명 먼저, 카드 이미지는 그 다음 */
+  .bundleSection .right .desc        { order: 1; margin: 0 auto 1rem; }
+  .bundleSection .right .cardImage   {
+    order: 2;
+    transform: none !important;     /* 카드 translate 제거 */
+    width: 100%;
+    max-width: 480px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  /* 글자 크기  축소 */
+  .bundleSection .right .HeroBundleTitle { font-size: 3rem; }
+  .bundleSection .right .desc            { font-size: 2rem; line-height: 1.5; }
+
+  /* 여백 div 줄이기 */
+  .bundleSection .right .space1,
+  .bundleSection .right .space2          { height: 0.8rem; }
+}
