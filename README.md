@@ -73,23 +73,30 @@
 
 ## 개요
 
-LG U+ 고객용 맞춤 요금제 추천 및 결합 할인 플랫폼의 React 기반 프론트엔드 애플리케이션입니다.  
+U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 및 결합 할인 프론트엔드 애플리케이션입니다.  
+챗봇 UI, 요금제 비교, 마이페이지, 위치 기반 멤버십 등 다양한 기능을 제공합니다.
 
 ---
 
 ## 주요 기능
 
-- AI 챗봇 UI 및 자연어 스트리밍 응답
-- 회원가입, 로그인, 마이페이지 UI
-- 요금제 리스트 및 추천, 비교 기능
-- 결합 할인 매칭 신청 및 파티 관리
-- 위치 기반 멤버십 혜택 지도
-- 반응형 웹 UI 및 접근성 고려
+- 🤖 AI 챗봇 UI 및 스트리밍 응답 처리
+- 🧾 요금제 리스트 / 비교 / 추천
+- 👥 결합 파티 신청 및 상태 관리
+- 🧭 위치 기반 멤버십 혜택 지도
+- 📱 반응형 웹 UI 및 접근성 고려
 
 ---
 
 ## 기술 스택
-![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white) ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white) ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white) ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white)
+![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
+
+---
 
 ---
 
