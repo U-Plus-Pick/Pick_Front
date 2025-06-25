@@ -86,7 +86,7 @@ export default function Kakaomap({
                       )
 
                 const desc = targetItem?.membership_description || ''
-                const logo = brand.logo || '/default_logo.png'
+                const logo = brand.logo || '/map/default_logo.png'
 
                 if (onUpdateShops) {
                   onUpdateShops(prev => [
