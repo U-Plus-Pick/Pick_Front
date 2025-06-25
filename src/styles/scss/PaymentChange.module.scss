@@ -1,0 +1,81 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 28rem;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .title {
+    margin-bottom: 1.5rem;
+    h2 {
+      font-size: 1.4rem;
+      text-align: center;
+    }
+  }
+  
+  .form {
+    width: 100%;
+    > div {
+      margin-bottom: 1rem;
+    }
+  
+    p {
+      margin-bottom: 0.4rem;
+      font-weight: bold;
+    }
+  
+    input,
+    select {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+  
+  .saveBtn {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top : 0.8rem;
+    background-color: #e6007e;
+    color: white;
+    border: none;
+    border-radius: 0.6rem;
+    font-size: 1.1rem;
+    cursor: pointer;
+  
+    &:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  }
+  
