@@ -82,13 +82,15 @@ VIP콕 내 무료예매 연3회/1+1예매 연9회(총 12회)
 (동반 최대3인까지 30%할인)`,
     count: `VIP콕 내 제휴사 통합 월 1회, 연 12회 가능`,
     logo: '',
+    tag: 'VIP 콕',
   },
   {
     name: 'SEOUL SKY',
     description: `본인 입장권 30%할인
 (동반인 최대 3인까지 10%할인)`,
     count: `VIP콕 내 제휴사 통합 월 1회, 연 12회 가능`,
-    logo: '',
+    logo: '/map/seoul.png',
+    tag: 'VIP 콕',
   },
   {
     name: '일리커피_캡슐배송비무료',

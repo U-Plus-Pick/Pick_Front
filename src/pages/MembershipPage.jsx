@@ -13,11 +13,15 @@ const MembershipPage = () => {
   return (
     <section className="membership-container">
       {/* 지도 */}
-      <div style={{ flex: 1 }}>
+      <div className="map-wrapper">
         <Kakaomap radius={radius} onUpdateShops={setShopList} onMapLoad={setMapObj} />
       </div>
       {/* 리스트 */}
       <div className="map-info-wrapper">
+        <div className="map-search">
+          <input placeholder="내 주변 혜택을 검색해보세요!" />
+          <IoIosSearch />
+        </div>
         <div className="info-title-item">
           <div>
             📍 <strong>[현재 위치]</strong> 기준 <br />
@@ -30,10 +34,6 @@ const MembershipPage = () => {
             에서 받을 수 있는 혜택입니다
           </div>
         </div>
-        <div className="map-search">
-          <input placeholder="내 주변 혜택을 검색해보세요!" />
-          <IoIosSearch />
-        </div>
         <ul>
           {shopList.map((shop, index) => (
             <li
@@ -45,20 +45,15 @@ const MembershipPage = () => {
               }}
             >
               {/* 브랜드 + 가게명 */}
-              <div
-                className="shop-info"
-                style={{ display: 'flex', gap: '8px', alignItems: 'center' }}
-              >
+              <div className="shop-info">
                 <img
                   src={shop.brandLogo}
                   alt={shop.place_name}
-                  style={{ width: '36px', height: '36px', borderRadius: '4px' }}
+                  style={{ width: '36px', height: '36px' }}
                 />
                 <div>
-                  <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{shop.place_name}</div>
-                  <div style={{ color: '#555', fontSize: '14px' }}>
-                    {shop.road_address_name || shop.address_name}
-                  </div>
+                  <div className="shop-name">{shop.place_name}</div>
+                  <div className="shop-address">{shop.road_address_name || shop.address_name}</div>
                 </div>
               </div>
 
@@ -79,7 +74,7 @@ const MembershipPage = () => {
 
               {/* 하단: 혜택 개수 + 카카오맵 */}
               <div className="benefit-item">
-                <div style={{ fontSize: '13px', color: '#999' }}>혜택 {shop.benefitCnt}건</div>
+                {/* <div>{shop.benefitCnt}</div> */}
                 <button onClick={() => window.open(shop.place_url, '_blank')}>
                   <MdOutlineNavigateNext />
                 </button>
