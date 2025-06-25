@@ -109,7 +109,7 @@ U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 챗봇 및 결합
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white)
-![SCSS](https://img.shields.io/badge/SCSS-cc6699.svg?&style=flat&logo=Sass&logoColor=White)
+![SCSS](https://img.shields.io/badge/SCSS-cc6699.svg?&style=flat&logo=Sass&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
 
