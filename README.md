@@ -24,6 +24,16 @@ U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결
 <table>
   <tr>
     <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/110558148?v=4" width="100" /><br/>
+      <strong>한여준</strong><br/>
+      <a href="https://github.com/Hanyeojun">@Hanyeojun</a>
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/63743294?v=4" width="100" /><br/>
+      <strong>임재찬</strong><br/>
+      <a href="https://github.com/alex8396">@alex8396</a>
+    </td>
+    <td align="center">
       <img src="https://avatars.githubusercontent.com/u/101700659?v=4" width="100" /><br/>
       <strong>최영준</strong><br/>
       <a href="https://github.com/udwns310">@udwns310 </a>
@@ -38,14 +48,10 @@ U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결
       <strong>박용규</strong><br/>
       <a href="https://github.com/yonggyu99">@yonggyu99</a>
     </td>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/63743294?v=4" width="100" /><br/>
-      <strong>임재찬</strong><br/>
-      <a href="https://github.com/alex8396">@alex8396</a>
-    </td>
+    
   </tr>
 </table>
----
+
 
 # U+Pick Frontend
 
