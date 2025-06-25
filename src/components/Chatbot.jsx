@@ -4,13 +4,13 @@ import { io } from 'socket.io-client'
 import '../styles/scss/Chatbot.scss'
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi'
 
-const Chatbot = ({ initialMessage = null }) => {
+const Chatbot = () => {
   const navigate = useNavigate()
   const [messages, setMessages] = useState([
     {
       id: 1,
       sender: 'bot',
-      text: '안녕하세요! U+의 요금제 추천 AI, 유피예요. 무엇을 도와드릴까요?',
+      text: '안녕하세요! U+의 요금제 추천 AI, 유피예요. 무엇을 도와드릴까요?<br>궁금한 점을 말씀해주시면 최선을 다해 답변해드릴게요!',
       timestamp: new Date(),
     },
   ])
@@ -24,6 +24,7 @@ const Chatbot = ({ initialMessage = null }) => {
   const messagesEndRef = useRef(null)
   const socketRef = useRef(null)
   const currentStreamingMessageRef = useRef(null)
+  const messagesRef = useRef(messages)
 
   // JWT 토큰에서 사용자 ID 추출 함수
   const getUserIdFromToken = () => {
@@ -234,65 +235,64 @@ const Chatbot = ({ initialMessage = null }) => {
       throw error
     }
   }, [])
-
-  const sendToGPT = useCallback(
-    message => {
-      if (!socketRef.current || !socketRef.current.connected) {
-        console.error('Socket.IO 연결이 없습니다.')
-        const errorResponse = {
-          id: Date.now() + 1,
-          sender: 'bot',
-          text: '연결에 문제가 있습니다. 페이지를 새로고침해주세요.',
-          timestamp: new Date(),
-        }
-        setMessages(prev => [...prev, errorResponse])
-        return
-      }
-
-      setIsLoading(true)
-      console.log('메시지 전송:', message)
-
-      // 즉시 빈 봇 메시지 생성 (스트리밍용)
-      const botMessageId = Date.now() + 1
-      const initialBotMessage = {
-        id: botMessageId,
-        sender: 'bot',
-        text: '',
-        timestamp: new Date(),
-        isStreaming: true,
-      }
-      currentStreamingMessageRef.current = botMessageId
-      setMessages(prev => [...prev, initialBotMessage])
-
-      // Socket.IO로 메시지 전송
-      socketRef.current.emit('chat_message', {
-        message: message,
-        conversation: messages.map(msg => ({
-          role: msg.sender === 'user' ? 'user' : 'assistant',
-          content: msg.text,
-          timestamp: msg.timestamp,
-        })),
-      })
-      console.log('Socket.IO 메시지 전송 완료')
-      setIsLoading(false)
-    },
-    [messages]
-  )
-
   useEffect(() => {
-    if (initialMessage) {
-      const newMessage = {
-        id: Date.now(),
-        sender: 'user',
-        text: initialMessage,
+    messagesRef.current = messages
+  }, [messages])
+
+  const sendToGPT = useCallback(async (message, currentMessages) => {
+    if (!socketRef.current || !socketRef.current.connected) {
+      console.error('Socket.IO 연결이 없습니다.')
+      const errorResponse = {
+        id: Date.now() + 1,
+        sender: 'bot',
+        text: '연결에 문제가 있습니다. 페이지를 새로고침해주세요.',
         timestamp: new Date(),
       }
-      setMessages(prev => [...prev, newMessage])
-      sendToGPT(initialMessage)
+      setMessages(prev => [...prev, errorResponse])
+      return
     }
-  }, [initialMessage, sendToGPT])
 
-  const sendMessage = () => {
+    setIsLoading(true)
+    console.log('메시지 전송:', message)
+
+    // 즉시 빈 봇 메시지 생성 (스트리밍용)
+    const botMessageId = Date.now() + 1
+    const initialBotMessage = {
+      id: botMessageId,
+      sender: 'bot',
+      text: '',
+      timestamp: new Date(),
+      isStreaming: true,
+    }
+    currentStreamingMessageRef.current = botMessageId
+
+    // 새로운 봇 메시지를 상태에 추가
+    await new Promise(resolve => {
+      setMessages(prev => {
+        const newMessages = [...prev, initialBotMessage]
+        resolve(newMessages)
+        return newMessages
+      })
+    })
+
+    // 대화 기록을 백엔드 형식에 맞게 변환
+    const formattedMessages = currentMessages
+      .filter(msg => !msg.isStreaming) // 스트리밍 중인 메시지 제외
+      .map(msg => ({
+        role: msg.sender === 'user' ? 'user' : 'assistant',
+        content: msg.text,
+      }))
+
+    // Socket.IO로 메시지 전송
+    socketRef.current.emit('chat_message', {
+      message: message,
+      messages: formattedMessages,
+    })
+
+    console.log('Socket.IO 메시지 전송 완료')
+  }, [])
+
+  const sendMessage = async () => {
     if (inputMessage.trim()) {
       const newMessage = {
         id: Date.now(),
@@ -300,22 +300,22 @@ const Chatbot = ({ initialMessage = null }) => {
         text: inputMessage,
         timestamp: new Date(),
       }
-      setMessages(prev => [...prev, newMessage])
       const messageToSend = inputMessage
       setInputMessage('')
-      sendToGPT(messageToSend)
-    }
-  }
 
-  const handleRecommendationClick = type => {
-    const newMessage = {
-      id: Date.now(),
-      sender: 'user',
-      text: `${type} 문의`,
-      timestamp: new Date(),
+      // 현재 메시지 목록을 가져오고 새 메시지를 추가
+      let updatedMessages
+      await new Promise(resolve => {
+        setMessages(prev => {
+          updatedMessages = [...prev, newMessage]
+          resolve(updatedMessages)
+          return updatedMessages
+        })
+      })
+
+      // 업데이트된 메시지 목록과 함께 sendToGPT 호출
+      await sendToGPT(messageToSend, updatedMessages)
     }
-    setMessages(prev => [...prev, newMessage])
-    sendToGPT(`${type}에 대해 알려주세요`)
   }
 
   const handleKeyPress = e => {
@@ -385,7 +385,7 @@ const Chatbot = ({ initialMessage = null }) => {
         setMessages(prev =>
           prev.map(msg => (msg.isStreaming ? { ...msg, isStreaming: false } : msg))
         )
-      }, 5000) // 5초
+      }, 10000) // 10초
       return () => clearTimeout(timer)
     }
   }, [messages])
@@ -396,6 +396,15 @@ const Chatbot = ({ initialMessage = null }) => {
     const d = typeof date === 'string' ? new Date(date) : date
     return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
   }
+  // <html>, <body> 태그만 제거, 맨 앞/뒤 <br> 태그도 제거
+  function sanitizeHtml(html) {
+    let sanitized = html.replace(/<\/?(html|body)[^>]*>/gi, '')
+    // 맨 앞/뒤 <br> 태그 제거 (여러 개도 모두)
+    sanitized = sanitized.replace(/^(<br\s*\/?>\s*)+/i, '')
+    sanitized = sanitized.replace(/(<br\s*\/?>\s*)+$/i, '')
+    return sanitized
+  }
+
   // 기존 채팅방의 메시지를 업데이트하는 함수
   const updateExistingChat = useCallback(async () => {
     const token = localStorage.getItem('token')
@@ -593,33 +602,20 @@ const Chatbot = ({ initialMessage = null }) => {
             <div className="chat-messages">
               {messages.map(message => (
                 <div key={message.id} className={`message ${message.sender}`}>
-                  <div className={`message-content ${message.isStreaming ? 'streaming' : ''}`}>
-                    {message.text || (message.isStreaming ? '' : '메시지를 불러오는 중...')}
-                  </div>
+                  <div
+                    className={`message-content ${message.isStreaming ? 'streaming' : ''}`}
+                    dangerouslySetInnerHTML={{
+                      __html: message.text
+                        ? sanitizeHtml(message.text)
+                        : message.isStreaming
+                          ? ''
+                          : '메시지를 불러오는 중...',
+                    }}
+                  />
                   <div className="message-time">{formatTime(message.timestamp)}</div>
                 </div>
               ))}
-              {isLoading && !messages.some(msg => msg.isStreaming) && (
-                <div className="message bot">
-                  <div className="message-content typing">유피가 답변을 준비하고 있어요...</div>
-                </div>
-              )}
               <div ref={messagesEndRef} />
-            </div>
-
-            <div className="recommendation-options">
-              <div className="recommendation-title">추천정보</div>
-              <div className="recommendation-buttons">
-                <button className="rec-btn" onClick={() => handleRecommendationClick('5G 요금제')}>
-                  5G 요금 추천
-                </button>
-                <button className="rec-btn" onClick={() => handleRecommendationClick('결합할인')}>
-                  결합 할인
-                </button>
-                <button className="rec-btn" onClick={() => handleRecommendationClick('멤버십혜택')}>
-                  멤버십 혜택
-                </button>
-              </div>
             </div>
 
             <div className="chat-input-area">
