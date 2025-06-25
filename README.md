@@ -57,6 +57,17 @@ U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결
 </table>
 
 
+---
+
+## 관련 링크
+
+- [프론트엔드 Repo](https://github.com/U-Plus-Pick/Pick_Front)
+- [백엔드 Repo](https://github.com/U-Plus-Pick/Pick_Back)
+- [프로젝트 Notion](https://wonderful-dewberry-9d0.notion.site/04-U-Pick-206796e7580e80cf8e1cefc9df8d4c23?source=copy_link)
+- [최종 시안 Figma](https://www.figma.com/design/qaATYVnUNOeFKnJQU6mdX2/U-Pick?node-id=0-1&p=f&t=FEsA1aEdVqXb2dNQ-0)
+
+---
+
 # U+Pick Frontend
 
 ## 개요
