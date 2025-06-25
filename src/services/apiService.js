@@ -31,7 +31,7 @@ const apiRequest = async (url, options = {}) => {
         errorMessage += ` - ${errorData.error || errorData.message}`
       }
     } catch {
-      // JSON 파싱 실패 시 기본 메시지 사용
+      // JSON 파싱 실패 시 무시
     }
     throw new Error(errorMessage)
   }
@@ -146,7 +146,7 @@ export const partyService = {
 // 파일 업로드 관련 API
 export const fileService = {
   // 납부확인서 업로드 (인증 필요)
-  uploadPaymentReceipt: async (file, userName, month) => {
+  uploadPaymentReceipt: async file => {
     try {
       const token = localStorage.getItem('token')
       if (!token) {
@@ -154,14 +154,28 @@ export const fileService = {
       }
 
       const formData = new FormData()
-      formData.append('file', file)
-      formData.append('userName', userName)
-      formData.append('month', month)
+      formData.append('document', file)
 
-      const response = await apiRequest('/api/party/documents', {
+      const response = await fetch('http://localhost:3000/api/party/documents', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       })
+
+      if (!response.ok) {
+        let errorMessage = `API 요청 실패: ${response.status} ${response.statusText}`
+        try {
+          const errorData = await response.json()
+          if (errorData.error || errorData.message) {
+            errorMessage += ` - ${errorData.error || errorData.message}`
+          }
+        } catch {
+          // JSON 파싱 실패 시 무시
+        }
+        throw new Error(errorMessage)
+      }
 
       return await response.json()
     } catch (error) {

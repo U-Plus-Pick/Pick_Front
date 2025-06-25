@@ -307,15 +307,15 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     const file = event.target.files[0]
     if (file) {
       // 파일 형식 검증
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf']
+      const allowedTypes = ['application/pdf']
       if (!allowedTypes.includes(file.type)) {
-        alert('JPG, PNG, PDF 파일만 업로드 가능합니다.')
+        alert('PDF 파일만 업로드 가능합니다.')
         return
       }
 
-      // 파일 크기 검증 (10MB 제한)
-      if (file.size > 10 * 1024 * 1024) {
-        alert('파일 크기는 10MB 이하여야 합니다.')
+      // 파일 크기 검증 (20MB 제한)
+      if (file.size > 20 * 1024 * 1024) {
+        alert('파일 크기는 20MB 이하여야 합니다.')
         return
       }
       handleFileUpload(file)

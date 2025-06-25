@@ -1,5 +1,3 @@
-import React from 'react'
-
 const BillCard = ({
   month,
   monthlyFee,
@@ -11,6 +9,23 @@ const BillCard = ({
   fileInputRef,
   onFileSelect,
 }) => {
+  // 파일 선택 및 업로드 처리
+  const handleFileSelect = async event => {
+    const file = event.target.files[0]
+    if (!file) return
+
+    try {
+      // 기존 onFileSelect 호출 (업로딩 상태 관리)
+      if (onFileSelect) {
+        onFileSelect(event)
+      }
+
+      // 서류 제출 API 호출
+    } catch (error) {
+      console.error('파일 업로드 실패:', error)
+    }
+  }
+
   const getButtonText = () => {
     if (isUploading) return '업로드 중...'
     if (userStatus === 'member') return '요금명세서 제출'
@@ -39,7 +54,7 @@ const BillCard = ({
       <input
         type="file"
         ref={fileInputRef}
-        onChange={onFileSelect}
+        onChange={handleFileSelect}
         accept=".jpg,.jpeg,.png,.pdf"
         style={{ display: 'none' }}
       />
