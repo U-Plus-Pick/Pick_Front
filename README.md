@@ -144,7 +144,7 @@ npm run dev
 
 ---
 
-## 참고
+## 참고 사항
 
-* UI 디자인은 Figma 최종 시안 기반
-* 코드 스타일은 ESLint, Prettier 적용
+UI 디자인은 Figma 최종 시안 기반
+코드 스타일은 ESLint, Prettier 적용
