@@ -92,8 +92,8 @@ LG U+ 이용 고객의 통신 서비스 경험을 향상시키기 위해, 다음
 
 ## 개요
 
-U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 및 결합 할인 프론트엔드 애플리케이션입니다.  
-챗봇 UI, 요금제 비교, 마이페이지, 위치 기반 멤버십 등 다양한 기능을 제공합니다.
+U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 챗봇 및 결합 할인 프론트엔드 애플리케이션입니다.  
+챗봇, 결합 신청, 마이페이지, 위치 기반 멤버십 등 다양한 기능을 제공합니다.
 
 ---
 
@@ -102,8 +102,6 @@ U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 및 결합 할인
 - AI 챗봇 UI 및 스트리밍 응답 처리
 - 요금제 리스트 / 비교 / 추천
 - 결합 파티 신청 및 상태 관리
-- 위치 기반 멤버십 혜택 지도
-- 반응형 웹 UI 및 접근성 고려
 
 ---
 
@@ -111,7 +109,7 @@ U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 및 결합 할인
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-7952B3?style=flat&logo=bootstrap&logoColor=white)
-![CSS](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![SCSS](https://img.shields.io/badge/SCSS-cc6699.svg?&style=flat&logo=Sass&logoColor=White)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat&logo=vite&logoColor=white)
 
@@ -123,22 +121,22 @@ U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 및 결합 할인
 ````
 
 📦 frontend/
-├── public/                # 정적 리소스 (아이콘, 이미지 등)
+├── public/                
 ├── src/
-│   ├── apis/              # 백엔드 API 호출 함수
-│   ├── assets/            # 이미지 및 폰트 자산
-│   ├── common/            # 상수, 공통 함수 및 스타일
-│   ├── components/        # 재사용 UI 컴포넌트
-│   ├── hooks/             # 커스텀 훅
-│   ├── pages/             # 라우팅 페이지 컴포넌트
-│   ├── router/            # 라우터 설정
-│   ├── store/             # 전역 상태 관리
-│   ├── utils/             # 유틸 함수 모음
-│   └── main.jsx           # 앱 진입점
-├── index.html             # SPA HTML 템플릿
-├── package.json           # 의존성 관리
-├── vite.config.js         # Vite 설정
-└── README.md              # 프론트엔드 설명서
+│   ├── assets/            
+│   ├── constant/          
+│   ├── components/        
+│   ├── hooks/             
+│   ├── layouts/            
+│   ├── pages/             
+│   ├── services/          
+│   ├── router/            
+│   ├── styles/             
+│   └── utils/             
+├── index.html            
+├── package.json           
+├── vite.config.js         
+└── README.md             
 
 ````
 
@@ -156,8 +154,7 @@ npm run dev
 ## 주요 컴포넌트 및 페이지
 
 * `ChatbotPage.jsx` : AI 챗봇 인터페이스
-* `PlanList.jsx` / `PlanCompare.jsx` : 요금제 리스트 및 비교
-* `PartyMatch.jsx` : 결합 매칭 신청 UI
+* `BunddleApplyPage.jsx` : 결합 매칭 신청 UI
 * `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인
 * `MembershipMap.jsx` : 위치 기반 멤버십 혜택 지도
 
@@ -167,3 +164,40 @@ npm run dev
 
 UI 디자인은 Figma 최종 시안 기반
 코드 스타일은 ESLint, Prettier 적용
+
+## 메인 페이지  
+![image](https://github.com/user-attachments/assets/da5df174-fff8-413a-bd36-b497d7b7de63)  
+
+## 챗봇 페이지  
+![image](https://github.com/user-attachments/assets/0934a0be-0756-4759-82b8-fb73be1ad97e)  
+
+## 결합 소개 페이지  
+![image](https://github.com/user-attachments/assets/43c0018b-b6ad-4b06-90d8-d3d373fdd5c0)  
+![image](https://github.com/user-attachments/assets/b375e8c2-60b7-4b04-8f15-547211781160)
+![image](https://github.com/user-attachments/assets/d9e68ef6-7e99-44a7-a933-105e5167c57d)  
+![image](https://github.com/user-attachments/assets/09c1bea6-5130-4cdd-b42e-316184e0354e)
+
+
+## 결합 신청 신청 페이지  
+![image](https://github.com/user-attachments/assets/2526e2d3-3a85-4a92-9b8f-6fd7887010ac)  
+![image](https://github.com/user-attachments/assets/4b72da43-f020-4570-bd2a-ec42dd428ddd)  
+![image](https://github.com/user-attachments/assets/de1a9f33-754e-4d9b-b6dc-0c417c7118a9)  
+![image](https://github.com/user-attachments/assets/33ad132f-703e-4574-8bed-eeb90b7e3464)  
+![image](https://github.com/user-attachments/assets/f61c334d-9585-4fd5-ba71-9ca98427356a)  
+![image](https://github.com/user-attachments/assets/5cfdf871-69e1-4dd0-96a7-5f06607c2e95)
+
+## 마이 페이지  
+![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)
+
+
+
+
+
+
+
+ 
+
+##
+
+
+
