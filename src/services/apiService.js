@@ -194,6 +194,27 @@ export const applyService = {
       throw error
     }
   },
+  postBundleApply: async roleObj => {
+    try {
+      const token = localStorage.getItem('token')
+      console.log(token, roleObj)
+      if (!token) throw new Error('로그인이 필요합니다.')
+      const response = await apiRequest('/api/party/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify(roleObj),
+      })
+      const data = await response.json()
+      console.log('파티 신청 응답:', data)
+      return data
+    } catch (error) {
+      console.error('파티 신청 오류:', error)
+      throw error
+    }
+  },
 }
 
 // 파티 참여 관련 API

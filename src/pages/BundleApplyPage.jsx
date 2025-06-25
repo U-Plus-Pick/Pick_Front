@@ -6,12 +6,7 @@ import { useNavigate } from 'react-router-dom'
 const BundleApplyPage = () => {
   const [currentStep, setCurrentStep] = useState(1)
   const [direction, setDirection] = useState(1)
-  const [userBundleInfo, setUserBundleInfo] = useState({
-    user_id: '',
-    role: '',
-    name: '',
-    terms_agreed: true,
-  })
+  const [userRole, setUserRole] = useState('leader')
   const [accountInfo, setAccountInfo] = useState({
     userBank: '',
     userAccount: '',
@@ -22,7 +17,7 @@ const BundleApplyPage = () => {
     if (!localStorage.getItem('token')) {
       navigate('/login')
     }
-    if (currentStep === 3 && userBundleInfo.role === 'member') {
+    if (currentStep === 3 && userRole === 'member') {
       setCurrentStep(5)
     } else {
       setCurrentStep(currentStep + 1)
@@ -45,8 +40,8 @@ const BundleApplyPage = () => {
         direction={direction}
         onNext={handleNext}
         onBack={handleBack}
-        userBundleInfo={userBundleInfo}
-        setUserBundleInfo={setUserBundleInfo}
+        userRole={userRole}
+        setUserRole={setUserRole}
         accountInfo={accountInfo}
         setAccountInfo={setAccountInfo}
       />
