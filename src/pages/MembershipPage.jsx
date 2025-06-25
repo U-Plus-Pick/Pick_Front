@@ -10,16 +10,31 @@ const MembershipPage = () => {
   const [shopList, setShopList] = useState([])
   const [mapObj, setMapObj] = useState(null)
   const [searchKeyword, setSearchKeyword] = useState('')
+  const [markers, setMarkers] = useState([])
+  const [currentInfoWindow, setCurrentInfoWindow] = useState(null)
 
   const searchShopList = shopList.filter(shop =>
     shop.place_name.toLowerCase().includes(searchKeyword.toLowerCase())
   )
 
+  const levelMap = {
+    500: 2,
+    1000: 3,
+    2000: 4,
+    3000: 5,
+  }
+
   return (
     <section className="membership-container">
       {/* 지도 */}
       <div className="map-wrapper">
-        <Kakaomap radius={radius} onUpdateShops={setShopList} onMapLoad={setMapObj} />
+        <Kakaomap
+          radius={radius}
+          level={levelMap[radius]}
+          onUpdateShops={setShopList}
+          onMapLoad={setMapObj}
+          onMarkersUpdate={setMarkers}
+        />
       </div>
       {/* 리스트 */}
       <div className="map-info-wrapper">
@@ -49,7 +64,15 @@ const MembershipPage = () => {
               key={`${shop.id}_${index}`}
               onClick={() => {
                 if (mapObj) {
-                  mapObj.map.panTo(new mapObj.kakaoMaps.LatLng(shop.y, shop.x))
+                  const moveLatLon = new mapObj.kakaoMaps.LatLng(shop.y, shop.x)
+                  // 중앙 이동
+                  mapObj.map.setCenter(moveLatLon)
+                  const targetMarker = markers.find(m => m.place.id === shop.id)
+                  if (targetMarker) {
+                    if (currentInfoWindow) currentInfoWindow.close()
+                    targetMarker.infowindow.open(mapObj.map, targetMarker.marker)
+                    setCurrentInfoWindow(targetMarker.infowindow)
+                  }
                 }
               }}
             >

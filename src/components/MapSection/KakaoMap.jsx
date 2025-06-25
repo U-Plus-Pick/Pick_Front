@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useKakaoMapLoader } from '../../hooks/useKakaoMapLoader'
 import { membershipBrands } from '../../constants/MembershipData'
 
-export default function Kakaomap({ radius, onUpdateShops, onMapLoad }) {
+export default function Kakaomap({ radius, level, onUpdateShops, onMapLoad, onMarkersUpdate }) {
   const loaded = useKakaoMapLoader()
   const [location, setLocation] = useState({ lat: 37.530881, lng: 126.973491 })
+  const [markers, setMarkers] = useState([])
 
   // 내 위치 가져오기
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function Kakaomap({ radius, onUpdateShops, onMapLoad }) {
       const mapContainer = document.getElementById('map')
       const mapOption = {
         center: new window.kakao.maps.LatLng(location.lat, location.lng),
-        level: 2,
+        level: level,
       }
       const map = new window.kakao.maps.Map(mapContainer, mapOption)
 
@@ -55,7 +56,7 @@ export default function Kakaomap({ radius, onUpdateShops, onMapLoad }) {
       if (onUpdateShops) {
         onUpdateShops([])
       }
-
+      setMarkers([])
       // 혜택 가능한 브랜드명 리스트
       const ps = new window.kakao.maps.services.Places()
 
@@ -100,6 +101,15 @@ export default function Kakaomap({ radius, onUpdateShops, onMapLoad }) {
                 window.kakao.maps.event.addListener(marker, 'mouseout', () => {
                   infowindow.close()
                 })
+
+                setMarkers(prev => [
+                  ...prev,
+                  {
+                    marker,
+                    infowindow,
+                    place,
+                  },
+                ])
               })
             }
           },
@@ -111,6 +121,12 @@ export default function Kakaomap({ radius, onUpdateShops, onMapLoad }) {
       })
     }
   }, [loaded, location, radius])
+
+  useEffect(() => {
+    if (onMarkersUpdate) {
+      onMarkersUpdate(markers)
+    }
+  }, [markers, onMarkersUpdate])
 
   return (
     <div
