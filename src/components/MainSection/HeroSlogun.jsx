@@ -16,6 +16,8 @@ const HeroSlogun = () => {
   const ringsRef = useRef([])
 
   useEffect(() => {
+    if (window.innerWidth < 1600) return
+
     const validRings = ringsRef.current.filter(Boolean)
 
     const ctx = gsap.context(() => {
