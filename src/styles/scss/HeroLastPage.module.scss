@@ -24,7 +24,7 @@
     margin-top :6.5rem;
   }
   
-  .HeroLast {
+  .HeroLastImg {
     position: absolute;
     top: -7.5rem;
     right: 2rem;
@@ -119,3 +119,54 @@
         }
   }
   
+
+  @media (max-width: 1200px) {
+    
+    .card{
+      width : 80%;
+    }
+
+    .HeroLastImg {
+      display: none;
+    }
+  
+    .subText {
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+  
+    .title {
+      font-size: 2rem;
+      line-height: 1.4;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+  
+    .highlight1 {
+      display: inline;
+      color: #e6007e;
+      font-weight: 700;
+    }
+  
+    .buttonGroup {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  
+    .loginBtn,
+    .consultBtn {
+      width: 80%;
+      font-size: 1rem;
+      padding: 0.4rem 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      .iconWrapper1,
+      .iconWrapper2 {
+        margin-left: 0.5rem;
+      }
+    }
+  }

@@ -17,7 +17,7 @@
     padding-top : 6rem;
     text-align: center;
 
-    h2 {
+    .title {
       font-size: 3rem;
       font-weight: bold;
       line-height: 1.5;
@@ -73,6 +73,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 4.625rem;
+      
     }
   }
 }
@@ -97,4 +98,62 @@
 
 .card3 p {
   margin-top: 1rem !important;
+}
+
+
+@media (max-width: 1200px) {
+  .mobileSwiper {
+    width: 100%;
+    padding-bottom: 2rem;
+  }
+
+  .slideItem {
+    display: flex;
+    justify-content: center;
+  }
+
+  .swiper-pagination-bullet {
+    background: #E6007E;
+    opacity: 0.5;
+  }
+  .swiper-pagination-bullet-active {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    .content {
+      .title {
+        font-size: 2rem;        // ← 보기 좋은 크기로 조정
+        line-height: 1.4;
+        margin-bottom: 2rem;
+        text-align: center;
+
+        span {
+          font-size: 2.2rem;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .hero {
+    .content {
+      .buttonGroup {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+
+        .loginBtn,
+        .planBtn {
+          width: 100%;
+          max-width: 200px;
+          font-size: 1rem;
+          height: 3rem;
+        }
+      }
+    }
+  }
 }

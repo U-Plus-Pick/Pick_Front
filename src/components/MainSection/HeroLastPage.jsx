@@ -16,6 +16,8 @@ const HeroLastPage = () => {
   const cardRef = useRef(null)
 
   useEffect(() => {
+    if (window.innerWidth < 1600) return
+
     const ctx = gsap.context(() => {
       gsap.from(cardRef.current, {
         opacity: 0,
@@ -36,7 +38,7 @@ const HeroLastPage = () => {
   return (
     <section id="hero-lastpage" className={css.heroLast}>
       <div className={css.card} ref={cardRef}>
-        <img src={HeroLast} alt="HeroLast" className={css.HeroLast} />
+        <img src={HeroLast} alt="HeroLast" className={css.HeroLastImg} />
         <p className={css.subText}>가입 후 즉시 사용 가능합니다.</p>
         <h2 className={css.title}>
           <span className={css.highlight1}>U+Pick</span>

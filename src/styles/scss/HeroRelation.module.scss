@@ -19,6 +19,7 @@
   position: relative;
   overflow: hidden;
   z-index: 10;
+  margin-top:2.5rem;
 }
 
 .title {
@@ -168,13 +169,12 @@
     margin: 0;
   }
 
-  :global(.pink) {
-    all : unset;
+  :global(.HeroPink) {
     color: #FDD5F1;
     font-weight: 600;
   }
 
-  :global(.purple) {
+  :global(.HeroPurple) {
     color: #E5ADFF;
     font-weight: 600;
   }
@@ -194,4 +194,50 @@
 .HeroRelation3 {
   width: 70%;
   height: auto;
+}
+
+
+@media (max-width: 1600px) {
+  .title{
+    font-size : 2rem;
+  }
+  .mobileSwiper {
+    width: 40%;
+    height : 50%;
+    padding-bottom: 2rem;
+  }
+
+  .mobileCardBack {
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 2rem;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 400px; // 카드 높이 통일
+  }
+
+  .mobileBg {
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    margin-bottom: 1.5rem;
+  }
+
+  .mobileText {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    p {
+      font-size: 1.25rem;
+      line-height: 1.3;
+    }
+    
+  }
 }

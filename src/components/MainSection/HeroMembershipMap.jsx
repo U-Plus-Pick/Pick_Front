@@ -32,6 +32,7 @@ const HeroMembershipMap = () => {
   const rightPenguinRef = useRef(null)
 
   useEffect(() => {
+    if (window.innerWidth < 1600) return
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -102,30 +103,13 @@ const HeroMembershipMap = () => {
         // purpleLine 애니메이션: 위→아래 세로선 → 오→왼 가로선
         .fromTo(
           purpleLineRef.current,
-          { height: 0 },
-          {
-            height: '130px',
-            duration: 0.6,
-            ease: 'power2.out',
-          }
+          { scaleY: 0, transformOrigin: 'bottom top' }, // 세로선을 아래→위로
+          { scaleY: 1, duration: 0.5, ease: 'power2.out' }
         )
         .fromTo(
           purpleLineRef.current,
-          { scaleY: 0, transformOrigin: 'top center' },
-          {
-            scaleY: 1,
-            duration: 0.5,
-            ease: 'power2.out',
-          }
-        )
-        .fromTo(
-          purpleLineRef.current,
-          { scaleX: 0, transformOrigin: 'right center' },
-          {
-            scaleX: 1,
-            duration: 0.5,
-            ease: 'power2.out',
-          }
+          { scaleX: 0, transformOrigin: 'left right' }, // 가로선을 왼→오로
+          { scaleX: 1, duration: 0.5, ease: 'power2.out' }
         )
 
         .from(block2Ref.current, {
@@ -172,7 +156,7 @@ const HeroMembershipMap = () => {
               <h3>
                 혜택 <span className={css.pink}>플랫폼 위치</span>를 한 눈에
               </h3>
-              <p>분석해 딱 맞는 요금제를 추천해드립니다.</p>
+              <p>플랫폼의 위치를 한 눈에 볼 수 있게 알려드려요.</p>
               <div className={css.logoCards} ref={logosRef}>
                 <div className={css.logoCard}>
                   <img src={HeroCGV} alt="CGV" />

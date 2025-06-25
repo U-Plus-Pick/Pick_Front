@@ -29,6 +29,20 @@ const HeroChatBot = () => {
   const rightDescRef = useRef(null)
 
   useEffect(() => {
+    if (window.innerWidth < 1600) {
+      if (msgRef.current) {
+        msgRef.current.style.opacity = '1'
+        msgRef.current.innerHTML =
+          '유피<br>데이터가 많은 요금제를 원하는구나!<br>유피가 추천하는 요금제는 ***** 요금제야'
+      }
+      if (chatBubbleRef.current) {
+        chatBubbleRef.current.style.opacity = '1'
+        chatBubbleRef.current.innerHTML =
+          '안녕하세요!<br>당신만의 요금제 추천 AI, 유피에요.<br>무엇을 도와드릴까요?'
+      }
+      return
+    }
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
