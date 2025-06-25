@@ -24,31 +24,35 @@ U+Pick은 LG U+ 고객을 위한 AI 기반 맞춤 요금제 추천과 지인 결
 <table>
   <tr>
     <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/110558148?v=4" width="100" /><br/>
-      <strong>한여준</strong><br/>
-      <a href="https://github.com/Hanyeojun">@Hanyeojun</a>
-    </td>
-    <td align="center">
-      <img src="https://avatars.githubusercontent.com/u/63743294?v=4" width="100" /><br/>
-      <strong>임재찬</strong><br/>
-      <a href="https://github.com/alex8396">@alex8396</a>
-    </td>
-    <td align="center">
       <img src="https://avatars.githubusercontent.com/u/101700659?v=4" width="100" /><br/>
       <strong>최영준</strong><br/>
       <a href="https://github.com/udwns310">@udwns310 </a>
+      <h3>프론트엔드 담당</h3>
     </td>
     <td align="center">
       <img src="https://avatars.githubusercontent.com/u/88296511?v=4" width="100" /><br/>
       <strong>이예은</strong><br/>
       <a href="https://github.com/yeeun426">@yeeun426</a>
+      <h3>프론트엔드 담당</h3>
     </td>
     <td align="center">
       <img src="https://avatars.githubusercontent.com/u/180901036?v=4" width="100" /><br/>
       <strong>박용규</strong><br/>
       <a href="https://github.com/yonggyu99">@yonggyu99</a>
+      <h3>프론트엔드 담당</h3>
     </td>
-    
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/110558148?v=4" width="100" /><br/>
+      <strong>한여준</strong><br/>
+      <a href="https://github.com/Hanyeojun">@Hanyeojun</a>
+      <h3>백엔드 담당</h3>
+    </td>
+    <td align="center">
+      <img src="https://avatars.githubusercontent.com/u/63743294?v=4" width="100" /><br/>
+      <strong>임재찬</strong><br/>
+      <a href="https://github.com/alex8396">@alex8396</a>
+      <h3>백엔드 담당</h3>
+    </td>
   </tr>
 </table>
 
