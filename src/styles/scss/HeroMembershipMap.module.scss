@@ -97,7 +97,7 @@
 }
 
 .mapImage {
-  width: 115%;
+  width: 130%;
   border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   transform: translateY(6%);
@@ -106,15 +106,15 @@
 
 .purpleBox {
   position: absolute;
-  top: 29.2%;
-  width: 234px;
-  height: 86px;
+  top: 32.2%;
+  width: 293px;
+  height: 99px;
   border: 2px solid #6f42c1;
   z-index: 2;
 
   .focusedImageInsideBox {
     width: 100%;
-    height: auto;
+    height: 100%;
     object-fit: cover;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
@@ -122,8 +122,8 @@
 
 .pinkBox {
   position: absolute;
-  top: 47.3%;
-  left: 55.9%;
+  top: 58.5%;
+  left: 61.5%;
   width: 50px;
   height: 50px;
   border: 2px solid #e6007e;
@@ -144,20 +144,20 @@
 
 .pinkLine {
   position: absolute;
-  top: 19%;
+  top: 19.1%;
   left: 32.5%;
-  width: 652px;
-  height: 180px;
+  width: 703px;
+  height: 236px;
   border-right: 2px dotted #e6007e;
   border-top: 2px dotted #e6007e;
 }
 
 .purpleLine {
   position: absolute;
-  top: 42.5%;
+  top: 47%;
   left: 30%;
-  width: 270px;
-  height: 130px;
+  width: 297px;
+  height: 108px;
   border-right: 2px dotted #6f42c1;
   border-bottom: 2px dotted #6f42c1;
   z-index: 3;

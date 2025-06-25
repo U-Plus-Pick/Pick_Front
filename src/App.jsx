@@ -9,6 +9,7 @@ import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
 import BundlePage from './pages/BundlePage'
 import BundleApply from './pages/BundleApplyPage'
+import MembershipPage from './pages/MembershipPage'
 
 import './styles/scss/main.scss'
 
@@ -24,7 +25,7 @@ function App() {
           <Route path="/chatbot" element={<ChatbotPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/membership" />
+          <Route path="/membership" element={<MembershipPage />} />
         </Route>
         {/* Header 없음 */}
         <Route path="/payment/success" element={<PaySuccess />} />
