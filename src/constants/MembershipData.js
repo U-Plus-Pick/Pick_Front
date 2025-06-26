@@ -335,7 +335,7 @@ export const membershipBrands = [
   {
     membership_brand: '서울드래곤시티',
     membership_grade_list: ['BASIC'],
-    logo: '/map/dragon.png',
+    logo: '/map/drangon.png',
     items: [
       {
         membership_tap: '기본 혜택',
