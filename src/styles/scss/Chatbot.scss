@@ -211,9 +211,29 @@ $shadow-color: rgba(0, 0, 0, 0.1);
               width: 100%;
               display: block;
               margin-bottom: 8px;
+              position: relative; // 선택 표시를 위한 position 설정
 
               &:hover {
                 background: rgba(230, 0, 126, 0.1);
+              }
+
+              &.selected {
+                background: rgba(230, 0, 126, 0.08);
+               
+                padding-left: 9px; // 3px 줄여서 border 공간 확보
+
+                .chat-room-title {
+                  color: $primary-pink;
+                  font-weight: 600;
+                }
+
+                .chat-room-date {
+                  color: $secondary-pink;
+                }
+
+                &:hover {
+                  background: rgba(230, 0, 126, 0.15);
+                }
               }
 
               .chat-room-title {
