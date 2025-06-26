@@ -21,10 +21,13 @@ const LoginForm = ({ onLoginSuccess }) => {
     e.preventDefault()
 
     try {
-      const res = await axios.post('http://localhost:3000/api/users/signin', {
-        email: form.email,
-        password: form.password,
-      })
+      const res = await axios.post(
+        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/users/signin',
+        {
+          email: form.email,
+          password: form.password,
+        }
+      )
 
       if (res.data?.token) {
         localStorage.setItem('token', res.data.token)

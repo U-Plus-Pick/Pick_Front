@@ -116,7 +116,7 @@ const ManageCard = ({
   const handleSaveAccount = async () => {
     try {
       const res = await axios.patch(
-        'http://localhost:3000/api/payments/leader/change',
+        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/payments/leader/change',
         {
           leader_bank_name: accountInfo.userBank,
           leader_account_number: accountInfo.userAccount,

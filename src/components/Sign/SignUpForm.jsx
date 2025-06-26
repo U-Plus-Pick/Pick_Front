@@ -75,7 +75,9 @@ const SignUpForm = ({ goToLogin }) => {
 
   const fetchPlans = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/plans')
+      const res = await axios.get(
+        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/plans'
+      )
       setPlanList(res.data)
       setIsPlanModalOpen(true)
     } catch (err) {
@@ -102,15 +104,18 @@ const SignUpForm = ({ goToLogin }) => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/users/register', {
-        name: form.name,
-        birthdate: form.birth,
-        email: form.email,
-        phone: form.phone.replace(/-/g, ''),
-        password: form.password,
-        passwordConfirm: form.confirmPassword,
-        plan: form.plan,
-      })
+      const response = await axios.post(
+        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/users/register',
+        {
+          name: form.name,
+          birthdate: form.birth,
+          email: form.email,
+          phone: form.phone.replace(/-/g, ''),
+          password: form.password,
+          passwordConfirm: form.confirmPassword,
+          plan: form.plan,
+        }
+      )
 
       if (response.data?.message === '회원가입 성공') {
         alert('회원가입 성공! 로그인 페이지로 이동합니다.')

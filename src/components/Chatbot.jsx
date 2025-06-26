@@ -83,7 +83,7 @@ const Chatbot = () => {
   // Socket.IO 연결 및 이벤트 설정
   useEffect(() => {
     // Socket.IO 연결
-    socketRef.current = io('http://localhost:3000')
+    socketRef.current = io('https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app')
 
     // 연결 성공
     socketRef.current.on('connect', () => {
@@ -162,13 +162,16 @@ const Chatbot = () => {
 
     setIsLoadingChatRooms(true)
     try {
-      const response = await fetch(`http://localhost:3000/api/chat/rooms`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      const response = await fetch(
+        `https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/chat/rooms`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -210,18 +213,21 @@ const Chatbot = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/chat/insert-messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          chatroom_id: chatData.id,
-          messages: chatData.messages,
-          chatroom_title: chatData.title,
-        }),
-      })
+      const response = await fetch(
+        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/chat/insert-messages',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            chatroom_id: chatData.id,
+            messages: chatData.messages,
+            chatroom_title: chatData.title,
+          }),
+        }
+      )
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)

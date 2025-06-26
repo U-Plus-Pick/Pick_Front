@@ -1,5 +1,5 @@
 // API 기본 설정
-const API_BASE_URL = 'http://localhost:3000' // 같은 도메인에서 API 호출
+const API_BASE_URL = 'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app' // 같은 도메인에서 API 호출
 
 // 공통 fetch 함수
 const apiRequest = async (url, options = {}) => {
@@ -156,13 +156,16 @@ export const fileService = {
       const formData = new FormData()
       formData.append('document', file)
 
-      const response = await fetch('http://localhost:3000/api/party/documents', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      })
+      const response = await fetch(
+        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/party/documents',
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      )
 
       if (!response.ok) {
         let errorMessage = `API 요청 실패: ${response.status} ${response.statusText}`

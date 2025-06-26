@@ -99,6 +99,7 @@ const HeroSection = () => {
           찾아드려요
         </>
       }
+      link="/bundle"
     />
   )
   const Card3 = (
@@ -113,6 +114,7 @@ const HeroSection = () => {
           <span className={css.highlight2}>지도</span>로 확인하고 사용해보세요{' '}
         </>
       }
+      link="/membership"
     />
   )
 
