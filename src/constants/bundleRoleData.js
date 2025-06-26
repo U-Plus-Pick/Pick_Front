@@ -46,7 +46,7 @@ export const bundleRoleData = {
     // host 전용
     {
       title: '결합 대표 결제',
-      desc: '파티원들의 요금을 \n포함한 요금을 대표자가 결제합니다.',
+      desc: '결합원들의 요금을 \n포함한 요금을 대표자가 결제합니다.',
       img: RoleHost1,
       type: 'host',
     },
@@ -70,7 +70,7 @@ export const bundleRoleData = {
     },
     {
       title: '서비스 신청',
-      desc: '파티원이 모였을 때, 파티장은 투게더 \n결합 전화 신청을 진행해야 합니다.',
+      desc: '결합원이 모였을 때, 결합 대표는 투게더 \n결합 전화 신청을 진행해야 합니다.',
       img: RoleHost5,
       type: 'host',
     },
