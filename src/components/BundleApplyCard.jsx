@@ -6,7 +6,7 @@ import StepAccount from './StepSection/StepAccount'
 import StepSummary from './StepSection/StepSummary'
 import StepComplete from './StepSection/StepComplete'
 import { GrFormPreviousLink } from 'react-icons/gr'
-import '../styles/scss/bundleApplyCard.scss'
+import '../styles/scss/BundleApplyCard.scss'
 import { useEffect, useState } from 'react'
 import { userService } from '../services/apiService'
 
