@@ -25,7 +25,7 @@ const Chatbot = () => {
   const socketRef = useRef(null)
   const currentStreamingMessageRef = useRef(null)
   const messagesRef = useRef(messages)
-  const BASE_URL = 'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/'
+  const BASE_URL = 'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app'
 
   // JWT 토큰에서 사용자 ID 추출 함수
   const getUserIdFromToken = () => {
