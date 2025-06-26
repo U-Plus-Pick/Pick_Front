@@ -25,6 +25,7 @@ const Chatbot = () => {
   const socketRef = useRef(null)
   const currentStreamingMessageRef = useRef(null)
   const messagesRef = useRef(messages)
+  const BASE_URL = 'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app'
 
   // JWT 토큰에서 사용자 ID 추출 함수
   const getUserIdFromToken = () => {
@@ -83,7 +84,7 @@ const Chatbot = () => {
   // Socket.IO 연결 및 이벤트 설정
   useEffect(() => {
     // Socket.IO 연결
-    socketRef.current = io('https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app')
+    socketRef.current = io(BASE_URL)
 
     // 연결 성공
     // socketRef.current.on('connect', () => {
@@ -162,16 +163,13 @@ const Chatbot = () => {
 
     setIsLoadingChatRooms(true)
     try {
-      const response = await fetch(
-        `https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/chat/rooms`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      )
+      const response = await fetch(`${BASE_URL}/api/chat/rooms`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
@@ -212,34 +210,26 @@ const Chatbot = () => {
       return
     }
 
-    try {
-      const response = await fetch(
-        'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/api/chat/insert-messages',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            chatroom_id: chatData.id,
-            messages: chatData.messages,
-            chatroom_title: chatData.title,
-          }),
-        }
-      )
+    const response = await fetch(`${BASE_URL}/api/chat/insert-messages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        chatroom_id: chatData.id,
+        messages: chatData.messages,
+        chatroom_title: chatData.title,
+      }),
+    })
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-
-      const result = await response.json()
-      // console.log('채팅 저장 완료:', result)
-      return result
-    } catch (error) {
-      // console.error('채팅 저장 에러:', error)
-      throw error
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
+
+    const result = await response.json()
+    // console.log('채팅 저장 완료:', result)
+    return result
   }, [])
   useEffect(() => {
     messagesRef.current = messages
