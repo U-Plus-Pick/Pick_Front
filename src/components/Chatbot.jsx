@@ -86,18 +86,18 @@ const Chatbot = () => {
     socketRef.current = io('https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app')
 
     // 연결 성공
-    socketRef.current.on('connect', () => {
-      console.log('Socket.IO 연결됨:', socketRef.current.id)
-    })
+    // socketRef.current.on('connect', () => {
+    //   console.log('Socket.IO 연결됨:', socketRef.current.id)
+    // })
 
     // 스트리밍 메시지 시작 (선택적 - 이미 메시지 생성됨)
     socketRef.current.on('chat_response_start', () => {
-      console.log('백엔드에서 스트리밍 시작 신호 받음')
+      // console.log('백엔드에서 스트리밍 시작 신호 받음')
     })
 
     // 스트리밍 메시지 토큰 수신
     socketRef.current.on('chat_response_chunk', data => {
-      console.log('토큰 수신:', data.content)
+      // console.log('토큰 수신:', data.content)
       const { content } = data
       if (currentStreamingMessageRef.current && content) {
         setMessages(prev =>
@@ -112,7 +112,7 @@ const Chatbot = () => {
 
     // 스트리밍 완료
     socketRef.current.on('chat_response_end', data => {
-      console.log('스트리밍 완료:', data.content)
+      // console.log('스트리밍 완료:', data.content)
       if (currentStreamingMessageRef.current) {
         setMessages(prev =>
           prev.map(msg =>
@@ -126,7 +126,7 @@ const Chatbot = () => {
 
     // 에러 처리
     socketRef.current.on('chat_error', data => {
-      console.error('채팅 에러:', data.message)
+      // console.error('채팅 에러:', data.message)
       const errorResponse = {
         id: Date.now() + 1,
         sender: 'bot',
@@ -140,12 +140,12 @@ const Chatbot = () => {
 
     // 연결 해제
     socketRef.current.on('disconnect', () => {
-      console.log('Socket.IO 연결 해제됨')
+      // console.log('Socket.IO 연결 해제됨')
     })
 
     // 연결 에러
     socketRef.current.on('connect_error', error => {
-      console.error('Socket.IO 연결 에러:', error)
+      // console.error('Socket.IO 연결 에러:', error)
     })
 
     // 컴포넌트 언마운트 시 연결 해제
@@ -179,9 +179,9 @@ const Chatbot = () => {
 
       const data = await response.json()
       setChatRooms(data.chatRooms || [])
-      console.log('채팅방 불러오기 완료:', data.chatRooms)
+      // console.log('채팅방 불러오기 완료:', data.chatRooms)
     } catch (error) {
-      console.error('채팅방 불러오기 에러:', error)
+      // console.error('채팅방 불러오기 에러:', error)
     } finally {
       setIsLoadingChatRooms(false)
     }
@@ -234,10 +234,10 @@ const Chatbot = () => {
       }
 
       const result = await response.json()
-      console.log('채팅 저장 완료:', result)
+      // console.log('채팅 저장 완료:', result)
       return result
     } catch (error) {
-      console.error('채팅 저장 에러:', error)
+      // console.error('채팅 저장 에러:', error)
       throw error
     }
   }, [])
@@ -259,7 +259,7 @@ const Chatbot = () => {
     }
 
     setIsLoading(true)
-    console.log('메시지 전송:', message)
+    // console.log('메시지 전송:', message)
 
     // 즉시 빈 봇 메시지 생성 (스트리밍용)
     const botMessageId = Date.now() + 1
@@ -295,7 +295,7 @@ const Chatbot = () => {
       messages: formattedMessages,
     })
 
-    console.log('Socket.IO 메시지 전송 완료')
+    // console.log('Socket.IO 메시지 전송 완료')
   }, [])
 
   const sendMessage = async () => {
@@ -353,9 +353,9 @@ const Chatbot = () => {
 
           // 채팅방 리스트에 추가 (로컬 상태 업데이트)
           setChatRooms(prev => [chatData, ...prev])
-          console.log('새 채팅 버튼 클릭으로 수동 저장 완료')
+          // console.log('새 채팅 버튼 클릭으로 수동 저장 완료')
         } catch (error) {
-          console.error('채팅 저장 실패:', error)
+          // console.error('채팅 저장 실패:', error)
         }
       }
     }
@@ -449,9 +449,9 @@ const Chatbot = () => {
         return [updatedRoom, ...otherRooms]
       })
 
-      console.log('기존 채팅방 업데이트 완료')
+      // console.log('기존 채팅방 업데이트 완료')
     } catch (error) {
-      console.error('채팅방 업데이트 실패:', error)
+      // console.error('채팅방 업데이트 실패:', error)
     }
   }, [currentChatId, messages, chatRooms, saveChatToDB])
 
@@ -501,9 +501,9 @@ const Chatbot = () => {
             try {
               await saveChatToDB(chatData)
               setChatRooms(prev => [chatData, ...prev])
-              console.log('새 채팅방 자동 저장 완료')
+              // console.log('새 채팅방 자동 저장 완료')
             } catch (error) {
-              console.error('새 채팅방 자동 저장 실패:', error)
+              // console.error('새 채팅방 자동 저장 실패:', error)
             }
           }, 200)
           return () => clearTimeout(timer)
