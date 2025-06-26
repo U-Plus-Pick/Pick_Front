@@ -10,5 +10,5 @@ export default defineConfig({
       '@': path.resolve('./src'),
     },
   },
-  base: '/Pick-Front',
+  base: '/',
 })
