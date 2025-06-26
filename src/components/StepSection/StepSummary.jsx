@@ -5,7 +5,7 @@ import { IoIosInformationCircleOutline } from 'react-icons/io'
 import { applyService } from '../../services/apiService'
 
 export default function StepSummary({ onNext, userRole, userApiData, accountInfo }) {
-  const isLeader = userRole.role === 'leader'
+  const isLeader = userRole === 'leader'
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async () => {

@@ -47,6 +47,7 @@ const Header = () => {
 
   const handleMyPage = () => {
     navigate('/mypage')
+    setActiveMenu('')
   }
 
   const handleLogoClick = () => {
@@ -72,7 +73,7 @@ const Header = () => {
             <li className="nav-item">
               <a
                 href="#"
-                className="nav-link"
+                className={`nav-link ${activeMenu === 'plan' ? 'active' : ''}`}
                 onClick={e => {
                   e.preventDefault()
                   handleMenuClick('plan')
