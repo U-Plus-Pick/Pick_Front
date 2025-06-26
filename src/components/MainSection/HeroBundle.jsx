@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import css from '../../styles/scss/HeroBundle.module.scss'
-import HeroBundle1 from '../../assets/HeroBundle1.png'
-import HeroBundle2 from '../../assets/HeroBundle2.png'
+import HeroBundle1 from '../../assets/Hero/HeroBundle1.png'
+import HeroBundle2 from '../../assets/Hero/HeroBundle2.png'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import useScrollRefresh from '../../hooks/useScrollRefresh'
@@ -17,6 +17,8 @@ const HeroBundle = () => {
   const descRef = useRef(null)
 
   useEffect(() => {
+    if (window.innerWidth < 1600) return
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {

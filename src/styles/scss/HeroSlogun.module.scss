@@ -103,3 +103,49 @@
     z-index: 1;
   }
   
+
+  @media (max-width: 1500px) {
+    .heroSlogun {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh; // 전체 중앙 정렬
+      text-align: center;
+      position: relative; // ring 위치 영향 방지
+    }
+  
+    .textLeft,
+    .textRight,
+    .centerCircle {
+      position: static !important; // 기존 absolute 제거
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  
+    .textLeft {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+  
+    .centerCircle {
+      width : 15rem;
+      height : 15rem;
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+  
+    .textRight {
+      font-size: 3rem;
+      margin-bottom: 0;
+    }
+  
+    // 불필요한 애니메이션 요소 제거
+    .ring,
+    .ring1,
+    .ring2,
+    .ring3,
+    .ring4 {
+      display: none !important;
+    }
+  }

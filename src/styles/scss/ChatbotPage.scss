@@ -1,5 +1,7 @@
 $primary-pink: #e6007e;
 $secondary-pink: #ee5ca0;
+$middle-pink: #f6b8c3;
+$light-pink: #fdd5f1;
 $white: #ffffff;
 $gray: #666666;
 
@@ -34,6 +36,28 @@ $gray: #666666;
     padding: 10% 20px 20px;
     max-width: 1300px;
     margin: 0 auto;
+    position: relative;
+
+    .speech-bubble {
+      position: relative;
+      background: #fff;
+      border-radius: 8px;
+      padding: 12px 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: black;
+    }
+
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 20px;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid #fff;
+    }
 
     .chatbot-character {
       position: relative;
@@ -61,6 +85,82 @@ $gray: #666666;
           -5px 0 15px rgba(0, 0, 0, 0.1),
           0 4px 20px rgba(0, 0, 0, 0.1);
       }
+    }
+    .speech-bubble.suggest-bubble {
+      position: absolute;
+      left: -130px;
+      bottom: 370px;
+      min-width: 180px;
+      max-width: 300px;
+      background: white;
+      border-radius: 18px;
+      box-shadow:
+        0 2px 4px (0, 0, 0, 0.05),
+        0 4px 8px (0, 0, 0, 0.25);
+      border: #e6e6e6 2px solid;
+      padding: 18px 10px 18px 10px; // 좌우 패딩을 줄여서 전체적으로 왼쪽으로 붙임
+      font-size: 16px;
+      z-index: 2;
+
+      // 말풍선 꼬리 (더 날카롭고 자연스럽게)
+      &::after {
+        content: '';
+        position: absolute;
+        left: 230px;
+        bottom: -18px;
+        width: 0;
+        height: 0;
+        border-left: 16px solid transparent;
+        border-right: 16px solid transparent;
+        border-top: 18px solid white;
+        z-index: 2;
+      }
+      &::before {
+        content: '';
+        position: absolute;
+        left: 226px;
+        bottom: -22px;
+        width: 0;
+        height: 0;
+        border-left: 20px solid transparent;
+        border-right: 20px solid transparent;
+        border-top: 22px solid #e6e6e6; // 원하는 border color
+        z-index: 1;
+      }
+    }
+
+    .suggest-list {
+      margin: 10px 0 0 0;
+      padding: 0 0 0 18px;
+      font-size: 15px;
+      color: black;
+
+      li {
+        margin-bottom: 4px;
+        list-style: disc;
+      }
+    }
+    .suggest-list.pretty {
+      list-style: none;
+      padding-left: 0; // 왼쪽 패딩 제거
+      margin-left: 0; // 왼쪽 마진 제거
+      li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        border-radius: 12px;
+        padding: 7px 10px;
+
+        .emoji {
+          margin-right: 8px;
+          flex-shrink: 0;
+        }
+      }
+    }
+
+    li {
+      display: flex;
     }
   }
 }

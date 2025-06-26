@@ -1,9 +1,9 @@
 import React from 'react'
 import css from '../../styles/scss/BundleIntro.module.scss'
-import BundleIntro1 from '../../assets/BundleIntro1.png'
-import BundleIntro2 from '../../assets/BundleIntro2.png'
-import BundleIntro3 from '../../assets/BundleIntro3.png'
-import BundleIntroTitle from '../../assets/BundleIntroTitle.png'
+import BundleIntro1 from '../../assets/BundleIntro/BundleIntro1.png'
+import BundleIntro2 from '../../assets/BundleIntro/BundleIntro2.png'
+import BundleIntro3 from '../../assets/BundleIntro/BundleIntro3.png'
+import BundleIntroTitle from '../../assets/BundleIntro/BundleIntroTitle.png'
 
 const BundleIntro = () => {
   return (
@@ -21,9 +21,9 @@ const BundleIntro = () => {
                 </span>
               </h2>
               <div className={css.space}></div>
-              <p className={css.sub1}>
+              <div className={css.sub1}>
                 <p>U⁺고객이라면 누구나</p>
-              </p>
+              </div>
               <p className={css.sub2}>U⁺Pick과 함께 모일수록 커지는 혜택</p>
             </div>
           </div>

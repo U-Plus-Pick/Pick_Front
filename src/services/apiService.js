@@ -31,7 +31,7 @@ const apiRequest = async (url, options = {}) => {
         errorMessage += ` - ${errorData.error || errorData.message}`
       }
     } catch {
-      // JSON 파싱 실패 시 기본 메시지 사용
+      // JSON 파싱 실패 시 무시
     }
     throw new Error(errorMessage)
   }
@@ -146,7 +146,7 @@ export const partyService = {
 // 파일 업로드 관련 API
 export const fileService = {
   // 납부확인서 업로드 (인증 필요)
-  uploadPaymentReceipt: async (file, userName, month) => {
+  uploadPaymentReceipt: async file => {
     try {
       const token = localStorage.getItem('token')
       if (!token) {
@@ -154,14 +154,28 @@ export const fileService = {
       }
 
       const formData = new FormData()
-      formData.append('file', file)
-      formData.append('userName', userName)
-      formData.append('month', month)
+      formData.append('document', file)
 
-      const response = await apiRequest('/api/party/documents', {
+      const response = await fetch('http://localhost:3000/api/party/documents', {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       })
+
+      if (!response.ok) {
+        let errorMessage = `API 요청 실패: ${response.status} ${response.statusText}`
+        try {
+          const errorData = await response.json()
+          if (errorData.error || errorData.message) {
+            errorMessage += ` - ${errorData.error || errorData.message}`
+          }
+        } catch {
+          // JSON 파싱 실패 시 무시
+        }
+        throw new Error(errorMessage)
+      }
 
       return await response.json()
     } catch (error) {
@@ -194,6 +208,49 @@ export const applyService = {
       throw error
     }
   },
+  postBundleApply: async roleObj => {
+    try {
+      const token = localStorage.getItem('token')
+      console.log(token, roleObj)
+      if (!token) throw new Error('로그인이 필요합니다.')
+      const response = await apiRequest('/api/party/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify(roleObj),
+      })
+      const data = await response.json()
+      console.log('파티 신청 응답:', data)
+      return data
+    } catch (error) {
+      console.error('파티 신청 오류:', error)
+      throw error
+    }
+  },
+}
+
+// 파티 참여 관련 API
+export const paymentService = {
+  postTossInfo: async payInfo => {
+    try {
+      console.log(payInfo)
+      const response = await apiRequest('/api/toss', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payInfo),
+      })
+      const data = await response.json()
+      console.log('toss 결제 정보 저장:', data)
+      return data
+    } catch (error) {
+      console.error('toss 결제 정보 저장 오류:', error)
+      throw error
+    }
+  },
 }
 
 // 통합 API 서비스
@@ -203,6 +260,7 @@ export const apiService = {
   ...partyService,
   ...fileService,
   ...applyService,
+  ...paymentService,
 }
 
 export default apiService

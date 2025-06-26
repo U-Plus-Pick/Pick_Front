@@ -114,51 +114,86 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
   // 파티 정보 가져오기
   const fetchPartyInfo = useCallback(async () => {
     try {
-      const partyData = await partyService.getPartyInfo()
+      const response = await partyService.getPartyInfo()
       const userData = await userService.getUserInfo()
 
-      console.log('파티 정보 API 응답:', partyData)
+      console.log('파티 정보 API 응답:', response)
 
-      // 파티 정보가 없는 경우 (none 상태)
-      if (
-        !partyData ||
-        (!partyData.leader_infor && (!partyData.crew_infor || partyData.crew_infor.length === 0))
-      ) {
-        console.log('파티 정보가 없음 - none 상태로 설정')
-        setUserStatus('none')
+      // 응답에서 party 객체 추출
+      const partyData = response.party
+
+      // 파티 정보가 없는 경우 (빈 객체이거나 필수 필드가 없는 경우)
+      if (!partyData || (!partyData.party_id && !partyData.leader_infor)) {
+        console.log('파티 정보가 없음 - 기존 userStatus 유지')
         setPartyMembers([])
         setTotalPartyFee(0)
-        setTotalBillAmount(0)
+        setTotalBillAmount(monthlyFee) // 본인 요금만
         return
       }
 
       const currentUserEmail = userData.user_email || ''
 
-      // 모든 파티원 정보 (리더 + 크루)
+      // 모든 파티원 정보 (새로운 API 구조와 기존 구조 모두 지원)
       const allMembers = []
 
-      // 리더 정보 추가
-      if (partyData.leader_infor) {
-        allMembers.push({
-          email: partyData.leader_infor.leader_email,
-          name: partyData.leader_infor.leader_name,
-          plan_name: partyData.leader_infor.plan_name,
-          monthly_fee: partyData.leader_infor.plan_fee,
-          role: 'leader',
-        })
+      // 새로운 API 구조 처리 (party_id, leader, members)
+      if (partyData.party_id) {
+        // 리더 정보 추가
+        if (partyData.leader) {
+          allMembers.push({
+            email: partyData.leader.email,
+            name: partyData.leader.name,
+            plan_name: partyData.leader.plans?.plan_name,
+            monthly_fee: partyData.leader.plans?.monthly_fee || 0,
+            role: 'leader',
+          })
+        }
+
+        // 멤버들 정보 추가
+        if (partyData.members && Array.isArray(partyData.members)) {
+          partyData.members.forEach(member => {
+            allMembers.push({
+              email: member.email,
+              name: member.name,
+              plan_name: member.plans?.plan_name,
+              monthly_fee: member.plans?.monthly_fee || 0,
+              role: 'member',
+            })
+          })
+        }
+      }
+      // 기존 API 구조 처리 (leader_infor, crew_infor)
+      else {
+        // 리더 정보 추가
+        if (partyData.leader_infor) {
+          allMembers.push({
+            email: partyData.leader_infor.leader_email,
+            name: partyData.leader_infor.leader_name,
+            plan_name: partyData.leader_infor.plan_name,
+            monthly_fee: partyData.leader_infor.plan_fee, // plan_fee로 수정
+            role: 'leader',
+          })
+        }
+
+        // 크루 정보 추가
+        if (partyData.crew_infor && Array.isArray(partyData.crew_infor)) {
+          partyData.crew_infor.forEach(member => {
+            allMembers.push({
+              email: member.member_email,
+              name: member.member_name,
+              plan_name: member.plan_name,
+              monthly_fee: member.plan_monthly_fee,
+              role: 'member',
+            })
+          })
+        }
       }
 
-      // 크루 정보 추가
-      if (partyData.crew_infor && Array.isArray(partyData.crew_infor)) {
-        partyData.crew_infor.forEach(member => {
-          allMembers.push({
-            email: member.member_email,
-            name: member.member_name,
-            plan_name: member.plan_name,
-            monthly_fee: member.plan_monthly_fee,
-            role: 'member',
-          })
-        })
+      // 현재 사용자가 파티에 있는지 확인하고 역할 업데이트 (선택적)
+      const currentUser = allMembers.find(member => member.email === currentUserEmail)
+      if (currentUser && currentUser.role !== userStatus) {
+        console.log(`파티에서 사용자 역할 감지: ${currentUser.role}, 현재 상태: ${userStatus}`)
+        setUserStatus(currentUser.role)
       }
 
       // 본인을 제외한 파티원들만 필터링
@@ -177,19 +212,20 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
         allMembers,
         otherMembers,
         currentUserEmail,
+        currentUserRole: currentUser?.role,
+        userStatus,
         totalPartyFee: totalFee,
         monthlyFee,
         totalBillAmount: totalAmount,
       })
     } catch (error) {
       console.error('파티 정보 조회 오류:', error)
-      // 파티 정보 조회 실패 시 none 상태로 설정
-      setUserStatus('none')
+      // 파티 정보 조회 실패 시에도 userStatus는 유지 (fetchUserInfo에서 설정한 값 유지)
       setPartyMembers([])
       setTotalPartyFee(0)
-      setTotalBillAmount(0)
+      setTotalBillAmount(monthlyFee) // 본인 요금만
     }
-  }, [monthlyFee])
+  }, [monthlyFee, userStatus])
 
   // 컴포넌트 마운트 시 요금제 목록과 사용자 정보, 파티 정보 로드
   useEffect(() => {
@@ -221,12 +257,24 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     const totalAmount = totalPartyFee + monthlyFee
     setTotalBillAmount(totalAmount)
   }, [monthlyFee, totalPartyFee])
-  // 정산받는 금액 계산 (총 결제 금액 - 투게더 할인 + U+Pick 이용료)
+  // 정산받는 금액 계산
   useEffect(() => {
     const upickFee = userStatus === 'leader' ? UPICK_FEE_LEADER : UPICK_FEE_MEMBER
-    const calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
+
+    let calculatedSettlement
+    if (userStatus === 'leader') {
+      // 리더: 총 결제 금액 - 투게더 할인 + U+Pick 이용료 (기존 로직)
+      calculatedSettlement = totalBillAmount - TOGETHER_DISCOUNT + upickFee
+    } else if (userStatus === 'member') {
+      // 멤버: 본인 요금 + U+Pick 이용료
+      calculatedSettlement = monthlyFee + upickFee
+    } else {
+      // none 상태: 본인 요금 + U+Pick 이용료
+      calculatedSettlement = monthlyFee + upickFee
+    }
+
     setSettlementAmount(calculatedSettlement)
-  }, [totalBillAmount, userStatus])
+  }, [totalBillAmount, monthlyFee, userStatus])
 
   // 선택한 요금제의 월 요금 가져오기
   const getMonthlyFeeForPlan = planName => {
@@ -259,15 +307,15 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     const file = event.target.files[0]
     if (file) {
       // 파일 형식 검증
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf']
+      const allowedTypes = ['application/pdf']
       if (!allowedTypes.includes(file.type)) {
-        alert('JPG, PNG, PDF 파일만 업로드 가능합니다.')
+        alert('PDF 파일만 업로드 가능합니다.')
         return
       }
 
-      // 파일 크기 검증 (10MB 제한)
-      if (file.size > 10 * 1024 * 1024) {
-        alert('파일 크기는 10MB 이하여야 합니다.')
+      // 파일 크기 검증 (20MB 제한)
+      if (file.size > 20 * 1024 * 1024) {
+        alert('파일 크기는 20MB 이하여야 합니다.')
         return
       }
       handleFileUpload(file)

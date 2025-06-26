@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { loadTossPayments } from '@tosspayments/tosspayments-sdk'
 import { useNavigate } from 'react-router-dom'
+import PaymentChange from './PaymentChange'
+import axios from 'axios'
 
 const ManageCard = ({
   userStatus,
@@ -10,11 +12,15 @@ const ManageCard = ({
   settlementAmount = 50000,
 }) => {
   const [payment, setPayment] = useState(null)
+  const [showChangeModal, setShowChangeModal] = useState(false)
+  const [accountInfo, setAccountInfo] = useState({
+    userBank: '',
+    userAccount: '',
+  })
   const navigate = useNavigate()
   const clientKey = import.meta.env.VITE_TOSS_CLIENT_KEY
   const today = new Date()
   const month = String(today.getMonth() + 1)
-
   // Toss Payments 초기화
   useEffect(() => {
     async function fetchPayment() {
@@ -40,9 +46,9 @@ const ManageCard = ({
       alert('결제 시스템을 초기화하는 중입니다. 잠시 후 다시 시도해주세요.')
       return
     }
-
     try {
-      const orderId = `${userEmail.split('@')[0]}_${month}`
+      const timestamp = Date.now()
+      const orderId = `${userEmail.split('@')[0]}_${timestamp}`
       await payment.requestPayment({
         method: 'CARD',
         amount: {
@@ -95,8 +101,7 @@ const ManageCard = ({
         requestPayment()
         break
       case 'leader':
-        // 리더는 변경하기 기능 (추후 구현)
-        alert('변경하기 기능은 추후 구현 예정입니다.')
+        setShowChangeModal(true)
         break
       case 'none':
         // 신청하기 - /bundle/apply 페이지로 이동
@@ -106,13 +111,52 @@ const ManageCard = ({
         break
     }
   }
+
+  //계좌 저장 핸들러
+  const handleSaveAccount = async () => {
+    try {
+      const res = await axios.patch(
+        'http://localhost:3000/api/payments/leader/change',
+        {
+          leader_bank_name: accountInfo.userBank,
+          leader_account_number: accountInfo.userAccount,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // 또는 상태관리된 토큰
+          },
+        }
+      )
+
+      alert(res.data.message || '계좌 정보가 성공적으로 저장되었습니다.')
+      setShowChangeModal(false)
+    } catch (err) {
+      console.error('계좌 저장 실패:', err)
+      alert(err.response?.data?.message || '계좌 저장 중 오류가 발생했습니다.')
+    }
+  }
+
   return (
-    <div className="manage-card">
-      <span className="manage-title">{getTitle()}</span>
-      <button className="manage-btn" onClick={handleButtonClick}>
-        {getButtonText()}
-      </button>
-    </div>
+    <>
+      {/* 기존 카드 */}
+      <div className="manage-card">
+        <span className="manage-title">{getTitle()}</span>
+        <button className="manage-btn" onClick={handleButtonClick}>
+          {getButtonText()}
+        </button>
+      </div>
+
+      {/* 리더 전용 계좌 변경 모달 */}
+      {showChangeModal && (
+        <PaymentChange
+          onClose={() => setShowChangeModal(false)}
+          onSave={handleSaveAccount}
+          accountInfo={accountInfo}
+          setAccountInfo={setAccountInfo}
+          userName={userName}
+        />
+      )}
+    </>
   )
 }
 

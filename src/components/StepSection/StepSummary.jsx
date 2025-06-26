@@ -4,25 +4,34 @@ import { summaryStep } from '../../constants/StepData'
 import { IoIosInformationCircleOutline } from 'react-icons/io'
 import { applyService } from '../../services/apiService'
 
-export default function StepSummary({ onNext, userBundleInfo, userApiData, accountInfo }) {
-  const isLeader = userBundleInfo.role === 'leader'
+export default function StepSummary({ onNext, userRole, userApiData, accountInfo }) {
+  const isLeader = userRole.role === 'leader'
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async () => {
     try {
       setIsSubmitting(true)
 
-      const result = await applyService.getApplyAccountInfo({
-        leader_email: userApiData.user_email,
-        leader_name: userApiData.user_name,
-        leader_bank_name: accountInfo.userBank,
-        leader_account_number: accountInfo.userAccount,
-      })
-      console.log('정산 정보 응답:', result)
+      // 정산 정보 조회
+      if (userRole === 'leader') {
+        // 리더일 때만 계좌 정보
+        const accountInfoResult = await applyService.getApplyAccountInfo({
+          leader_email: userApiData.user_email,
+          leader_name: userApiData.user_name,
+          leader_bank_name: accountInfo.userBank,
+          leader_account_number: accountInfo.userAccount,
+        })
+        console.log('정산 정보 응답:', accountInfoResult)
+      }
+
+      // 파티 신청
+      const bundleApplyResult = await applyService.postBundleApply({ role: userRole })
+      console.log('파티 신청 응답:', bundleApplyResult)
+
       onNext()
     } catch (error) {
       console.error('신청 실패:', error)
-      alert('신청 처리 중 오류가 발생했습니다.')
+      alert('이미 가입되었거나 같은 계좌가 존재합니다.')
     } finally {
       setIsSubmitting(false)
     }

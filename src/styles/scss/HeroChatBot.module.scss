@@ -1,6 +1,6 @@
 .consult {
   width: 100vw;
-  height : 100vh;
+  min-height : 100vh;
   background-color: #ffffff;
   padding: 5rem auto;
 
@@ -12,7 +12,7 @@
 
   .container {
     max-width: 1300px;
-    margin: 0 auto;
+    margin: 5rem auto 0;
     padding: 3rem 2rem;
   }
 
@@ -254,4 +254,76 @@
       }
     }
   }
+}
+
+@media (max-width: 1200px) {
+
+  .consult {
+    .rightCard {
+      .chatBubble {
+        opacity: 1 !important;
+      }
+    }
+
+    .leftCard {
+      .chatBox {
+        .messageBlock {
+          .msg {
+            opacity: 1 !important;
+          }
+        }
+      }
+    }
+    /* 세로 스택 + 가운데 정렬 */
+    .content {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    /* 제목 */
+    .title {
+      font-size: 2.5rem;
+      line-height: 1.4;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    /* 카드 폭 제한 & 여백 */
+    .leftCard,
+    .rightCard {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .leftCard{
+      h3{
+        font-size : 2rem;
+      }
+      .desc{
+        p{
+        font-size : 1.3rem;
+        margin-top : 1rem;
+        margin-bottom : 1rem;
+        margin-left : 9.5rem;
+        }
+        .leftImage{
+          width : 9rem;
+          height : auto;
+        }
+      }
+    }
+
+    /* 오른쪽 설명 */
+    .rightCard{
+      font-size : 1.5rem !important;
+      
+    .rightDesc {
+      .rightDescTitle{
+        font-size : 2rem;
+        margin-top : -4rem;
+      }
+    }
+  }
+}
 }
