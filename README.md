@@ -159,20 +159,12 @@ npm run dev
   ![image](https://github.com/user-attachments/assets/0934a0be-0756-4759-82b8-fb73be1ad97e)
 * `BunddlePage.jsx` : 결합 안내 페이지
 ![image](https://github.com/user-attachments/assets/43c0018b-b6ad-4b06-90d8-d3d373fdd5c0)  
-![image](https://github.com/user-attachments/assets/b375e8c2-60b7-4b04-8f15-547211781160)
-![image](https://github.com/user-attachments/assets/d9e68ef6-7e99-44a7-a933-105e5167c57d)  
-![image](https://github.com/user-attachments/assets/09c1bea6-5130-4cdd-b42e-316184e0354e) 
 * `BunddleApplyPage.jsx` : 결합 매칭 신청 페이지
 ![image](https://github.com/user-attachments/assets/2526e2d3-3a85-4a92-9b8f-6fd7887010ac)  
-![image](https://github.com/user-attachments/assets/4b72da43-f020-4570-bd2a-ec42dd428ddd)  
-![image](https://github.com/user-attachments/assets/de1a9f33-754e-4d9b-b6dc-0c417c7118a9)  
-![image](https://github.com/user-attachments/assets/33ad132f-703e-4574-8bed-eeb90b7e3464)  
-![image](https://github.com/user-attachments/assets/f61c334d-9585-4fd5-ba71-9ca98427356a)  
-![image](https://github.com/user-attachments/assets/5cfdf871-69e1-4dd0-96a7-5f06607c2e95)
 * `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인 (마이 페이지)
-* ![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)
+  ![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)
 * `MembershipPage.jsx` : 위치 기반 멤버십 혜택 안내 페이지
-* ![image](https://github.com/user-attachments/assets/4b31c24b-3c09-4875-abab-d693a20b01c4)
+ ![image](https://github.com/user-attachments/assets/4b31c24b-3c09-4875-abab-d693a20b01c4)
 
 ---
 
