@@ -280,6 +280,7 @@ export const membershipBrands = [
   {
     membership_brand: '라그릴리아',
     membership_grade_list: ['BASIC'],
+    logo: '/map/lagr.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -301,6 +302,7 @@ export const membershipBrands = [
   {
     membership_brand: '빛의 벙커',
     membership_grade_list: ['BASIC'],
+    logo: '/map/light.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -311,6 +313,7 @@ export const membershipBrands = [
   {
     membership_brand: '빛의 시어터',
     membership_grade_list: ['BASIC'],
+    logo: '/map/lights.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -321,6 +324,7 @@ export const membershipBrands = [
   {
     membership_brand: '그라운드시소',
     membership_grade_list: ['BASIC'],
+    logo: '/map/ground.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -331,6 +335,7 @@ export const membershipBrands = [
   {
     membership_brand: '서울드래곤시티',
     membership_grade_list: ['BASIC'],
+    logo: '/map/dragon.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -353,7 +358,7 @@ export const membershipBrands = [
   {
     membership_brand: '컬리너리스퀘어',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/curli.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -364,7 +369,7 @@ export const membershipBrands = [
   {
     membership_brand: '뽀로로파크',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/pororopark.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -375,7 +380,7 @@ export const membershipBrands = [
   {
     membership_brand: '아쿠아필드',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/auqa.png  ',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -386,7 +391,7 @@ export const membershipBrands = [
   {
     membership_brand: '스파랜드',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: 'map/spa.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -397,7 +402,7 @@ export const membershipBrands = [
   {
     membership_brand: '원더빌리지',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: 'map/wonder.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -408,7 +413,7 @@ export const membershipBrands = [
   {
     membership_brand: '원더파크',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: 'map/wonderpark.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -419,7 +424,7 @@ export const membershipBrands = [
   {
     membership_brand: '파리크라상',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/pariscro.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -430,7 +435,7 @@ export const membershipBrands = [
   {
     membership_brand: '뮤지엄 원',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/one.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -452,7 +457,7 @@ export const membershipBrands = [
   {
     membership_brand: '클럽디 오아시스',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/club.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -463,7 +468,7 @@ export const membershipBrands = [
   {
     membership_brand: '신라면세점(오프라인)',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/shilla.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -473,7 +478,7 @@ export const membershipBrands = [
   },
   {
     membership_brand: '부산 엑스 더 스카이',
-    logo: '',
+    logo: '/map/busanx.png',
     membership_grade_list: ['BASIC'],
     items: [
       {
@@ -485,7 +490,7 @@ export const membershipBrands = [
   {
     membership_brand: '코엑스아쿠아리움',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/coex.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -496,7 +501,7 @@ export const membershipBrands = [
   {
     membership_brand: '아쿠아플라넷',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/aqua.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -507,7 +512,7 @@ export const membershipBrands = [
   {
     membership_brand: '부산아쿠아리움',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/busana.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -518,7 +523,7 @@ export const membershipBrands = [
   {
     membership_brand: '세빛섬',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/sevit.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -530,7 +535,7 @@ export const membershipBrands = [
   {
     membership_brand: '화담숲',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/hwa.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -541,7 +546,7 @@ export const membershipBrands = [
   {
     membership_brand: '서울랜드',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/seouland.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -553,7 +558,7 @@ export const membershipBrands = [
   {
     membership_brand: '롯데월드 아이스링크',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/lottelce.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -564,7 +569,7 @@ export const membershipBrands = [
   {
     membership_brand: 'LG트윈스 경기 티켓 할인',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/lgtwins.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -575,7 +580,7 @@ export const membershipBrands = [
   {
     membership_brand: '대관령 하늘목장',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/skyranch.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -586,7 +591,7 @@ export const membershipBrands = [
   {
     membership_brand: '제주민속촌',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/jeju.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -597,7 +602,7 @@ export const membershipBrands = [
   {
     membership_brand: '이월드',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/eworld.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -608,7 +613,7 @@ export const membershipBrands = [
   {
     membership_brand: '대구아쿠아리움',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/daegua.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -619,7 +624,7 @@ export const membershipBrands = [
   {
     membership_brand: '뽀로로아쿠아빌리지',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/pororoa.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -630,7 +635,7 @@ export const membershipBrands = [
   {
     membership_brand: '곤지암리조트',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/konjiam.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -642,7 +647,7 @@ export const membershipBrands = [
   {
     membership_brand: '한강유람선 이크루즈',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/cruise.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -654,7 +659,7 @@ export const membershipBrands = [
   {
     membership_brand: '롯데면세점(오프라인)',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/ltexfree.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -665,7 +670,7 @@ export const membershipBrands = [
   {
     membership_brand: '신라아이파크면세점(오프라인)',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/stexfree.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -676,7 +681,7 @@ export const membershipBrands = [
   {
     membership_brand: '신세계면세점(오프라인)',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/ssgtexfree.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -687,7 +692,7 @@ export const membershipBrands = [
   {
     membership_brand: '더반찬＆',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/the.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -698,7 +703,7 @@ export const membershipBrands = [
   {
     membership_brand: '전자랜드',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/junjaland.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -709,7 +714,7 @@ export const membershipBrands = [
   {
     membership_brand: '오가나셀 피부과의원 청담점',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/ogan.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -721,7 +726,7 @@ export const membershipBrands = [
   {
     membership_brand: '씨네폭스',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/fox.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -732,7 +737,7 @@ export const membershipBrands = [
   {
     membership_brand: '포토블루',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/photoblue.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -743,7 +748,7 @@ export const membershipBrands = [
   {
     membership_brand: '데이원클리닉',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/dayone.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -754,7 +759,7 @@ export const membershipBrands = [
   {
     membership_brand: '포쉬네일',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/forsy.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -765,7 +770,7 @@ export const membershipBrands = [
   {
     membership_brand: '유앤아이피부과의원',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/youi.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -776,7 +781,7 @@ export const membershipBrands = [
   {
     membership_brand: '자란다',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/jaranda.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -788,7 +793,7 @@ export const membershipBrands = [
   {
     membership_brand: '도미노피자',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/domino.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -799,7 +804,7 @@ export const membershipBrands = [
   {
     membership_brand: '미스터피자',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/mr.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -810,7 +815,7 @@ export const membershipBrands = [
   {
     membership_brand: '파파존스',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/papa.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -821,7 +826,7 @@ export const membershipBrands = [
   {
     membership_brand: '피자헛',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/pizzahut.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -832,7 +837,7 @@ export const membershipBrands = [
   {
     membership_brand: '브레댄코',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/bread.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -843,7 +848,7 @@ export const membershipBrands = [
   {
     membership_brand: '초심스터디카페',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/chosim.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -854,7 +859,7 @@ export const membershipBrands = [
   {
     membership_brand: '온더보더',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/onthe.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -865,7 +870,7 @@ export const membershipBrands = [
   {
     membership_brand: '푸드엠파이어',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/food.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -876,7 +881,7 @@ export const membershipBrands = [
   {
     membership_brand: '싱카이',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/singkai.png',
     items: [
       {
         membership_tap: '기본 혜택',
@@ -887,7 +892,7 @@ export const membershipBrands = [
   {
     membership_brand: '오토오아시스',
     membership_grade_list: ['BASIC'],
-    logo: '',
+    logo: '/map/auto.png',
     items: [
       {
         membership_tap: '기본 혜택',
