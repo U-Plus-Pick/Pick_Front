@@ -153,18 +153,24 @@ npm run dev
 
 ## 주요 컴포넌트 및 페이지
 
-* `MainPage.jsx` : 메인페이지
-  ![image](https://github.com/user-attachments/assets/da5df174-fff8-413a-bd36-b497d7b7de63)  
+* `MainPage.jsx` : 메인페이지  
+  <img src="https://github.com/user-attachments/assets/da5df174-fff8-413a-bd36-b497d7b7de63" alt="MainPage" width="500"/>  
 * `ChatbotPage.jsx` : AI 챗봇 인터페이스
-  ![image](https://github.com/user-attachments/assets/0934a0be-0756-4759-82b8-fb73be1ad97e)
-* `BunddlePage.jsx` : 결합 안내 페이지
-![image](https://github.com/user-attachments/assets/43c0018b-b6ad-4b06-90d8-d3d373fdd5c0)  
-* `BunddleApplyPage.jsx` : 결합 매칭 신청 페이지
-![image](https://github.com/user-attachments/assets/2526e2d3-3a85-4a92-9b8f-6fd7887010ac)  
-* `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인 (마이 페이지)
-  ![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)
-* `MembershipPage.jsx` : 위치 기반 멤버십 혜택 안내 페이지
- ![image](https://github.com/user-attachments/assets/4b31c24b-3c09-4875-abab-d693a20b01c4)
+  <!-- ChatbotPage.jsx : AI 챗봇 인터페이스 -->
+  <img src="https://github.com/user-attachments/assets/0934a0be-0756-4759-82b8-fb73be1ad97e" alt="ChatbotPage" width="500"/>
+* `BunddlePage.jsx` : 결합 안내 페이지  
+  <img src="https://github.com/user-attachments/assets/43c0018b-b6ad-4b06-90d8-d3d373fdd5c0" alt="BunddlePage" width="500"/>
+* `BunddleApplyPage.jsx` : 결합 매칭 신청 페이지  
+  <img src="https://github.com/user-attachments/assets/bd8170ad-c858-4c52-b821-2af30140c469" alt="BunddleApplyPage" width="500"/>
+
+
+* `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인 (마이 페이지)  
+  <img src="https://github.com/user-attachments/assets/1cb923a4-fb20-4bdb-b225-5f99d67cec8c" alt="BunddleApplyPage" width="500"/>
+
+
+* `MembershipPage.jsx` : 위치 기반 멤버십 혜택 안내 페이지  
+  <img src="https://github.com/user-attachments/assets/4b31c24b-3c09-4875-abab-d693a20b01c4" alt="BunddleApplyPage" width="500"/>
+
 
 ---
 
