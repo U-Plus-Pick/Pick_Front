@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import BundleApplyCard from '../components/BundleApplyCard'
-import '../styles/scss/bundleApply.scss'
+import '../styles/scss/BundleApply.scss'
 import { useNavigate } from 'react-router-dom'
 
 const BundleApplyPage = () => {
