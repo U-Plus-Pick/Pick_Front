@@ -25,7 +25,7 @@ const Chatbot = () => {
   const socketRef = useRef(null)
   const currentStreamingMessageRef = useRef(null)
   const messagesRef = useRef(messages)
-  const BASE_URL = 'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app'
+  const BASE_URL = 'https://port-0-pick-back-mcbpw7z924e60211.sel5.cloudtype.app/'
 
   // JWT 토큰에서 사용자 ID 추출 함수
   const getUserIdFromToken = () => {
@@ -210,30 +210,156 @@ const Chatbot = () => {
       return
     }
 
-    const response = await fetch(`${BASE_URL}/api/chat/insert-messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        chatroom_id: chatData.id,
-        messages: chatData.messages,
-        chatroom_title: chatData.title,
-      }),
-    })
+    try {
+      const response = await fetch(`${BASE_URL}/api/chat/insert-messages`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          chatroom_id: chatData.id,
+          messages: chatData.messages,
+          chatroom_title: chatData.title,
+        }),
+      })
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const result = await response.json()
+      return result
+    } catch (error) {
+      console.error('채팅 저장 실패:', error)
+      throw error
+    }
+  }, [])
+
+  // 새로운 채팅방을 생성하는 함수
+  const createNewChatRoom = useCallback(async messages => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      console.warn('로그인된 사용자가 없습니다.')
+      return null
     }
 
-    const result = await response.json()
-    // console.log('채팅 저장 완료:', result)
-    return result
+    try {
+      const response = await fetch(`${BASE_URL}/api/chat/create-room`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title:
+            messages.find(m => m.sender === 'user')?.text?.substring(0, 30) + '...' || '새 채팅',
+          messages: messages,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      const result = await response.json()
+      return result.chatroom_id
+    } catch (error) {
+      console.error('채팅방 생성 실패:', error)
+      return null
+    }
   }, [])
+
   useEffect(() => {
     messagesRef.current = messages
   }, [messages])
+
+  // 채팅방 업데이트 함수
+  const updateExistingChat = useCallback(async () => {
+    const token = localStorage.getItem('token')
+    if (!token || messages.length <= 1) return
+
+    // 현재 채팅방이 이미 저장된 채팅방인지 확인
+    const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
+    if (!existingChatRoom) return
+
+    try {
+      const chatData = {
+        id: currentChatId,
+        title: existingChatRoom.title,
+        messages: messages,
+        createdAt: existingChatRoom.createdAt,
+      }
+
+      await saveChatToDB(chatData)
+
+      // 로컬 상태 업데이트
+      setChatRooms(prev => {
+        const updatedRoom = {
+          ...existingChatRoom,
+          messages: messages,
+          updatedAt: new Date(),
+        }
+        const otherRooms = prev.filter(room => room.id !== currentChatId)
+        return [updatedRoom, ...otherRooms]
+      })
+    } catch (error) {
+      console.error('채팅방 업데이트 실패:', error)
+    }
+  }, [currentChatId, messages, chatRooms, saveChatToDB])
+
+  // 메시지 저장 로직
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token || messages.length <= 1) return
+
+    const saveMessages = async () => {
+      // 사용자 메시지가 추가되었을 때
+      const lastMessage = messages[messages.length - 1]
+      if (lastMessage && lastMessage.sender === 'user') {
+        const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
+
+        if (existingChatRoom) {
+          // 기존 채팅방 업데이트
+          const timer = setTimeout(() => {
+            updateExistingChat()
+          }, 500)
+          return () => clearTimeout(timer)
+        } else {
+          // 새 채팅방 생성 (existingChatRoom이 없는 경우 항상 새로 생성)
+          try {
+            const newChatRoomId = await createNewChatRoom(messages)
+            if (newChatRoomId) {
+              setCurrentChatId(newChatRoomId)
+              const chatData = {
+                id: newChatRoomId,
+                title: lastMessage.text.substring(0, 30) + '...',
+                messages: messages,
+                createdAt: new Date(),
+              }
+              setChatRooms(prev => [chatData, ...prev])
+            }
+          } catch (error) {
+            console.error('새 채팅방 생성 실패:', error)
+          }
+        }
+      }
+
+      // 봇 메시지가 완성되었을 때
+      const hasStreamingMessage = messages.some(msg => msg.isStreaming)
+      if (!hasStreamingMessage) {
+        const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
+        if (existingChatRoom) {
+          const timer = setTimeout(() => {
+            updateExistingChat()
+          }, 200)
+          return () => clearTimeout(timer)
+        }
+      }
+    }
+
+    saveMessages()
+  }, [messages, updateExistingChat, currentChatId, chatRooms, createNewChatRoom])
 
   const sendToGPT = useCallback(async (message, currentMessages) => {
     if (!socketRef.current || !socketRef.current.connected) {
@@ -327,32 +453,29 @@ const Chatbot = () => {
       // 이미 저장된 채팅방인지 확인
       const isAlreadySaved = chatRooms.some(room => room.id === currentChatId)
 
-      if (!isAlreadySaved) {
-        const chatData = {
-          id: currentChatId,
-          title:
-            messages.find(m => m.sender === 'user')?.text?.substring(0, 30) + '...' ||
-            `채팅 ${currentChatId}`,
-          messages: messages,
-          createdAt: new Date(),
-        }
-
+      if (!isAlreadySaved && currentChatId !== 1) {
         try {
-          // DB에 저장
-          await saveChatToDB(chatData)
-
-          // 채팅방 리스트에 추가 (로컬 상태 업데이트)
-          setChatRooms(prev => [chatData, ...prev])
-          // console.log('새 채팅 버튼 클릭으로 수동 저장 완료')
+          // 새 채팅방 생성
+          const newChatRoomId = await createNewChatRoom(messages)
+          if (newChatRoomId) {
+            const chatData = {
+              id: newChatRoomId,
+              title:
+                messages.find(m => m.sender === 'user')?.text?.substring(0, 30) + '...' ||
+                `채팅 ${newChatRoomId}`,
+              messages: messages,
+              createdAt: new Date(),
+            }
+            setChatRooms(prev => [chatData, ...prev])
+          }
         } catch (error) {
-          // console.error('채팅 저장 실패:', error)
+          console.error('채팅 저장 실패:', error)
         }
       }
     }
 
     // 새 채팅 시작
-    const newChatId = Date.now()
-    setCurrentChatId(newChatId)
+    setCurrentChatId(1) // 새 채팅은 항상 ID 1로 시작
     setMessages([
       {
         id: 1,
@@ -400,107 +523,6 @@ const Chatbot = () => {
     sanitized = sanitized.replace(/(<br\s*\/?>\s*)+$/i, '')
     return sanitized
   }
-
-  // 기존 채팅방의 메시지를 업데이트하는 함수
-  const updateExistingChat = useCallback(async () => {
-    const token = localStorage.getItem('token')
-    if (!token || messages.length <= 1) return
-
-    // 현재 채팅방이 이미 저장된 채팅방인지 확인
-    const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
-    if (!existingChatRoom) return
-
-    // 메시지가 추가되었는지 확인 (기존 메시지 수보다 많아진 경우)
-    if (messages.length <= existingChatRoom.messages.length) return
-
-    try {
-      const chatData = {
-        id: currentChatId,
-        title: existingChatRoom.title,
-        messages: messages,
-        createdAt: existingChatRoom.createdAt,
-      }
-
-      // DB에 업데이트
-      await saveChatToDB(chatData)
-
-      // 로컬 상태 업데이트 (업데이트된 채팅방을 최상단으로 이동)
-      setChatRooms(prev => {
-        const updatedRoom = {
-          ...existingChatRoom,
-          messages: messages,
-          updatedAt: new Date(),
-        }
-
-        // 업데이트된 채팅방을 제외한 나머지 채팅방들
-        const otherRooms = prev.filter(room => room.id !== currentChatId)
-
-        // 업데이트된 채팅방을 맨 앞에 배치
-        return [updatedRoom, ...otherRooms]
-      })
-
-      // console.log('기존 채팅방 업데이트 완료')
-    } catch (error) {
-      // console.error('채팅방 업데이트 실패:', error)
-    }
-  }, [currentChatId, messages, chatRooms, saveChatToDB])
-
-  // 채팅방 클릭 시 메시지를 로드하는 함수
-  useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token || messages.length <= 1) return
-
-    // 사용자 메시지가 추가되었을 때 즉시 저장 (봇 응답 기다리지 않음)
-    const lastMessage = messages[messages.length - 1]
-    if (lastMessage && lastMessage.sender === 'user') {
-      // 기존 채팅방인지 확인
-      const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
-
-      if (existingChatRoom) {
-        // 기존 채팅방 업데이트
-        const timer = setTimeout(() => {
-          updateExistingChat()
-        }, 500)
-        return () => clearTimeout(timer)
-      }
-    }
-
-    // 봇 메시지가 완전히 완성되었을 때 저장 (스트리밍 중이 아닐 때)
-    const hasStreamingMessage = messages.some(msg => msg.isStreaming)
-    if (!hasStreamingMessage) {
-      const existingChatRoom = chatRooms.find(room => room.id === currentChatId)
-
-      if (existingChatRoom) {
-        // 기존 채팅방 업데이트
-        const timer = setTimeout(() => {
-          updateExistingChat()
-        }, 200)
-        return () => clearTimeout(timer)
-      } else {
-        // 새 채팅방 자동 저장 (봇 응답 완료 후)
-        const userMessage = messages.find(m => m.sender === 'user')
-        if (userMessage) {
-          const timer = setTimeout(async () => {
-            const chatData = {
-              id: currentChatId,
-              title: userMessage.text.substring(0, 30) + '...',
-              messages: messages,
-              createdAt: new Date(),
-            }
-
-            try {
-              await saveChatToDB(chatData)
-              setChatRooms(prev => [chatData, ...prev])
-              // console.log('새 채팅방 자동 저장 완료')
-            } catch (error) {
-              // console.error('새 채팅방 자동 저장 실패:', error)
-            }
-          }, 200)
-          return () => clearTimeout(timer)
-        }
-      }
-    }
-  }, [messages, updateExistingChat, currentChatId, chatRooms, saveChatToDB])
 
   // 채팅방 클릭 시 메시지를 로드하는 함수
   const handleChatRoomClick = useCallback(chatRoom => {
@@ -555,7 +577,7 @@ const Chatbot = () => {
                         {chatRooms.map(chatRoom => (
                           <button
                             key={chatRoom.id}
-                            className="chat-room-item"
+                            className={`chat-room-item ${chatRoom.id === currentChatId ? 'selected' : ''}`}
                             onClick={() => handleChatRoomClick(chatRoom)}
                           >
                             <div className="chat-room-title">{chatRoom.title}</div>
