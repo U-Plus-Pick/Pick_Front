@@ -23,9 +23,9 @@ UPI (U+ Personal Intelligence)
 🎯 목적  
 LG U+ 이용 고객의 통신 서비스 경험을 향상시키기 위해, 다음과 같은 기능을 통합 제공하는 플랫폼을 구축하고자 합니다.
 
-🧠 AI 기반 맞춤형 요금제 추천 챗봇  
+🧠 AI 기반 맞춤형 요금제 추천, 결합 할인 안내, 멤버십 혜택 안내 챗봇  
 고객의 기본 정보와 이용 패턴을 바탕으로,
-적합한 요금제와 각 요금제에 포함된 주요 혜택을 안내하는 AI 챗봇을 통해 요금제 선택의 편의성을 높입니다.
+적합한 요금제와 각 요금제에 포함된 주요 혜택을 안내하고 결합 할인과 멤버십 혜택에 대해 안내하는 AI 챗봇을 통해 사용자의 편의성을 높입니다.
 
 👥 지인 결합 할인 매칭 기능  
 결합 할인 혜택을 받고자 하는 고객들이 플랫폼 내에서 함께 결합할 수 있도록 자동 매칭 기능을 제공하여,
@@ -92,7 +92,7 @@ LG U+ 이용 고객의 통신 서비스 경험을 향상시키기 위해, 다음
 
 ## 개요
 
-U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 챗봇 및 결합 할인 프론트엔드 애플리케이션입니다.  
+U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천, 결합 할인 안내, 멤버십 혜택 안내 챗봇 프론트엔드 애플리케이션입니다.  
 챗봇, 결합 신청, 마이페이지, 위치 기반 멤버십 등 다양한 기능을 제공합니다.
 
 ---
@@ -102,6 +102,8 @@ U+Pick은 React 기반의 LG U+ 고객 맞춤 요금제 추천 챗봇 및 결합
 - AI 챗봇 UI 및 스트리밍 응답 처리
 - 요금제 리스트 / 비교 / 추천
 - 결합 파티 신청 및 상태 관리
+- PG사 결제
+- 위치 기반 멤버십 혜택 지도 안내
 
 ---
 
@@ -151,10 +153,26 @@ npm run dev
 
 ## 주요 컴포넌트 및 페이지
 
+* `MainPage.jsx` : 메인페이지
+  ![image](https://github.com/user-attachments/assets/da5df174-fff8-413a-bd36-b497d7b7de63)  
 * `ChatbotPage.jsx` : AI 챗봇 인터페이스
-* `BunddleApplyPage.jsx` : 결합 매칭 신청 UI
-* `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인
-* `MembershipPage.jsx` : 위치 기반 멤버십 혜택 지도
+  ![image](https://github.com/user-attachments/assets/0934a0be-0756-4759-82b8-fb73be1ad97e)
+* `BunddlePage.jsx` : 결합 안내 페이지
+![image](https://github.com/user-attachments/assets/43c0018b-b6ad-4b06-90d8-d3d373fdd5c0)  
+![image](https://github.com/user-attachments/assets/b375e8c2-60b7-4b04-8f15-547211781160)
+![image](https://github.com/user-attachments/assets/d9e68ef6-7e99-44a7-a933-105e5167c57d)  
+![image](https://github.com/user-attachments/assets/09c1bea6-5130-4cdd-b42e-316184e0354e) 
+* `BunddleApplyPage.jsx` : 결합 매칭 신청 페이지
+![image](https://github.com/user-attachments/assets/2526e2d3-3a85-4a92-9b8f-6fd7887010ac)  
+![image](https://github.com/user-attachments/assets/4b72da43-f020-4570-bd2a-ec42dd428ddd)  
+![image](https://github.com/user-attachments/assets/de1a9f33-754e-4d9b-b6dc-0c417c7118a9)  
+![image](https://github.com/user-attachments/assets/33ad132f-703e-4574-8bed-eeb90b7e3464)  
+![image](https://github.com/user-attachments/assets/f61c334d-9585-4fd5-ba71-9ca98427356a)  
+![image](https://github.com/user-attachments/assets/5cfdf871-69e1-4dd0-96a7-5f06607c2e95)
+* `MyPage.jsx` : 사용자 프로필 및 결합 상태 확인 (마이 페이지)
+* ![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)
+* `MembershipPage.jsx` : 위치 기반 멤버십 혜택 안내 페이지
+* ![image](https://github.com/user-attachments/assets/4b31c24b-3c09-4875-abab-d693a20b01c4)
 
 ---
 
@@ -162,33 +180,10 @@ npm run dev
 
 UI 디자인은 Figma 최종 시안 기반
 코드 스타일은 ESLint, Prettier 적용
-
-## 메인 페이지  
-![image](https://github.com/user-attachments/assets/da5df174-fff8-413a-bd36-b497d7b7de63)  
-
-## 챗봇 페이지  
-![image](https://github.com/user-attachments/assets/0934a0be-0756-4759-82b8-fb73be1ad97e)  
-
-## 결합 소개 페이지  
-![image](https://github.com/user-attachments/assets/43c0018b-b6ad-4b06-90d8-d3d373fdd5c0)  
-![image](https://github.com/user-attachments/assets/b375e8c2-60b7-4b04-8f15-547211781160)
-![image](https://github.com/user-attachments/assets/d9e68ef6-7e99-44a7-a933-105e5167c57d)  
-![image](https://github.com/user-attachments/assets/09c1bea6-5130-4cdd-b42e-316184e0354e)
+## 주요 페이지  
 
 
-## 결합 신청 신청 페이지  
-![image](https://github.com/user-attachments/assets/2526e2d3-3a85-4a92-9b8f-6fd7887010ac)  
-![image](https://github.com/user-attachments/assets/4b72da43-f020-4570-bd2a-ec42dd428ddd)  
-![image](https://github.com/user-attachments/assets/de1a9f33-754e-4d9b-b6dc-0c417c7118a9)  
-![image](https://github.com/user-attachments/assets/33ad132f-703e-4574-8bed-eeb90b7e3464)  
-![image](https://github.com/user-attachments/assets/f61c334d-9585-4fd5-ba71-9ca98427356a)  
-![image](https://github.com/user-attachments/assets/5cfdf871-69e1-4dd0-96a7-5f06607c2e95)
 
-## 마이 페이지  
-![image](https://github.com/user-attachments/assets/a37a3a0e-0c7d-4383-b2c8-eaeaacfcd08c)  
-
-## 멤버십 지도 페이지  
-![image](https://github.com/user-attachments/assets/d493dc7a-b69f-4862-8dff-915a6214620a)
 
 
 
