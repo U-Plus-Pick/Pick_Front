@@ -511,6 +511,17 @@ $shadow-color: rgba(0, 0, 0, 0.1);
   }
 }
 
+.message-content a {
+  color: $primary-pink; // 링크 색상(파란색 계열)
+  text-decoration: underline; // 밑줄
+  font-weight: 500; // 약간 두껍게
+  transition: color 0.2s;
+}
+.message-content a:hover {
+  color: $middle-pink; // 호버 시 더 진한 파랑
+  text-decoration: underline;
+}
+
 @media (max-width: 1024px) {
   .chatbot-container {
     padding: 15px;

@@ -51,8 +51,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
 
       setPlanDetailsData(planDetails)
       setPlanOptions(planNames)
-    } catch (error) {
-      console.error('요금제 목록 조회 오류:', error)
+    } catch {
       // 오류 발생 시 기본값 사용
       setPlanOptions([
         '5G 프리미엄 에센셜',
@@ -68,10 +67,10 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
   const fetchUserInfo = async () => {
     try {
       const userData = await userService.getUserInfo()
-      console.log('사용자 정보 API 응답:', userData)
+      // console.log('사용자 정보 API 응답:', userData)
 
       // 현재 요금제 설정
-      console.log(userData.plans)
+      // console.log(userData.plans)
       if (userData.plans) {
         setSelectedPlan(userData.plans)
       } else {
@@ -97,14 +96,13 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       // 사용자 상태 설정 (API에서 제공하는 경우)
       if (userData.apply_division) {
         setUserStatus(userData.apply_division)
-        console.log('사용자 상태 설정:', userData.apply_division)
+        // console.log('사용자 상태 설정:', userData.apply_division)
       } else {
         // apply_division이 없거나 null인 경우 none으로 설정
         setUserStatus('none')
-        console.log('사용자 상태를 none으로 설정')
+        // console.log('사용자 상태를 none으로 설정')
       }
-    } catch (error) {
-      console.error('사용자 정보 조회 오류:', error)
+    } catch {
       // 오류 발생 시 기본값으로 설정
       setUserStatus('none')
       setSelectedPlan('사용 중인 요금제가 없어요')
@@ -117,14 +115,14 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       const response = await partyService.getPartyInfo()
       const userData = await userService.getUserInfo()
 
-      console.log('파티 정보 API 응답:', response)
+      // console.log('파티 정보 API 응답:', response)
 
       // 응답에서 party 객체 추출
       const partyData = response.party
 
       // 파티 정보가 없는 경우 (빈 객체이거나 필수 필드가 없는 경우)
       if (!partyData || (!partyData.party_id && !partyData.leader_infor)) {
-        console.log('파티 정보가 없음 - 기존 userStatus 유지')
+        // console.log('파티 정보가 없음 - 기존 userStatus 유지')
         setPartyMembers([])
         setTotalPartyFee(0)
         setTotalBillAmount(monthlyFee) // 본인 요금만
@@ -192,7 +190,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       // 현재 사용자가 파티에 있는지 확인하고 역할 업데이트 (선택적)
       const currentUser = allMembers.find(member => member.email === currentUserEmail)
       if (currentUser && currentUser.role !== userStatus) {
-        console.log(`파티에서 사용자 역할 감지: ${currentUser.role}, 현재 상태: ${userStatus}`)
+        // console.log(`파티에서 사용자 역할 감지: ${currentUser.role}, 현재 상태: ${userStatus}`)
         setUserStatus(currentUser.role)
       }
 
@@ -208,18 +206,17 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       const totalAmount = totalFee + monthlyFee
       setTotalBillAmount(totalAmount)
 
-      console.log('파티 정보 로드 완료:', {
-        allMembers,
-        otherMembers,
-        currentUserEmail,
-        currentUserRole: currentUser?.role,
-        userStatus,
-        totalPartyFee: totalFee,
-        monthlyFee,
-        totalBillAmount: totalAmount,
-      })
-    } catch (error) {
-      console.error('파티 정보 조회 오류:', error)
+      // console.log('파티 정보 로드 완료:', {
+      //   allMembers,
+      //   otherMembers,
+      //   currentUserEmail,
+      //   currentUserRole: currentUser?.role,
+      //   userStatus,
+      //   totalPartyFee: totalFee,
+      //   monthlyFee,
+      //   totalBillAmount: totalAmount,
+      // })
+    } catch {
       // 파티 정보 조회 실패 시에도 userStatus는 유지 (fetchUserInfo에서 설정한 값 유지)
       setPartyMembers([])
       setTotalPartyFee(0)
@@ -291,8 +288,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
     try {
       await fileService.uploadPaymentReceipt(file, apiUserName, '6월')
       alert('납부확인서가 성공적으로 제출되었습니다.')
-    } catch (error) {
-      console.error('Upload error:', error)
+    } catch {
       alert('파일 업로드 중 오류가 발생했습니다. 다시 시도해주세요.')
     } finally {
       setIsUploading(false)
@@ -336,8 +332,7 @@ const MypageCard = ({ userStatus: defaultUserStatus = 'none' }) => {
       setSelectedPlan(newPlan)
       setShowConfirmModal(false)
       alert('요금제가 성공적으로 변경되었습니다.')
-    } catch (error) {
-      console.error('요금제 변경 오류:', error)
+    } catch {
       alert('요금제 변경 중 오류가 발생했습니다. 다시 시도해주세요.')
     }
   }
